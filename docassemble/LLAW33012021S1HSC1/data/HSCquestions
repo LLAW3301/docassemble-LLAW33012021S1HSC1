@@ -7,6 +7,7 @@ code: |
     login_screen
 ---
 # Log in screen as per revised flow chat
+field: welcome_screen
 question: ""
 subquestion: |
   ###Welcome to the Hutt Street Centre Access to Community Services Application. 
@@ -16,10 +17,21 @@ subquestion: |
   Select Application to run the application.
   Select Administration to add, remove and edit services from the application.
   
-field: HSCuser_choice
 buttons:
   - Application: proceed
   - Administration: signin
+sets: HSCsign_in_page
+---
+# Log in screen if not editing within application - but do we even need to log in then?
+field: login_screen
+question: ""
+subquestion: |
+  ###Welcome to the Hutt Street Centre Access to Community Services Application. 
+  
+  Please log in to proceed.
+ 
+buttons:
+  - Sign In: signin
 sets: HSCsign_in_page
 ---
 # Log in screen if not editing within application - but do we even need to log in then?
