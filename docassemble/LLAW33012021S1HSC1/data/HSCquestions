@@ -1,4 +1,11 @@
 ---
+initial: true
+code: |
+  if user_logged_in():
+    welcome_screen
+  else:
+    login_screen
+---
 # Log in screen as per revised flow chat
 question: ""
 subquestion: |
