@@ -1,0 +1,82 @@
+---
+question: ""
+subquestion: |
+  Welcome to the Community Services Application. This application is designed
+  to help you find services that your client may be entitled to.
+ 
+  ***Disclaimer:***   
+  This is a guide to selected service only and may not include all services.
+  There are no guarantees that any individual service will accept your enquiry
+  or provide services to you.
+  
+  Do you accept these terms?
+yesno: CSAeligible
+---
+question: |
+  Do you live in the Adelaide Metropolitan Area?
+yesnomaybe: CSAmetro
+
+under: |
+    Below is a map of the Adelaide Metropolitan Area
+
+    [FILE X2.01.Metro_Map.jpg, 400px]
+---
+question: |
+  What is your gender?
+fields: 
+  - no label: CSAgender
+    datatype: radio
+    choices:
+     - "I am Female": female
+     - "I am Male": male
+     - "Other/Prefer not to Specify": other
+---
+question: |
+  What is your age?
+fields:
+  Age: CSAage
+  datatype: integer
+  min: 0
+  max: 100
+  validation messages: 
+    max: |
+      Please enter an age between 0 and 100
+--- 
+question: |
+  Are you seeking accommodation on your own or with your family?
+fields: 
+  - no label: CSAfamily
+    datatype: radio
+    choices:
+     - "I am seeking accommodation on my own": singles
+     - "I am seeking accommodation with my family, or I am pregnant": family
+---
+question: |
+  Please identify any Concessions that you may hold:
+fields: 
+  - no label: CSAconcession
+    datatype: radio
+    choices:
+     - "Health Care card": healthcare
+     - "Seniors Card": seniors
+     - "Department of Veteran Affairs Card": veteran
+     - "Disability Support Person": support
+     - "Student": student
+---
+question: |
+  Do you identify as Aboriginal or Torres Strait Islander?
+yesno: CSAabor
+---
+question: |
+  Are there any other factors that we need to consider?
+fields: 
+  - no label: CSAfactor
+    datatype: radio
+    choices:
+     - "Disability": disability 
+     - "ESL": ESL
+     - "Immigrant": immigrant
+     - "Migrant": migrant
+     - "Refugee": refugee
+     - "LGBTQIA": LGBTQIA
+--- 
