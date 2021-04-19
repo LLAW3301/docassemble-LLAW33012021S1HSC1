@@ -1,25 +1,9 @@
 ---
-question: ""
-subquestion: |
-  Welcome to the Community Services Application. This application is designed
-  to help you find services that your client may be entitled to.
- 
-  ***Disclaimer:***   
-  This is a guide to selected service only and may not include all services.
-  There are no guarantees that any individual service will accept your enquiry
-  or provide services to you.
-  
-  Do you accept these terms?
-yesno: CSAeligible
----
 question: |
-  Do you live in the Adelaide Metropolitan Area?
-yesnomaybe: CSAmetro
-
-under: |
-    Below is a map of the Adelaide Metropolitan Area
-
-    [FILE X2.01.Metro_Map.jpg, 400px]
+  What is your post code?
+fields:
+  - no label: HSCpostcode
+    datatype: integer
 ---
 question: |
   What is your gender?
@@ -43,13 +27,8 @@ fields:
       Please enter an age between 0 and 100
 --- 
 question: |
-  Are you seeking accommodation on your own or with your family?
-fields: 
-  - no label: CSAfamily
-    datatype: radio
-    choices:
-     - "I am seeking accommodation on my own": singles
-     - "I am seeking accommodation with my family, or I am pregnant": family
+  Do you have any children under 18 years of age?
+yesno: HSCchildren
 ---
 question: |
   Please identify any Concessions that you may hold:
@@ -57,15 +36,15 @@ fields:
   - no label: CSAconcession
     datatype: radio
     choices:
-     - "Health Care card": healthcare
+     - "Health Care Card": hcc
      - "Seniors Card": seniors
-     - "Department of Veteran Affairs Card": veteran
-     - "Disability Support Person": support
+     - "Department of Veteran Affairs Card": dva
+     - "Disability Support Pension": dsp
      - "Student": student
 ---
 question: |
   Do you identify as Aboriginal or Torres Strait Islander?
-yesno: CSAabor
+yesno: CSAatsi
 ---
 question: |
   Are there any other factors that we need to consider?
