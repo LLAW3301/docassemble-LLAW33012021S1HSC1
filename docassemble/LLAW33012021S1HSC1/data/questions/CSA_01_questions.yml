@@ -108,7 +108,7 @@ fields:
 question: |
   What is your gender?
 fields: 
-  - no label: CSAgender
+  - no label: HSCgender
     datatype: radio
     choices:
      - "I am Female": female
@@ -118,7 +118,7 @@ fields:
 question: |
   What is your age?
 fields:
-  Age: CSAage
+  Age: HSCage
   datatype: integer
   min: 0
   max: 100
@@ -133,7 +133,7 @@ yesno: HSCchildren
 question: |
   Please identify any Concessions that you may hold:
 fields: 
-  - no label: CSAconcession
+  - no label: HSCconcession
     datatype: radio
     choices:
      - "Health Care Card": hcc
@@ -144,12 +144,12 @@ fields:
 ---
 question: |
   Do you identify as Aboriginal or Torres Strait Islander?
-yesno: CSAatsi
+yesno: HSCatsi
 ---
 question: |
   Are there any other factors that we need to consider?
 fields: 
-  - no label: CSAfactor
+  - no label: HSCfactor
     datatype: radio
     choices:
      - "Disability": disability 
