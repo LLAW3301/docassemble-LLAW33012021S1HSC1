@@ -1,0 +1,30 @@
+# Erases a data store
+# Objects and constants copied from survey_import_main.
+---
+include:
+  - SYS_survey_constants.yml
+---
+mandatory: True
+code: |
+  hsc_data.delete(data_key)
+---
+mandatory: True
+question: Data deleted
+subquestion: |
+  Key: ${data_key}
+
+  Data:
+
+  ${ hsc_data.get(data_key) }
+buttons:
+  - Exit: exit
+  - Restart: restart
+---
+question: Enter data key
+subquestion: |
+  Enter data key to delete
+
+  ${ HSCconstants }
+fields:
+  - Data key: data_key
+---
