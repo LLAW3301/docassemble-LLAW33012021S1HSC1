@@ -14,7 +14,7 @@
 ---
 include:
   - HSC_survey_constants.yml
-  - HSC_csv_importer.yml
+  - HSC.csv.yml
   - HSC_problem_statement_importer.yml
   - HSC_survey_import_questions.yml
 ---
