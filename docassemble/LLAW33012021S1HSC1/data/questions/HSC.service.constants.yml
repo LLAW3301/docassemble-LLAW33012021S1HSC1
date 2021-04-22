@@ -11,6 +11,13 @@ objects:
 # Define 'constants' here
 mandatory: True
 code: |
+  # Constants for HSC
+
+  # We use this to allocate a single key for all HSC data importsed
+  # String is arbitrary - had to choose something!
+  HCSconstants.data_import_key = 'LLAW33012021S1HSC1'
+
+
   #
   # These change every semester
   #

@@ -20,60 +20,26 @@ include:
 ---
 # Are we importing projects or student data
 mandatory: True
-question: Select Data Import
+question: Data Import
 subquestion: |
-  Specify whether you are importing:
-
-  - Project data; or
-  - Student data
+  Just imports data and does nothing else
 buttons:
-  - Project Data:
+  - Import Data:
       code: |
-        data_import = HSCconstants.data_type_project
-  - Student Data:
-      code: |
-        data_import = HSCconstants.data_type_student
+        data_import = HSCconstants.data_import_key
   - Exit: exit
 ---
 # Main code block after initial screen
 mandatory: True
 code: |
-  set_variables_on_selection
   upload_to_dastore
   display_final_screen
 ---
 # Set the logic to run depending on our selection
 code: |
-  # The data to get
-  if data_import == HSCconstants.data_type_project:
-    data_key = HSCconstants.project_data
-   HSCimport_message = HSCprojects_message
-  else:
-    # We assume only two choices
-    data_key = HSCconstants.student_data
-    MJFimport_message = HSCstudents_message
-
-  set_variables_on_selection = True
----
-# Upload the data to the DAstore and...
-code: |
-  # Student data needs to be processed first
-  if data_import == HSCconstants.data_type_student:
-    # This variable is set at the end of the processing of
-    # student data
-    student_data_processed
-    # Upload into DAstore
-    hsc_data.set(data_key, current_students_data)
-    # reset the variable so the table is generated from the DAstore data
-    undefine('current_students_data')
-  else:
-    # Get the data
-    ps_data_processed
-    # Add it to the data store
-    hsc_data.set(data_key, current_projects_data)
-    # reset the variable to force DA to re-fetch data from the DAStore
-    # when displaying final screen
-    undefine('current_projects_data')
+  HSCcurrent_data_processed
+  hsc_data.set(HSCconstants.data_import_key, HSCcurrent_data)
+  undefine('HSCcurrent_data')
 
   upload_to_dastore = True
 ---
@@ -84,11 +50,7 @@ subquestion: |
   Data has been imported into `DAStore`.  The table below shows the 
   current state of the database.
 
-  % if data_import == HSCconstants.data_type_project:
-  ${ current_projects_table }
-  % else:
-  ${ service_data_table }
-  % endif
+  ${ HSCcurrent_data_table }
 buttons:
   - Exit: exit
   - Restart: restart
@@ -103,9 +65,14 @@ buttons:
 #       looking to define current_students_data it doesn't pick up this
 #       code block.
 code: |
-  current_students_data = []
+  HSCcurrent_data = []
   for _entry in csv_data:
     an_item = {}
+    if _entry['Aboriginal'] == 'True':
+      an_item['Aboriginal'] = True
+    else:
+      an_item['Aboriginal'] = False
+    
     an_item['FAN'] = _entry['FAN']
     an_item['first_name'] = _entry['First name']
     an_item['last_name'] = _entry['Surname']
@@ -121,18 +88,14 @@ code: |
         break
     
     # Add our record to current_students_data
-    current_students_data.append(an_item)
+    HSCcurrent_data.append(an_item)
   
   # Set this to trigger DA to process this code block
-  student_data_processed = True
+  HSCcurrent_data_processed = True
 ---
 # These two code blocks go together at the end.  DA will process these
 # first.  This means DA will always try to fetch data from DAStore first
 # Get the current projects
 code: |
-  current_projects_data = hsc3301_data_data.get(data_key)
----
-# Get the current student data
-code: |
-  current_students_data = llaw3301_data.get(data_key)
+  HSCcurrent_data = hsc_data.get(HSCconstants.data_import_key)
 ---
