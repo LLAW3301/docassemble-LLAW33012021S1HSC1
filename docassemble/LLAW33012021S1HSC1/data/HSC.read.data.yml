@@ -7,7 +7,7 @@ mandatory: True
 question: Data read
 subquestion: |
 
-  %if MJFwant_to_read == 'I want to see a particular key':
+  %if HSCwant_to_read == 'I want to see a particular key':
   Key: ${data_key}
 
   Data:
