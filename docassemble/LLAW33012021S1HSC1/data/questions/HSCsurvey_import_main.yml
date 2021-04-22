@@ -1,0 +1,138 @@
+# Imports projects for the semester into a DAStore that can
+# be accessed from other interview.  Import file should be a CSV with
+# these fields:
+# - Project Identifier
+# - Organisation
+# - Description
+# - URL (to Problem STatement in FLO)
+#
+# Example:
+#
+# Project Identifier,Organisation,Description,URL
+# P01. UnitingSA,UnitingSA,NDB Assessor,https://flo.flinders.edu.au/mod/resource/view.php?id=2679033
+# P02. FPSA,Family Planning Network SA,Service Directory,https://flo.flinders.edu.au/mod/resource/view.php?id=2679040
+---
+include:
+  - HSC_survey_constants.yml
+  - HSC_csv_importer.yml
+  - HSC_problem_statement_importer.yml
+  - HSC_survey_import_questions.yml
+---
+# Are we importing projects or student data
+mandatory: True
+question: Select Data Import
+subquestion: |
+  Specify whether you are importing:
+
+  - Project data; or
+  - Student data
+buttons:
+  - Project Data:
+      code: |
+        data_import = HSCconstants.data_type_project
+  - Student Data:
+      code: |
+        data_import = HSCconstants.data_type_student
+  - Exit: exit
+---
+# Main code block after initial screen
+mandatory: True
+code: |
+  set_variables_on_selection
+  upload_to_dastore
+  display_final_screen
+---
+# Set the logic to run depending on our selection
+code: |
+  # The data to get
+  if data_import == HSCconstants.data_type_project:
+    data_key = HSCconstants.project_data
+   HSCimport_message = HSCprojects_message
+  else:
+    # We assume only two choices
+    data_key = HSCconstants.student_data
+    MJFimport_message = HSCstudents_message
+
+  set_variables_on_selection = True
+---
+# Upload the data to the DAstore and...
+code: |
+  # Student data needs to be processed first
+  if data_import == HSCconstants.data_type_student:
+    # This variable is set at the end of the processing of
+    # student data
+    student_data_processed
+    # Upload into DAstore
+    hsc_data.set(data_key, current_students_data)
+    # reset the variable so the table is generated from the DAstore data
+    undefine('current_students_data')
+  else:
+    # Get the data
+    ps_data_processed
+    # Add it to the data store
+    hsc_data.set(data_key, current_projects_data)
+    # reset the variable to force DA to re-fetch data from the DAStore
+    # when displaying final screen
+    undefine('current_projects_data')
+
+  upload_to_dastore = True
+---
+# ...display a final screen
+event: display_final_screen
+question: Data Import complete
+subquestion: |
+  Data has been imported into `DAStore`.  The table below shows the 
+  current state of the database.
+
+  % if data_import == HSCconstants.data_type_project:
+  ${ current_projects_table }
+  % else:
+  ${ service_data_table }
+  % endif
+buttons:
+  - Exit: exit
+  - Restart: restart
+---
+
+# Process the student data.  The data imported from the FLO CSV is not
+# exactly what we want.  We want to strip out the superfluous groups and
+# have just a single 'seminar' entry
+# Note: we don't have an analagous code block for project data as we don't
+#       need to process it before we import it.
+# Note: this must sit above the DAStore get blocks so that when DA comes
+#       looking to define current_students_data it doesn't pick up this
+#       code block.
+code: |
+  current_students_data = []
+  for _entry in csv_data:
+    an_item = {}
+    an_item['FAN'] = _entry['FAN']
+    an_item['first_name'] = _entry['First name']
+    an_item['last_name'] = _entry['Surname']
+    # We don't trust the supplied email address.  Create a FAN@flinders... email instead
+    an_item['email'] = '{}@flinders.edu.au'.format(_entry['FAN'])
+    #an_item['email'] = _entry['Email address']
+
+    # Find the seminar
+    an_item['seminar'] = 'No Seminar'
+    for _key in _entry:
+      if _key[:5] == 'Group' and _entry[_key][:7] == 'Seminar':
+        an_item['seminar'] = _entry[_key]
+        break
+    
+    # Add our record to current_students_data
+    current_students_data.append(an_item)
+  
+  # Set this to trigger DA to process this code block
+  student_data_processed = True
+---
+# These two code blocks go together at the end.  DA will process these
+# first.  This means DA will always try to fetch data from DAStore first
+# Get the current projects
+code: |
+  current_projects_data = hsc3301_data_data.get(data_key)
+---
+# Get the current student data
+code: |
+  current_students_data = llaw3301_data.get(data_key)
+---

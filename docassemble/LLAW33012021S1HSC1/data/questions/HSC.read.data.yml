@@ -1,0 +1,42 @@
+# Reads data from a key in the data store
+---
+include:
+  - SYS_survey_constants.yml
+---
+mandatory: True
+question: Data read
+subquestion: |
+
+  %if HSCwant_to_read == 'I want to see a particular key':
+  Key: ${data_key}
+
+  Data:
+
+  ${ the_data }
+  %else:
+  Service|Information
+  ---|---
+  %for a_key in hsc_data.keys():
+  ${a_key} | `${hsc_data.get(a_key)}`
+  %endfor
+  %endif
+
+buttons:
+  - Exit: exit
+  - Restart: restart
+---
+code: |
+  the_data = hsc_data.get(data_key)
+---
+question: What do you wnat to read?
+fields:
+  - no label: HSCwant_to_read
+    datatype: radio
+    choices:
+      - I want to see all the keys in the DAStore
+      - I want to see a particular key
+  - Data Key: data_key
+    show if:
+      variable: HSCwant_to_read
+      is: I want to see a particular key
+---
