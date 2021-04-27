@@ -32,7 +32,7 @@ objects:
   - HSClogo: DAStaticFile.using(filename='[insert once we have.png[')
   - endpoints: DADict
 ---
-#J / L - do we need this? HG
+# J to play around with this workding. 
 features:
   css: X2.01.SACAT.css
   debug: True
@@ -116,7 +116,7 @@ attachment:
     filename: Result Printout
     valid formats:
       - pdf
-    docx template file: HSC.print.out
+    docx template file: HSC_print_out
     variable name: HSCprintout
 ---
 event: endpoints['TERMineligible']
