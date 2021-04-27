@@ -1,0 +1,145 @@
+# This is the main file for the HSC application 
+---
+metadata:
+  title: |
+    Hutt Street Centre Community Access Tool 
+  short title: |
+    Community Access Tool 
+  organisation: Flinders University
+  show login: True
+---
+#Jocelyn, can you please help me with inserting this code once we get the photo from HSC? HG
+default screen parts:
+  post: |
+    <div style="display: flex; height: 200px; align-items: flex-end; flex-direction: row-reverse">
+    <div style="margin: 5px"><img src="https://staff.flinders.edu.au/etc.clientlibs/flinders/clientlibs/clientlib-site/resources/images/flinderuni_main_logo_black.png" height="40">
+    </div>
+    <div style="margin: 5px; text-align: right">
+    <cite><small><i>
+    Developed by Flinders University in collaboration with SACAT
+    </i></small></cite>
+    </div>
+    </div>
+---
+#Will need to insert once we have the names of all the screens
+include:
+  - .yml
+  - .yml
+---
+
+objects:
+  - HSCqualifying_agencies: DAList.using(there_are_any=True, auto_gather=False)
+  - HSClogo: DAStaticFile.using(filename='[insert once we have.png[')
+  - endpoints: DADict
+---
+#J / L - do we need this? HG
+features:
+  css: X2.01.SACAT.css
+  debug: True
+  hide standard menu: False
+---
+#HG not amended
+mandatory: True
+code: |
+  # The string below creates the HTML and  inserts into it the logo contained in 
+  # the file SACATlogo using the python format() method 
+  HAAlogostring = '<div class="media"><img src="{}" class="mr-3" height="50"><div class="media-body"></div></div>'.format(SACATlogo.url_for())
+
+  # Once we've created the string we use set_parts() to set our new logo metadata
+  set_parts(logo=HAAlogostring)
+---
+# Is this the section where the code will move the user to the welcome screen?  of from the welcome screen, if they 'run app' the end screen there? - HG
+mandatory: True
+code: |
+  if HSCeligible:
+    endpoints['final_screen']
+  else:
+    endpoints['TERMineligible']
+---
+#Will be able to update once I know the codes we are relying on. Jocelyn, happy to use your codes here. HG
+event: endpoints['final_screen']
+question: ""
+subquestion:  |
+  % if HAApets:
+  ### Services for Pets
+
+  Unfortunatly, the agencies listed here will not accept pets.
+  
+  Contact these agencies below to discuss alternative care options for your pet.
+
+  %for HAAdisplay_entry in HAAdisplay_pets:
+  ${ HAAdisplay_entry['display_record'].show() }
+  %endfor  
+  % endif
+  
+  % if HAAabor:
+  ### Services for Aboriginal and Torres Strait Islander people 
+
+  The below agencies provide emergency services for Aboriginal and 
+  Torres Strait Islander people.  
+  
+  Contact these agencies to dicuss the services they may be able to offer you. 
+
+  %for HAAdisplay_entry in HAAdisplay_atsi:
+  ${ HAAdisplay_entry['display_record'].show() }
+  %endfor  
+  % endif
+
+  % if HAAfamily == 'singles':
+  ### Services for you
+  % else:
+  ### Services for you and your family
+  % endif
+  
+  Based on your answers, you might be eligible for support from the 
+  following agencies.
+
+  You should contact them as soon as you can to try an arrange emergency housing.
+  
+  %for HAAdisplay_entry in HAAdisplay_other:
+  ${ HAAdisplay_entry['display_record'].show() }
+  %endfor
+  
+  ### Community Housing
+  
+  Further information on long term accommodation can be found 
+  on the [SA.GOV.AU website]  
+attachment code: |
+  [HSCprintout]
+buttons:
+  - Exit: exit
+    url: [insert]
+  - Restart: restart
+---
+attachment: 
+  - name: Hutt Street Centre Community Access Tool 
+    filename: Result Printout
+    valid formats:
+      - pdf
+    docx template file: HSC.print.out
+    variable name: HSCprintout
+---
+event: endpoints['TERMineligible']
+question: Not Eligible
+subquestion:
+  The disclaimer has not been understood and accepted.  Please exit the
+  application or restart if you'd like to accept the disclaimer.
+#I'm not sure if HSC want to have this as an internal address like an 
+#intranet buttons:
+  - Exit: exit
+    url: https://www.huttstcentre.org.au/
+  - Restart: restart
+  ---
+event: endpoints['PCineligible']
+question: Not Eligible
+subquestion:
+  This application does not include information relating to the council you have 
+  inserted.  If you would like to restart with a different post code 
+  please restart.
+#I'm not sure if HSC want to have this as an internal address like an 
+#intranet 
+buttons:
+  - Exit: exit
+    url: https://www.huttstcentre.org.au/
+  - Restart: restart
+---
