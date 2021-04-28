@@ -1,6 +1,6 @@
 ---
 field: welcome_screen
-# Log in screen as per revised flow chat
+# Initial screen as per revised flow chat
 question: ""
 subquestion: |
   ###Welcome to the Hutt Street Centre Access to Community Services Application. 
@@ -9,24 +9,10 @@ subquestion: |
   
   Select Application to run the application.
   Select Administration to add, remove and edit services from the application.
-  
-field: HSCuser_choice
+
 buttons:
   - Application: proceed
   - Administration: signin
-sets: HSCsign_in_page
----
-# Log in screen if not editing within application - but do we even need to log in then?
-field: login_screen
-question: ""
-subquestion: |
-  ###Welcome to the Hutt Street Centre Access to Community Services Application. 
-  
-  Please log in to proceed.
-  
-field: HSCuser_choice
-buttons:
-  - Sign In: signin
 sets: HSCsign_in_page
 ---
 # RHS Welcome Screen
@@ -44,60 +30,81 @@ subquestion: |
   Do you accept these terms?
 yesno: HSCeligible
 ---
-#LHS Welcome Screen
-question: ""
+# location question
+question: Where does your client live?
 subquestion: |
-  ###Welcome to the Administration Site for the Hutt Street Centre Access to Community Services Application. 
+  Please select the Council Area that your client lives in.
   
-  Please select from the following functions. 
+  If you can not see your clients suburb, the area is not currently supported by this application. Click 'Exit'. 
   
-  Edit option will allow you to edit an existing service. 
-  Add function will allow you to add a new service. 
-  Remove function will allow you to remove an existing service.
-  
-buttons:
-  - Edit:
-      code: |
-        HSCfunction = 'edit'
-  - Add:
-      code: |
-        HSCfunction = 'add'
-  - Remove: 
-      code: |
-        HSCfunction = 'remove'
+fields:
+  - no label: HSCpostcode
+    datatype: checkboxes
+    choices:
+      - <b>City of Marion</b><br><ul class="a"><li>Ascot Park, Bedford Park (part), Clovelly Park, Darlington (part), Dover Gardens, Edwardstown, Glandore (part), Glengowrie, Hallett Cove (part), Marino, Marion, Mitchell Park, Morphettville, O'Halloran Hill (part), Oaklands Park, Park Holme, Plympton Park, Reynella (part), Seacliff Park (part), Seacombe Gardens, Seacombe Heights, Seaview Downs, Sheidow Park (part), South Plympton, Sturt, Tonsley, Trott Park and Warradale</li></ul>: City of Marion
+      - <b>City of Charles Sturt</b><br><ul class="a"><li>Albert Park, Allenby Gardens, Athol Park, Beverley, Bowden, Brompton, Cheltenham, Croydon, Devon Park (part), Findon, Flinders Park, Fulham Gardens, Grange, Hendon, Henley Beach, Henley Beach South, Hindmarsh, Kidman Park, Kilkenny, Ovingham (part), Pennington, Renown Park, Ridleyton, Royal Park, Seaton, Semaphore Park, St Clair, Tennyson, Welland, West Beach (part), West Croydon, West Hindmarsh, West Lakes, West Lakes Shore, Woodville, Woodville North, Woodville Park, Woodville South and Woodville West</li></ul>: City of Charles Sturt
+      - <b>City of Onkaparinga</b><br><ul class="a"><li>Aberfoyle Park, Aldinga, Aldinga Beach, Blewitt Springs, Christie Downs, Christies Beach, Chandlers Hill, Cherry Gardens, Clarendon, Coromandel East, Coromandel Valley (part), Darlington (part), Dorset Vale (part), Flagstaff Hill, Hackham, Hackham West, Happy Valley, Huntfield Heights, Ironbank (part), Kangarilla (part), Kuitpo (part), Lonsdale, Maslin Beach, McLaren Flat, McLaren Vale, Moana, Morphett Vale, Noarlunga Centre, Noarlunga Downs, O'Halloran Hill (part), O'Sullivan Beach, Old Noarlunga, Old Reynella, Onkaparinga Hills, Port Noarlunga, Port Noarlunga South, Port Willunga, Reynella, Reynella East, Seaford, Seaford Heights, Seaford Meadows, Seaford Rise, Sellicks Beach, Sellicks Hill (part), Tatachilla, The Range (part), Whites Valley, Willunga, Willunga South and Woodcroft</li></ul>: City of Onkaparinga
+      - <b>City of Port Adelaide Enfield</b><br><ul class="a"><li>Alberton, Angle Park, Birkenhead, Blair Athol, Broadview (part), Clearview, Croydon Park, Dernancourt (part), Devon Park (part), Dry Creek (part), Dudley Park, Enfield, Ethelton, Exeter, Ferryden Park, Gepps Cross, Gilles Plains (part), Gillman, Glanville, Greenacres, Hampstead Gardens, Hillcrest, Holden Hill (part), Kilburn, Klemzig, Largs Bay, Largs North, Lightsview, Manningham, Mansfield Park, New Port, North Haven, Northfield, Northgate, Oakden, Osborne, Ottoway, Outer Harbor, Peterhead, Port Adelaide, Queenstown, Regency Park, Rosewater, Sefton Park (part), Semaphore, Semaphore South, Taperoo, Valley View (part), Walkley Heights (part), Windsor Gardens, Wingfield and Woodville Gardens</li></ul>: City of Port Adelaide Enfield
+      - <b>City of Tea Tree Gully</b><br><ul class="a"><li>Banksia Park, Dernancourt (part), Fairview Park, Gilles Plains (part), Golden Grove, Gould Creek (part), Greenwith, Gulfview Heights (part), Highbury, Holden Hill (part), Hope Valley, Houghton (part), Modbury, Modbury Heights, Modbury North, Paracombe (part), Para Hills (part), Redwood Park, Ridgehaven, Salisbury Heights (part), St Agnes, Surrey Downs, Tea Tree Gully, Upper Hermitage (part), Valley View (part), Vista, Wynn Vale and Yatala Vale</li></ul>: City of Tea Tree Gully
+
+none of the above: False
+
+#how do I redirect False to the endpoint and not continue the interview?
+
+right: |
+ [FILE mapfinal.png, 500px]
 ---
-#LHS Functions
-question: Edit Service
-subquestion: |
-  The edit function will allow you to update an existing service. 
-  
-  Please confirm that you wish to proceed.
-  
-buttons:
-  - Continue: continue
-  - Exit: exit
+question: |
+  What is your gender?
+fields: 
+  - no label: HSCgender
+    datatype: radio
+    choices:
+     - "I am Female": female
+     - "I am Male": male
+     - "Other/Prefer not to Specify": other
 ---
-#LHS Functions
-question: Add Service
-subquestion: |
-  The add function will allow you to add a new service. 
-  
-  Please confirm that you wish to proceed.
-  
-buttons:
-  - Continue: continue
-  - Exit: exit
+question: |
+  What is your age?
+fields:
+  Age: HSCage
+  datatype: integer
+  min: 0
+  max: 100
+  validation messages: 
+    max: |
+      Please enter an age between 0 and 100
+--- 
+question: |
+  Do you have any children under 18 years of age?
+yesno: HSCchildren
 ---
-#LHS Functions
-question: Remove Service
-subquestion: |
-  The add function will allow you to remove an existing service. 
-  
-  You will not be able to recover this data.
-  
-  Please confirm that you wish to proceed.
-  
-buttons:
-  - Continue: continue
-  - Exit: exit
+question: |
+  Please identify any Concessions that you may hold:
+fields: 
+  - no label: HSCconcession
+    datatype: radio
+    choices:
+     - "Health Care Card": hcc
+     - "Seniors Card": seniors
+     - "Department of Veteran Affairs Card": dva
+     - "Disability Support Pension": dsp
+     - "Student": student
 ---
+question: |
+  Do you identify as Aboriginal or Torres Strait Islander?
+yesno: HSCatsi
+---
+question: |
+  Are there any other factors that we need to consider?
+fields: 
+  - no label: HSCfactor
+    datatype: radio
+    choices:
+     - "Disability": disability 
+     - "ESL": ESL
+     - "Immigrant": immigrant
+     - "Migrant": migrant
+     - "Refugee": refugee
+     - "LGBTQIA": LGBTQIA
+--- 
