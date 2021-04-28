@@ -1,0 +1,12 @@
+---
+objects:
+  - HSCqualifying_services: DADict.using(auto_gather=False, there_are_any=True, object_type=DAList)
+---
+mandatory: True
+subquestion: |
+  idk what goes in the main function
+  i guess if there's a screen to display stuff in a different file
+  here is where we'd maybe call the display screen
+  
+  ${ HSCselect_services } <-- the dictionary that hold all selected services
+---

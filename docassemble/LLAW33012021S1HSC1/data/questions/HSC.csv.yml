@@ -10,13 +10,16 @@ include:
   - HSC_global_vars.yml
 ---
 objects:
-  #- csv_data: DAList.using(auto_gather=False, there_are_any=True)
+ # - csv_data: DAList.using(auto_gather=False, there_are_any=True)
   - csv_data: DADict.using(auto_gather=False, there_are_any=True)
 ---
 code: |
   #csv_data.clear()
+  #csv_data = DADict()
   csv_data.clear()
   csv_data.object_type = DAList
+  for key in HSCdata.keys():
+    HSCdata.delete(key)
 
   # Read the data into a CSV object
   all_the_lines = csv_import.slurp()
@@ -47,8 +50,8 @@ code: |
     # here is where we'd need to append the a_row to the appropriate list
     # and use the name as a key to the data store
     #if a_row[row_headers[1]] not in csv_data_dict:
-      
-    csv_data[a_row['Council']].append(a_row)
+    
+    csv_data[a_row.get('Council')].append(a_row)
     # append to the data
     #csv_data.append(a_row)
     # Increment the loop index
@@ -56,9 +59,21 @@ code: |
     
   #csv_data.gathered = True
   csv_data.gathered = True
+  #csv_data_copy = csv_data.split()
   for key in csv_data.keys():
     #csv_data[key].there_is_another = False
+    csv_data[key].gathered = True
+    csv_data[key][csv_data[key].number() - 1].there_is_another = False
     HSCdata.set(key, csv_data[key])
+    HSCdata.get(key).set_object_type(DAList)
+    #undefine('csv_data[key]')
+    #test_var += 1
+  test_var = 0
+  # undefine the temporary object used to create the DAStore
+  # so that from now on data will only be taken from the DAStore
+  # and not from csv_data
+  
+  #undefine('csv_data')
 ---
 question: Import CSV File
 subquestion: |

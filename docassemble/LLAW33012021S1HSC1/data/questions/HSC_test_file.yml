@@ -1,0 +1,136 @@
+---
+# This is a temporary file for driving other non-main files
+# Use this for testing without messing with main file
+# Include the files you want to test in here
+include:
+  - HSC.csv.yml
+  - HSC_get_qualifying_services.yml
+  - HSC_display_output.yml
+  - HSC_global_vars.yml
+---
+objects:
+  - services_shit: DAList
+---
+mandatory: True
+code: |
+  # hard coded shit, just for testing purposes
+  HSCimport_message = "howdy"
+  HSCcouncil = 'Marion'
+  HSCage = 40
+  HSCgender = 'Male'
+  HSCfamily = 'Single'
+  HSCconcessions = DADict()
+  HSCconcessions['Health Care Card'] = True
+  HSCconcessions['Seniors Card'] = False
+  HSCconcessions['Department of Veteran Affairs Card'] = False
+  HSCconcessions['Disability Support Person'] = False
+  HSCconcessions['Student'] = True
+  HSCconcessions.there_is_another = False
+  HSCother = DADict()
+  HSCother['Disability'] = True
+  HSCother['Immigrant'] = False
+  HSCother['Refugee'] = True
+  HSCother.there_is_another = False
+  
+  #selected_services_test_collect.gathered = True
+  #csv_data[HSCcouncil] = HSCdata.get(HSCcouncil)
+  #council_services = HSCdata.get(HSCcouncil)
+---
+#code:
+  #selected_services_test_collect.there_are_any = True
+---
+variable name: HSClist_of_dicts_test
+use objects: true
+data: 
+  - service: Adolescent Community Brokerage
+    Council: Marion
+    Category: Key Service
+    address: 43 Franklin Street, Adelaide, South Australia 5000
+    email: acbrokerage@unitingcommunities.org
+  - service: Yet Another Bloody Service
+    Council: Marion
+    Category: Key Service
+    address: ur moms house
+    email: gottem
+  - service: One More
+    Council: Marion
+    Category: Other Category
+    address: ur moms house
+    email: haha gets em everytime
+---
+mandatory: True
+question: "testing that csv_import puts services in different lists for each council and that it gets stored in the datastore properly"
+subquestion: |
+  ${ test_var }
+  
+  % for key in HSCdata.keys():
+  
+  ${ key }
+  
+  % for service in HSCdata.get(key):
+  
+  ${ service.values() }
+  
+  % endfor
+  
+  % endfor
+  
+  
+  #### and now, for something completely different
+  % for category in HSCqualifying_services.keys():
+  
+  ${ category }
+  
+  % for service in HSCqualifying_services.get(category):
+  
+  ${ service.values() }
+  
+  % endfor
+  % endfor
+  
+  
+  #### hhhhhhhhhh
+  ${ selected_services_test_collect.number() }
+  
+  
+#attachment:
+#  - name: Test Doc
+#    filename: printout
+#    docx template file: HSC_printout_test.docx
+---
+code: |
+  index = 0
+  while index < HSCqualifying_services.number():
+    services_shit[index] = selected_services_test_collect[index]
+    index += index
+  services_shit.there_are_any = False
+---
+question: what kind of bear is best
+subquestion: |
+  % for key in HSCdata.keys():
+  
+  ${ key }
+  
+  ${ HSCdata.get(key) }
+  % endfor
+  
+  #### testing the contents of the database are actually dictionaries
+  ${ test_var }
+  
+  % for key in HSCdata.keys():
+  
+  ${ HSCdata.get(key).object_type }
+  
+  % endfor
+  
+  #### and now, for something completely different
+  % for category in HSCqualifying_services.keys():
+  
+  ${ category }
+  
+  % for service in HSCqualifying_services.get(category):
+  
+  ${ service.values() }
+  
+  % endfor
+  % endfor
