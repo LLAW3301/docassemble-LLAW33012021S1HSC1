@@ -1,0 +1,43 @@
+# Erases a data store
+# Objects and constants copied from survey_import_main.
+---
+imports:
+  - datetime
+---
+objects:
+  - hsc_data: DAStore.using(base='global')
+  - HSCconstants: DAObject
+---
+# Define 'constants' here
+mandatory: True
+code: |
+  # Constants for HSC
+
+  # We use this to allocate a single key for all HSC data importsed
+  # String is arbitrary - had to choose something!
+  HCSconstants.data_import_key = 'LLAW33012021S1HSC1'
+
+
+  #
+  # These change every semester
+  #
+  # Teaching semester
+  HSCconstants.services = '2021_S'
+  
+  # Find the Topic Guide in FLO and paste URL in here
+  HSCconstants.HSCservices_guide_URL = 'url'
+
+  
+  #
+  # These should remain, well, constant!
+  #
+  HSCconstants.bio = ''
+  HSCconstants.gender = ''
+  HSCconstants.age = ''
+  HSCconstants.children = ''
+  HSCconstants.project_data = HSCconstants.teaching_period + '_' + HSCconstants.data_type_project
+  HSCconstants.student_data = HSCconstants.teaching_period + '_' + HSCconstants.data_type_student
+  # Survey input records start with this string and have the FAN appended to them
+  HSCconstants.survey_input_record = HSCconstants.teaching_period + '_survey_input_'
+---
+
