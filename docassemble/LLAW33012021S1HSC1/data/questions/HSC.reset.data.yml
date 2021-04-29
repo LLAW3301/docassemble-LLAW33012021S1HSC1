@@ -2,7 +2,7 @@
 # Objects and constants copied from survey_import_main.
 ---
 include:
-  - SYS_survey_constants.yml
+  - HSC.service.constants.yml
 ---
 mandatory: True
 code: |

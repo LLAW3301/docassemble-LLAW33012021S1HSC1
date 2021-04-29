@@ -113,10 +113,10 @@ subquestion:  |
   Further information on long term accommodation can be found 
   on the [SA.GOV.AU website]  
 attachment code: |
-  [HSCprintout]
+  [HSC_print_out.docx]
 buttons:
   - Exit: exit
-    url: [insert]
+    url: https://www.huttstcentre.org.au
   - Restart: restart
 ---
 attachment: 
@@ -124,7 +124,8 @@ attachment:
     filename: Result Printout
     valid formats:
       - pdf
-    docx template file: HSC_print_out
+      - docx
+    docx template file: HSC_print_out.docx
     variable name: HSCprintout
 ---
 event: endpoints['TERMineligible']
@@ -132,12 +133,10 @@ question: Not Eligible
 subquestion:
   The disclaimer has not been understood and accepted.  Please exit the
   application or restart if you'd like to accept the disclaimer.
-#I'm not sure if HSC want to have this as an internal address like an 
-#intranet buttons:
   - Exit: exit
     url: https://www.huttstcentre.org.au/
   - Restart: restart
-  ---
+---
 event: endpoints['PCineligible']
 question: Not Eligible
 subquestion:
