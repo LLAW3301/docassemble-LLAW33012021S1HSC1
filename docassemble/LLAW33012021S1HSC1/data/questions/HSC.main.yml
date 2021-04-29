@@ -23,16 +23,17 @@ default screen parts:
 ---
 #Will need to insert once we have the names of all the screens
 include:
+  - HSC.csv.yml
   - HSC.display.output.yml
   - HSC.get.qualifying.services.yml
   - HSC.global.vars.yml
   - HSC.login.yml
   - HSC.questions.yml
   - HSC.read.data.yml
-  - HSC.service.constants.yml
-  - HSC.test.file.yml
   - HSC.reset.data.yml
+  - HSC.service.constants.yml
   - HSC.service.import.main.yml
+  - HSC.test.file.yml
 ---
 #added HSC logo
 objects:
