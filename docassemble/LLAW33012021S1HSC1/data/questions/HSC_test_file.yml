@@ -4,9 +4,9 @@
 # Include the files you want to test in here
 include:
   - HSC.csv.yml
-  - HSC_get_qualifying_services.yml
-  - HSC_display_output.yml
-  - HSC_global_vars.yml
+  - HSC.get.qualifying.services.yml
+  - HSC.display.output.yml
+  - HSC.global.vars.yml
 ---
 objects:
   - services_shit: DAList
