@@ -21,10 +21,17 @@ default screen parts:
     </div>
     </div>
 ---
-#Will need to insert once we have the names of all the screens
+#this is all of the screens inside 'prototype'
 include:
-  - .yml
-  - .yml
+  - CSA_01_questions.yml
+  - HSC.JJN.question2.yml
+  - HSC.csv.yml
+  - HSC.read.data.yml
+  - HSC.service.constants.yml
+  - HSC1.JJN.questions.yml
+  - HSC1.JN.login.yml
+  - HSCreset.data.yml
+  - HSCsurvey_import_main.yml
 ---
 
 objects:
