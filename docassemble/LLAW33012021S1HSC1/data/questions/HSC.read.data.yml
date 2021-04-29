@@ -1,7 +1,7 @@
 # Reads data from a key in the data store
 ---
 include:
-  - SYS_survey_constants.yml
+  - HSC.service.constants.yml
 ---
 mandatory: True
 question: Data read
