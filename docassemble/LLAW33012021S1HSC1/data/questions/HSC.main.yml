@@ -49,61 +49,67 @@ code: |
   set_parts(logo=HAAlogostring)
 ---
 # Is this the section where the code will move the user to the welcome screen?  of from the welcome screen, if they 'run app' the end screen there? - HG
+#not sure if this is correct for PCineligible
 mandatory: True
 code: |
   if HSCeligible:
     endpoints['final_screen']
-  else:
+  elif HSCpostcode = False
+    endpoints['PCineligible']
+  else
     endpoints['TERMineligible']
 ---
 #Will be able to update once I know the codes we are relying on. Jocelyn, happy to use your codes here. HG
 event: endpoints['final_screen']
 question: ""
 subquestion:  |
-  % if HAApets:
-  ### Services for Pets
+#Do we do one for each council area?
+  % if HAAmetro = City of Marion
+  ### Local Council Services
 
-  Unfortunatly, the agencies listed here will not accept pets.
+  Ensure address and blurb goes here 
   
-  Contact these agencies below to discuss alternative care options for your pet.
+  %for HAAdisplay_entry in HAAdisplay_council:
+  ${ HAAdisplay_entry['display_record'].show() }
+  %endfor  
+  % endif
+#Circumstance specific services if any 
+  % if HAAspecific:
+  ### Relevant Services 
 
-  %for HAAdisplay_entry in HAAdisplay_pets:
+  Based on your circumstances, the organisations below may offer services that could support or benefit you.  
+
+  %for HAAdisplay_entry in HAAdisplay_HSCother:
   ${ HAAdisplay_entry['display_record'].show() }
   %endfor  
   % endif
   
-  % if HAAabor:
-  ### Services for Aboriginal and Torres Strait Islander people 
+#services for children
+  % if HSCchildren == 'Children Under 18':
+  ### Services for Children Under 18
 
-  The below agencies provide emergency services for Aboriginal and 
-  Torres Strait Islander people.  
-  
-  Contact these agencies to dicuss the services they may be able to offer you. 
-
-  %for HAAdisplay_entry in HAAdisplay_atsi:
-  ${ HAAdisplay_entry['display_record'].show() }
-  %endfor  
-  % endif
-
-  % if HAAfamily == 'singles':
-  ### Services for you
-  % else:
-  ### Services for you and your family
-  % endif
-  
-  Based on your answers, you might be eligible for support from the 
-  following agencies.
-
-  You should contact them as soon as you can to try an arrange emergency housing.
+  Based on your circumstances, these organisations listed below may provided services or programs for Children Under 18. 
   
   %for HAAdisplay_entry in HAAdisplay_other:
   ${ HAAdisplay_entry['display_record'].show() }
   %endfor
   
-  ### Community Housing
+#Local Council 
+#Health and Wellbeing Section - health services inc bulk billing, closest hospitals etc) 
+#Social and Community Participation Section - ways to get involved in community - filtered or sorted or labelled at no cost / small cost - transport, facilities, groups/activities?
+#Key Services/Locations (Centrelink, Medicare, Housing SA, NDIS, Carers SA)
+#Advocacy Groups (Carers SA, english as second language, migrant)
+
+#Where does circumstance specific fit??
+
+
   
-  Further information on long term accommodation can be found 
-  on the [SA.GOV.AU website]  
+  ### Further Information
+  
+  Further information on community services available may be found at
+  https://sacommunity.org .
+  If you have any questions, please speak to your Worker or call Hutt St Centre on 08 8418 2500. 
+
 attachment code: |
   [HSCprintout]
 buttons:
@@ -124,8 +130,7 @@ question: Not Eligible
 subquestion:
   The disclaimer has not been understood and accepted.  Please exit the
   application or restart if you'd like to accept the disclaimer.
-#I'm not sure if HSC want to have this as an internal address like an 
-#intranet buttons:
+#I'm not sure if HSC want to have this as an internal address like an intranet buttons:
   - Exit: exit
     url: https://www.huttstcentre.org.au/
   - Restart: restart
@@ -133,9 +138,7 @@ subquestion:
 event: endpoints['PCineligible']
 question: Not Eligible
 subquestion:
-  This application does not include information relating to the council you have 
-  inserted.  If you would like to restart with a different post code 
-  please restart.
+  This application does not currently support all council areas.  If you would like to restart with a different suburb or council area please select'restart'.
 #I'm not sure if HSC want to have this as an internal address like an 
 #intranet 
 buttons:
