@@ -1,0 +1,103 @@
+---
+field: welcome_screen
+# Log in screen as per revised flow chat
+question: ""
+subquestion: |
+  ###Welcome to the Hutt Street Centre Access to Community Services Application. 
+  
+  Which mode would you like to access?
+  
+  Select Application to run the application.
+  Select Administration to add, remove and edit services from the application.
+  
+field: HSCuser_choice
+buttons:
+  - Application: proceed
+  - Administration: signin
+sets: HSCsign_in_page
+---
+# Log in screen if not editing within application - but do we even need to log in then?
+field: login_screen
+question: ""
+subquestion: |
+  ###Welcome to the Hutt Street Centre Access to Community Services Application. 
+  
+  Please log in to proceed.
+  
+field: HSCuser_choice
+buttons:
+  - Sign In: signin
+sets: HSCsign_in_page
+---
+# RHS Welcome Screen
+#field: welcome_screen
+question: ""
+subquestion: |
+  ###Welcome to the Hutt Street Centre Access to Community Services Application. 
+  
+  This application is designed to help you find community services that may be    helpful to a client accessing services and making connections within their   local community.
+ 
+  ***Disclaimer:***   
+  This is a guide only and may not include all services.
+  There are no guarantees that any individual service will accept your clients    enquiry or provide services to them.
+  
+  Do you accept these terms?
+yesno: HSCeligible
+---
+#LHS Welcome Screen
+question: ""
+subquestion: |
+  ###Welcome to the Administration Site for the Hutt Street Centre Access to Community Services Application. 
+  
+  Please select from the following functions. 
+  
+  Edit option will allow you to edit an existing service. 
+  Add function will allow you to add a new service. 
+  Remove function will allow you to remove an existing service.
+  
+buttons:
+  - Edit:
+      code: |
+        HSCfunction = 'edit'
+  - Add:
+      code: |
+        HSCfunction = 'add'
+  - Remove: 
+      code: |
+        HSCfunction = 'remove'
+---
+#LHS Functions
+question: Edit Service
+subquestion: |
+  The edit function will allow you to update an existing service. 
+  
+  Please confirm that you wish to proceed.
+  
+buttons:
+  - Continue: continue
+  - Exit: exit
+---
+#LHS Functions
+question: Add Service
+subquestion: |
+  The add function will allow you to add a new service. 
+  
+  Please confirm that you wish to proceed.
+  
+buttons:
+  - Continue: continue
+  - Exit: exit
+---
+#LHS Functions
+question: Remove Service
+subquestion: |
+  The add function will allow you to remove an existing service. 
+  
+  You will not be able to recover this data.
+  
+  Please confirm that you wish to proceed.
+  
+buttons:
+  - Continue: continue
+  - Exit: exit
+---

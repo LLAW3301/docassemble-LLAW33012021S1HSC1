@@ -20,7 +20,7 @@ question: ""
 subquestion: |
   ###Welcome to the Hutt Street Centre Access to Community Services Application. 
   
-  This application is designed to help you find community services that may be    helpful to a client accessing services and making connections within their   local community.
+  This application is designed to help you find community services that may be    helpful to a client accessing services and making connections within their local community.
  
   ***Disclaimer:***   
   This is a guide only and may not include all services.
@@ -37,8 +37,8 @@ subquestion: |
   If you can not see your clients suburb, the area is not currently supported by this application. Click 'Exit'. 
   
 fields:
-  - no label: HSCpostcode
-    datatype: checkboxes
+  - no label: HSCcouncil
+    datatype: radio
     choices:
       - <b>City of Marion</b><br><ul class="a"><li>Ascot Park, Bedford Park (part), Clovelly Park, Darlington (part), Dover Gardens, Edwardstown, Glandore (part), Glengowrie, Hallett Cove (part), Marino, Marion, Mitchell Park, Morphettville, O'Halloran Hill (part), Oaklands Park, Park Holme, Plympton Park, Reynella (part), Seacliff Park (part), Seacombe Gardens, Seacombe Heights, Seaview Downs, Sheidow Park (part), South Plympton, Sturt, Tonsley, Trott Park and Warradale</li></ul>: City of Marion
       - <b>City of Charles Sturt</b><br><ul class="a"><li>Albert Park, Allenby Gardens, Athol Park, Beverley, Bowden, Brompton, Cheltenham, Croydon, Devon Park (part), Findon, Flinders Park, Fulham Gardens, Grange, Hendon, Henley Beach, Henley Beach South, Hindmarsh, Kidman Park, Kilkenny, Ovingham (part), Pennington, Renown Park, Ridleyton, Royal Park, Seaton, Semaphore Park, St Clair, Tennyson, Welland, West Beach (part), West Croydon, West Hindmarsh, West Lakes, West Lakes Shore, Woodville, Woodville North, Woodville Park, Woodville South and Woodville West</li></ul>: City of Charles Sturt
@@ -59,9 +59,9 @@ fields:
   - no label: HSCgender
     datatype: radio
     choices:
-     - "I am Female": female
-     - "I am Male": male
-     - "Other/Prefer not to Specify": other
+     - "I am Female": Female
+     - "I am Male": Male
+     - "Other/Prefer not to Specify": Other
 ---
 question: |
   What is your age?
@@ -82,7 +82,7 @@ question: |
   Please identify any Concessions that you may hold:
 fields: 
   - no label: HSCconcession
-    datatype: radio
+    datatype: checkboxes
     choices:
      - "Health Care Card": hcc
      - "Seniors Card": seniors
@@ -98,7 +98,7 @@ question: |
   Are there any other factors that we need to consider?
 fields: 
   - no label: HSCfactor
-    datatype: radio
+    datatype: checkboxes
     choices:
      - "Disability": disability 
      - "ESL": ESL

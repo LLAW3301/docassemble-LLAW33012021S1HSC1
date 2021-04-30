@@ -28,11 +28,12 @@ include:
   - HSC.global.vars.yml
   - HSC.login.yml
   - HSC.questions.yml
-  - HSC.read.data.yml
-  - HSC.service.constants.yml
-  - HSC.test.file.yml
-  - HSC.reset.data.yml
-  - HSC.service.import.main.yml
+  - HSC.csv.yml
+  #- HSC.read.data.yml
+  #- HSC.service.constants.yml
+  #- HSC.test.file.yml
+  #- HSC.reset.data.yml
+  #- HSC.service.import.main.yml
 ---
 #added HSC logo
 objects:
@@ -66,54 +67,12 @@ code: |
 ---
 #Will be able to update once I know the codes we are relying on. Jocelyn, happy to use your codes here. HG
 event: endpoints['final_screen']
-question: ""
-subquestion:  |
-  % if HAApets:
-  ### Services for Pets
-
-  Unfortunatly, the agencies listed here will not accept pets.
-  
-  Contact these agencies below to discuss alternative care options for your pet.
-
-  %for HAAdisplay_entry in HAAdisplay_pets:
-  ${ HAAdisplay_entry['display_record'].show() }
-  %endfor  
-  % endif
-  
-  % if HAAabor:
-  ### Services for Aboriginal and Torres Strait Islander people 
-
-  The below agencies provide emergency services for Aboriginal and 
-  Torres Strait Islander people.  
-  
-  Contact these agencies to dicuss the services they may be able to offer you. 
-
-  %for HAAdisplay_entry in HAAdisplay_atsi:
-  ${ HAAdisplay_entry['display_record'].show() }
-  %endfor  
-  % endif
-
-  % if HAAfamily == 'singles':
-  ### Services for you
-  % else:
-  ### Services for you and your family
-  % endif
-  
-  Based on your answers, you might be eligible for support from the 
-  following agencies.
-
-  You should contact them as soon as you can to try an arrange emergency housing.
-  
-  %for HAAdisplay_entry in HAAdisplay_other:
-  ${ HAAdisplay_entry['display_record'].show() }
-  %endfor
-  
-  ### Community Housing
-  
-  Further information on long term accommodation can be found 
-  on the [SA.GOV.AU website]  
+question: Done!
+subquestion: |
+  Fin
+  ${ test_var }
 attachment code: |
-  [HSC_print_out.docx]
+  HSCprintout
 buttons:
   - Exit: exit
     url: https://www.huttstcentre.org.au
@@ -126,13 +85,15 @@ attachment:
       - pdf
       - docx
     docx template file: HSC_print_out.docx
+    #docx template file: HSC_printout_test.docx
     variable name: HSCprintout
 ---
 event: endpoints['TERMineligible']
 question: Not Eligible
-subquestion:
+subquestion: |
   The disclaimer has not been understood and accepted.  Please exit the
   application or restart if you'd like to accept the disclaimer.
+buttons:
   - Exit: exit
     url: https://www.huttstcentre.org.au/
   - Restart: restart

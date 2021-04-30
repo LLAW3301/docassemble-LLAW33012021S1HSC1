@@ -4,15 +4,15 @@
 # Include the files you want to test in here
 include:
   - HSC.csv.yml
-  - HSC.get.qualifying.services.yml
-  - HSC.display.output.yml
-  - HSC.global.vars.yml
+  - HSC_get_qualifying_services.yml
+  - HSC_display_output.yml
+  - HSC_global_vars.yml
 ---
 mandatory: True
 code: |
   # hard coded shit, just for testing purposes
   HSCimport_message = "howdy"
-  HSCcouncil = 'Marion'
+  HSCcouncil = 'City of Marion'
   HSCage = 40
   HSCgender = 'Male'
   HSCfamily = 'Single'
@@ -55,7 +55,7 @@ data:
     address: ur moms house
     email: haha gets em everytime
 ---
-mandatory: True
+mandatory: False
 question: "testing that csv_import puts services in different lists for each council and that it gets stored in the datastore properly"
 subquestion: |
   ${ test_var }
@@ -66,13 +66,28 @@ subquestion: |
   
   % for service in HSCdata.get(key):
   
-  ${ service }
+  ${ service.values() }
   
   % endfor
   
   % endfor
   
   
+  #### and now, for something completely different
+  % for category in HSCqualifying_services.keys():
+  
+  ${ category }
+  
+  % for service in HSCqualifying_services.get(category):
+  
+  ${ service.values() }
+  
+  % endfor
+  % endfor
+  
+  
+  #### hhhhhhhhhh
+  ${ selected_services_test_collect.number() }
   
   
 #attachment:
@@ -80,7 +95,8 @@ subquestion: |
 #    filename: printout
 #    docx template file: HSC_printout_test.docx
 ---
-question: what kind of bear is best
+mandatory: True
+question: ???
 subquestion: |
   % for key in HSCdata.keys():
   
