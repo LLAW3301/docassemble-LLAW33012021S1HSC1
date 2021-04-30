@@ -1,0 +1,7 @@
+# Temporary(?) file for containing variables that are needed in other files
+# Basically just here until the whole thing comes together and we can
+# figure out a better way to give files access to the HSCdata object
+---
+objects:
+  - HSCdata: DAStore.using(base='global')
+---

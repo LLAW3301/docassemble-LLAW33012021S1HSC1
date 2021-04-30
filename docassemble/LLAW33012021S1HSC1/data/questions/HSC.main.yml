@@ -1,0 +1,113 @@
+# This is the main file for the HSC application 
+---
+metadata:
+  title: |
+    Hutt Street Centre Community Access Tool 
+  short title: |
+    Community Access Tool 
+  organisation: Flinders University
+  show login: True
+---
+#Jocelyn, can you please help me with inserting this code once we get the photo from HSC? HG This is the flinders logo below. Have inserted HSC one below 
+default screen parts:
+  post: |
+    <div style="display: flex; height: 200px; align-items: flex-end; flex-direction: row-reverse">
+    <div style="margin: 5px"><img src="https://staff.flinders.edu.au/etc.clientlibs/flinders/clientlibs/clientlib-site/resources/images/flinderuni_main_logo_black.png" height="40">
+    </div>
+    <div style="margin: 5px; text-align: right">
+    <cite><small><i>
+    Developed by Flinders University in collaboration with Hutt Street Centre
+    </i></small></cite>
+    </div>
+    </div>
+---
+#Will need to insert once we have the names of all the screens
+include:
+  - HSC.display.output.yml
+  - HSC.get.qualifying.services.yml
+  - HSC.global.vars.yml
+  - HSC.login.yml
+  - HSC.questions.yml
+  - HSC.csv.yml
+  #- HSC.read.data.yml
+  #- HSC.service.constants.yml
+  #- HSC.test.file.yml
+  #- HSC.reset.data.yml
+  #- HSC.service.import.main.yml
+---
+#added HSC logo
+objects:
+  - HSCqualifying_agencies: DAList.using(there_are_any=True, auto_gather=False)
+  - HSClogo: DAStaticFile.using(filename='HSC_LOGO.jpg')
+  - endpoints: DADict
+---
+# J to play around with this workding. 
+features:
+  css: X2.01.SACAT.css
+  debug: True
+  hide standard menu: False
+---
+#HG not amended
+mandatory: True
+code: |
+  # The string below creates the HTML and  inserts into it the logo contained in 
+  # the file HSClogo using the python format() method 
+  HAAlogostring = '<div class="media"><img src="{}" class="mr-3" height="50"><div class="media-body"></div></div>'.format(HSClogo.url_for())
+
+  # Once we've created the string we use set_parts() to set our new logo metadata
+  set_parts(logo=HAAlogostring)
+---
+# Is this the section where the code will move the user to the welcome screen?  of from the welcome screen, if they 'run app' the end screen there? - HG
+mandatory: True
+code: |
+  if HSCeligible:
+    endpoints['final_screen']
+  else:
+    endpoints['TERMineligible']
+---
+#Will be able to update once I know the codes we are relying on. Jocelyn, happy to use your codes here. HG
+event: endpoints['final_screen']
+question: Done!
+subquestion: |
+  Fin
+  ${ test_var }
+attachment code: |
+  HSCprintout
+buttons:
+  - Exit: exit
+    url: https://www.huttstcentre.org.au
+  - Restart: restart
+---
+attachment: 
+  - name: Hutt Street Centre Community Access Tool 
+    filename: Result Printout
+    valid formats:
+      - pdf
+      - docx
+    docx template file: HSC_print_out.docx
+    #docx template file: HSC_printout_test.docx
+    variable name: HSCprintout
+---
+event: endpoints['TERMineligible']
+question: Not Eligible
+subquestion: |
+  The disclaimer has not been understood and accepted.  Please exit the
+  application or restart if you'd like to accept the disclaimer.
+buttons:
+  - Exit: exit
+    url: https://www.huttstcentre.org.au/
+  - Restart: restart
+---
+event: endpoints['PCineligible']
+question: Not Eligible
+subquestion:
+  This application does not include information relating to the council you have 
+  inserted.  If you would like to restart with a different post code 
+  please restart.
+#I'm not sure if HSC want to have this as an internal address like an 
+#intranet 
+buttons:
+  - Exit: exit
+    url: https://www.huttstcentre.org.au/
+  - Restart: restart
+---
