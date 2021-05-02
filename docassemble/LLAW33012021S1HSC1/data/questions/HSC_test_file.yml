@@ -8,14 +8,11 @@ include:
   - HSC_display_output.yml
   - HSC_global_vars.yml
 ---
-objects:
-  - services_shit: DAList
----
 mandatory: True
 code: |
   # hard coded shit, just for testing purposes
   HSCimport_message = "howdy"
-  HSCcouncil = 'Marion'
+  HSCcouncil = 'City of Marion'
   HSCage = 40
   HSCgender = 'Male'
   HSCfamily = 'Single'
@@ -58,7 +55,7 @@ data:
     address: ur moms house
     email: haha gets em everytime
 ---
-mandatory: True
+mandatory: False
 question: "testing that csv_import puts services in different lists for each council and that it gets stored in the datastore properly"
 subquestion: |
   ${ test_var }
@@ -98,24 +95,22 @@ subquestion: |
 #    filename: printout
 #    docx template file: HSC_printout_test.docx
 ---
-code: |
-  index = 0
-  while index < HSCqualifying_services.number():
-    services_shit[index] = selected_services_test_collect[index]
-    index += index
-  services_shit.there_are_any = False
----
+mandatory: True
 question: what kind of bear is best
 subquestion: |
+  ${ test_var }
   % for key in HSCdata.keys():
   
   ${ key }
   
-  ${ HSCdata.get(key) }
+  % for service in HSCdata.get(key):
+  
+  ${ service['Category'] }
+  
+  % endfor
   % endfor
   
   #### testing the contents of the database are actually dictionaries
-  ${ test_var }
   
   % for key in HSCdata.keys():
   
@@ -124,6 +119,7 @@ subquestion: |
   % endfor
   
   #### and now, for something completely different
+
   % for category in HSCqualifying_services.keys():
   
   ${ category }
@@ -134,3 +130,11 @@ subquestion: |
   
   % endfor
   % endfor
+  
+  ${ test_var_2 }
+
+attachment:
+  - name: Test Doc
+    filename: printout
+    docx template file: HSC_printout_test.docx
+---

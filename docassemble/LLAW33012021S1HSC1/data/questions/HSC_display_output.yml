@@ -20,7 +20,9 @@ content: |
   howdy
 ---
 objects:
-  - selected_services_test_collect: DAList.using(auto_gather=True, there_are_any=True)
+  - selected_services_test_collect: DAList.using(auto_gather=True, there_are_any=True, minimum_number=HSCqualifying_services.number())
+  - service_names: DAList.using(auto_gather = False)
+  - service_names_by_category: DAList.using(auto_gather=False)
 ---
 code: |
   for key in HSCqualifying_services.keys():
@@ -48,17 +50,24 @@ fields:
       
       
 ---
+code: |
+  for category in HSCqualifying_services.keys():
+    selected_services_test_collect.appendObject()
+  test_var_2 = 0
+---
 # testing using list collect
 question: Here they be again
 subquestion: |
   blah blah blah
   
 fields:
-  - no label: selected_services_test_collect[i]
+  - no label: selected_services_test_collect[i] # a DAList of dictionaries of services mapping to boolean values
     datatype: checkboxes
     code: |
       #HSCqualifying_services.keys()
-      HSCqualifying_services.get(HSCqualifying_services.keys()[i])
+      #HSCqualifying_services.get(HSCqualifying_services.keys()[i])
+      #service_names
+      service_names_by_category[i]
 list collect:
   enable: not selected_services_test_collect.has_been_gathered()
   #i < HSCqualifying_services.number()
@@ -67,9 +76,46 @@ list collect:
   allow append: False
   allow delete: False
   label: |
-    ###${ HSCqualifying_services.keys() } ${ i } ${ HSCqualifying_services.number() }
+    ###${ HSCqualifying_services.keys()[i] } ${ i } ${ HSCqualifying_services.number() }
 ---
-
+# WORKS!!!
+# well kinda
+# this allows us to display each service name as a checkbox, but it still only does it for a single category, ie i never increments
+code: |
+  category_list = HSCqualifying_services.keys()
+  current_category = category_list[i]
+  services = HSCqualifying_services.get(current_category) # a list of dicts representing the services
+  
+  # go through each service in the list, and append each of the names to the new list
+  for service in services:
+    service_names.append(service['Service Name'])
+  service_names.gathered = True
+  #service_names = services#['Service Name']
+---
+# we can instead try to make it a list of lists, ie a list containing the list of service names for each category, and then call service_names_by_category[i] in the checkboxes
+# maybe this will make it so it prints the checkboxes for each category??
+code: |
+  category_list = HSCqualifying_services.keys()
+  service_names_temp = []
+  for current_category in category_list:
+    services = HSCqualifying_services.get(current_category) # the list of dicts representing the services of the current category
+    
+    # then, iterate through each service in the current list, and append each of the names to a new list
+    #service_names.gathered = False
+    #service_names.clear()
+    service_names_temp = []
+    for service in services:
+      service_names_temp.append(service['Service Name'])
+    #service_names.gathered = True
+    
+    service_names_by_category.append(service_names_temp)
+    
+  service_names_by_category.gathered = True
+  service_names_by_category[i] = service_names_by_category[i]
+---
+code: |
+  selected_services_test_collect.there_is_another = True
+---
 
 
 # no filtering, hard coded categories
