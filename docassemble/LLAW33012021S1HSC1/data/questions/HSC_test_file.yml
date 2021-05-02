@@ -96,25 +96,68 @@ subquestion: |
 #    docx template file: HSC_printout_test.docx
 ---
 mandatory: True
-question: ???
+code: |
+  read_data_from_dastore
+  write_data_to_dastore
+  the_last_bit
+---
+question: Read data from DAstore (first time)
 subquestion: |
-  % for key in HSCdata.keys():
-  
-  ${ key }
-  
-  ${ HSCdata.get(key) }
-  % endfor
-  
-  #### testing the contents of the database are actually dictionaries
-  ${ test_var }
+  #### Read in data from the `HSCdata` DAStore
   
   % for key in HSCdata.keys():
-  
-  ${ HSCdata.get(key).object_type }
-  
+  - `${ key }` Value: `${ HSCdata.get(key) }`
   % endfor
+continue button field: read_data_from_dastore
+---
+# Split into two question blocks so we can separate the reads and the writes
+question: Write data to DAStore
+subquestion: |
+  #### Write the data into `HSCdata`
+
+  We do this by looking for `write_HSCdata`.  Should be True --> `${ write_HSCdata }
+
+  #### Here's what's in `csv_data`
+
+  %for key in csv_data.keys():
+  - Key: `${ key }` Value: `${ csv_data[key] }`
+  %endfor
+
+  #### Read in data from `HSCdata` DAStore again
+
+  % for key in HSCdata.keys():
+  - Key: `${ key }` Value: `${ HSCdata.get(key) }`
+  % endfor
+continue button field: write_data_to_dastore
+---
+question: The last bit
+subquestion: |
+  #### and now, for something completely different
+
+  (Not sure what this is for but anyway...  I'll work it out!)
+
+  % for category in HSCqualifying_services.keys():
+  **Category: ${ category }**
+  
+  % for service in HSCqualifying_services.get(category):
+  - Service Values: ${ service.values() }
+  % endfor
+  % endfor
+continue button field: the_last_bit
+---
+question: Parking space
+subquestion: |
+  Just parking this here.
+  
+  % for key in HSCdata.keys():
+  - Key: `${ key }` Object type: `${ HSCdata.get(key).object_type }`
+  % endfor
+
   
   #### and now, for something completely different
+
+  (Not sure what this is for but anyway...  I'll work it out!)
+
   % for category in HSCqualifying_services.keys():
   
   ${ category }

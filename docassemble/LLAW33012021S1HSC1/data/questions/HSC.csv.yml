@@ -17,7 +17,11 @@ code: |
   #csv_data.clear()
   #csv_data = DADict()
   csv_data.clear()
-  csv_data.object_type = DAList
+
+  # Don't need this as we're storing a python dictionary into csv_data
+  # and not a DAList
+  # csv_data.object_type = DAList
+
   #for key in HSCdata.keys():
   #  HSCdata.delete(key)
   # Read the data into a CSV object
@@ -57,12 +61,20 @@ code: |
     # Increment the loop index
     index += 1
     
-  #csv_data.gathered = True
+  # This should be the last line in this code block as it
+  # indicates to Docassemble that all the CSV data has been
+  # processed.  Any other processing after all the data has
+  # been gathered should take place in another code block.
   csv_data.gathered = True              # NECESSARY
+---
+# The rest of this code is not required.  I'm just parking it here
+code: |
   #csv_data_copy = csv_data.split()
-  for key in csv_data.keys():
-    csv_data[key].gathered = True        # NECESSARY
-    csv_data[key].last().there_is_another = False
+
+  # Should not need these next three lines
+  # for key in csv_data.keys():
+  #   csv_data[key].gathered = True        # NECESSARY
+  #   csv_data[key].last().there_is_another = False
     #for service in csv_data[key]:
     #  if service != csv_data[key].last():
     #    service.there_is_another = True
@@ -71,7 +83,7 @@ code: |
     #csv_data[key].last().there_is_another = False
     #csv_data[key].there_is_another = False
     #csv_data[key][max(csv_data[key].number() - 1, 0)].there_is_another = False
-    HSCdata.set(key, csv_data[key])
+    # HSCdata.set(key, csv_data[key])
     #HSCdata.get(key).gathered = True
     #HSCdata.get(key).set_object_type(DAList)
     #undefine('csv_data[key]')
@@ -82,6 +94,22 @@ code: |
   
   #undefine('csv_data')
   test_var = 0
+---
+# And I'll create a new code block to set the data in HSCdata
+code: |
+  # The key is a council.  The value of the key is a dictionary
+  # containing council information.  See the csv_data.gathered code
+  # block for more information
+
+  # We clear out data in the HSCdata first
+  for key in HSCdata.keys():
+    HSCdata.delete(key)
+  
+  # And then write the new data in
+  for key in csv_data:
+    HSCdata.set(key, csv_data[key])
+
+  write_HSCdata = True
 ---
 question: Import CSV File
 subquestion: |
