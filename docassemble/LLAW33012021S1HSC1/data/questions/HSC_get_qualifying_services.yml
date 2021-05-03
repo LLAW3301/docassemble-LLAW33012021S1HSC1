@@ -3,6 +3,7 @@ objects:
   - HSCqualifying_services: DADict.using(auto_gather=False, there_are_any=True, object_type=DAList)
   - eligibility_test: DAList
  # - council_services: DAList
+  - current_service: DADict
 ---
 # Go through the list that corresponds to the selected council.
 # extract all the qualifying services and put them in a list
@@ -22,12 +23,14 @@ code: |
     #i = -1
     #it = 0
     # go through the returned list and extract all eligible services
-    for service in council_services:
+    for current_service in council_services:
       # for each service, run the appropriate eligibility tests
       #i += 1
       #if council_services[it]['age_test']:
       #if (service['age_test']) and (service['gender_test']) and (service['family_test']) and (service['concessions_test']) and (service['others_test']):
-      if (int(service['Min Age']) <= HSCage) and (int(service['Max Age']) >= HSCage):
+      #if (int(service['Min Age']) <= HSCage) and (int(service['Max Age']) >= HSCage):
+      #if age_test and gender_test and family_test and concessions_test and others_test:
+      if True:
       #if eligibility_test[it]:#service['age_test']:#service.item('age_test'):
       # test for gender
       # test for age
@@ -36,9 +39,10 @@ code: |
       # test for other factors
     
         # if it passes them all, then add it to it's corresponding category list
-        temp_list = HSCqualifying_services.get(service.get('Category'))
-        temp_list.append(service)
-        HSCqualifying_services[service.get('Category')] = temp_list
+        temp_list = HSCqualifying_services.get(current_service.get('Category'))
+        temp_list.append(current_service)
+        HSCqualifying_services[current_service.get('Category')] = temp_list
+        #HSCqualifying_services[current_service.get('Category')].there_are_any = True
         #HSCqualifying_services[service['Category']].append(service)
 
       #it += 1
@@ -46,12 +50,43 @@ code: |
     HSCqualifying_services.gathered = True
     for category in HSCqualifying_services:        # NECESSARY
       HSCqualifying_services[category].there_is_another = False
+      #HSCqualifying_services[category].there_are_any = True
   else:
     # else, if there are no services at the given council area, return an empty dictionary
-    HSCqualifying_services = {}
+    #HSCqualifying_services = {}
     HSCqualifying_services.gathered = True
     #HSCqualifying_services.there_are_any = False
 ---
+# test for age eligibility
+generic object: DAList
+code: |  
+  age_test = (int(current_service['Min Age']) <= HSCage) and (int(current_service['Max Age']) >= HSCage)
+---
+# test for gender eligibility
+code: |
+  gender_test = (current_service[HSCgender] == 'TRUE')
+---
+# test for family situation eligibility
+code: |
+  family_test = HSCchildren#(current_service[HSCchildren] == 'TRUE')
+---
+# test for eligibility with concessions
+code: |
+  # return false if the services do not pertain to the client's concessions
+  for concession in HSCconcession.true_values():
+    if current_service[concession] != 'TRUE':
+      concessions_test = False
+  concessions_test = True # else, return true
+---
+# test for eligibility with other factors
+code: |
+  # return false if the services do not pertain to the client's details
+  for factor in HSCfactor.true_values():
+    if current_service[factor] != 'TRUE':
+      others_test = False
+  others_test = True # else, return true
+---
+
 # test for age eligibility
 generic object: DAList
 code: |

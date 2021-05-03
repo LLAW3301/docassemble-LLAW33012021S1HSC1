@@ -23,10 +23,10 @@ default screen parts:
 ---
 #Will need to insert once we have the names of all the screens
 include:
-  #- HSC.display.output.yml
-  #- HSC.get.qualifying.services.yml
-  - HSC_display_output.yml
-  - HSC_get_qualifying_services.yml
+  - HSC.display.output.yml
+  - HSC.get.qualifying.services.yml
+  #- HSC_display_output.yml
+  #- HSC_get_qualifying_services.yml
   - HSC.global.vars.yml
   - HSC.login.yml
   - HSC.questions.yml
@@ -72,7 +72,15 @@ event: endpoints['final_screen']
 question: Done!
 subquestion: |
   Fin
-  ${ write_HSCdata }
+  <% write_HSCdata %>
+  <% HSCcouncil %>
+  <% HSCage %>
+  <% HSCgender %>
+  <% HSCchildren %>
+  <% HSCconcession %>
+  <% HSCfactor %>
+  <% HSCqualifying_services.keys() %>
+  ${ HSCqualifying_services.values() }
 attachment code: |
   HSCprintout
 buttons:

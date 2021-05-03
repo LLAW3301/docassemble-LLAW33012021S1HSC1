@@ -2,199 +2,99 @@
 include:
   - HSC.get.qualifying.services.yml
 ---
-# The template used for final display of services
-template: x[i]['display_service']
-content: |
-  idk it would look like something
-  ${ x[i].item('phone') }
----
-template: service['Display']
-content: |
-  ${ service['Service Name'] } 
-  ${ service['Council'] }
----
-template: something
-subject: |
-  sdfds
-content: | 
-  howdy
----
 objects:
-  - selected_services_test_collect: DAList.using(auto_gather=True, there_are_any=True)
-#  - selected_services_key: DADict.using(auto_gather=True, there_are_any=True)
----
-code: |
-  for key in HSCqualifying_services.keys():
-    template_var = HSCqualifying_services.get(key)
----
-code: |
-  HSCtemplates = []
-  # for each service, add it to the templates list in the template form
-  for category in HSCqualifying_services.keys():
-    for service in HSCqualifying_services[category]:
-      HSCtemplates.append(service['Display'])
----
-question: here the services
-subquestion: |
-  blahblah
-  
-fields:
-  - note: |
-      ${ something }
-  - no label: selected_services_test
-    datatype: checkboxes
-    code: |
-      template_var[i]['Service Name']
-      #HSCqualifying_services.keys()[i]
-      
-      
----
-# testing using list collect
-question: Here they be again
-subquestion: |
-  blah blah blah
-  
-fields:
-  - no label: selected_services_test_collect[i]
-    datatype: checkboxes
-    code: |
-      #HSCqualifying_services.keys()
-      some_list
-      #HSCqualifying_services.get(HSCqualifying_services.keys()[i])
-list collect:
-  enable: True
-  #not selected_services_test_collect.has_been_gathered()
-  #i < HSCqualifying_services.number()
-  #not selected_services_test_collect.has_been_gathered()
-  is final: True
-  allow append: False
-  allow delete: False
-  label: |
-    ###${ HSCqualifying_services.keys() } ${ i } ${ HSCqualifying_services.number() }
----
-code: |
-  HSCqualifying_services[HSCqualifying_services.keys()[i]].gather()
-  some_list = HSCqualifying_services.get(HSCqualifying_services.keys()[i])
----
-#code: |
-  #for key in HSCqualifying_services.keys():
-    #for service in HSCqualifying_services.get(key):
-      #service.there_is_another = False
-  #HSCqualifying_services['City of Marion'][0].there_is_another = False
+  - qualifying_health: DAList.using(auto_gather=False)
+  - qualifying_key: DAList.using(auto_gather=False)
+  - qualifying_social: DAList.using(auto_gather=False)
+  - qualifying_advocacy: DAList.using(auto_gather=False)
+  - qualifying_other: DAList.using(auto_gather=False)
 ---
 # no filtering, hard coded categories
 question: Here them services
 subquestion: |
-  sdkfjlsdkjfa;lskdfja;lsdkjf;alsekdf
-  
+  Select em
+
 fields:
   - note: |
       ## Key Social Services:
   - no label: selected_services_key
     datatype: checkboxes
     code: |
-      HSCqualifying_services.get('Key Service')
+      qualifying_key
+    none of the above: False
+    required: False
   - note: |
       ## Health and Wellbeing Services:
   - no label: selected_services_health
     datatype: checkboxes
     code: |
-      HSCqualifying_services.get('Health and Wellbeing')
+      qualifying_health
+    none of the above: False
+    required: False
   - note: |
       ## Social and Community Services:
   - no label: selected_services_social
     datatype: checkboxes
     code: |
-      HSCqualifying_services.get('Social and Community')
+      #HSCqualifying_services.get('Social and Community')
+      qualifying_social
+    none of the above: False
+    required: False
   - note: |
       ## Advocacy Groups:
   - no label: selected_services_advocacy
     datatype: checkboxes
     code: |
-      HSCqualifying_services.get('Advocacy Groups')
+      #HSCqualifying_services.get('Advocacy Groups')
+      qualifying_advocacy
+    none of the above: False
+    required: False
   - note: |
       ## Other Services:
   - no label: selected_services_other
     datatype: checkboxes
     code: |
-      HSCqualifying_services.get('Other')
+      #HSCqualifying_services.get('Other')
+      qualifying_other
+    none of the above: False
+    required: False
   
 ---
-# doesn't filter, just lists each by category
-question: Here them services
-subquestion: |
-  blahblahblah
-  
-fields:
-  - no label: selected_services_nonfiltered
-    datatype: checkboxes
-    code: |
-      HSCtemplates
+# if there_are_any attribute is not already defined for a list in HSCqualifying_services, then there are no services mapped to that particular category
+generic object: DAList
+code: | 
+  x.there_are_any = False
 ---
+# returns a list of service names and descriptions for services under the 'Key Service' category
 code: |
-  HSCcategorised = HSCqualifying_services['Health and Wellbeing']
-  #HSCcategorised = []
-  #for category in categories.true_values():
-  #  HSCcategorised = HSCqualifying_services[category]
+  #qualifying_key = []
+  if HSCqualifying_services.get('Key Service').there_are_any:
+    for service in HSCqualifying_services.get('Key Service'):
+      qualifying_key.append({service['Service Name']: service['Service Name'] + "[BR]" + service['Service Name']})
+  qualifying_key.gathered = True
 ---
-# filters by categories (not hard-coded but also not working)
-question: "something"
-subquestion: |
-  Something something them's the services
-fields:
-  - no label: categories
-    datatype: checkboxes
-    code: |
-      HSCqualifying_services.keys()
-  - no label: selected_services
-    datatype: checkboxes
-    code: |
-      HSCqualifying_services
-      
-      
-      
+# returns a list of service names and descriptions for services under the 'Health and Wellbeing' category
+code: |
+  #qualifying_health = []
+  for service in HSCqualifying_services.get('Health and Wellbeing'):
+    qualifying_health.append({service['Service Name']: service['Service Name'] + "[BR]" + service['Service Name']})
+  qualifying_health.gathered = True
 ---
-# filters by categories (categories hard-coded)
-mandatory: False
-question: "we testin"
-subquestion: |
-  Some spiel about the service listing.
-fields:
-  - no label: categories_to_show
-    datatype: checkboxes
-    choices:
-      - Health and Wellbeing: show_health
-      - Key Services: show_key
-    # this can pre easily be the keys of any arbitrary dictionary item
-      #HSClist_of_dicts_test
-  - note: |
-      ## Health and Wellbeing:
-      can include other shit here
-      and can only show if it meets the same criteria below
-  - no label: selected_services
-    datatype: checkboxes
-    code: |
-      HSCqualifying_services['Health and Wellbeing']
-    show if:
-      variable: categories_to_show['show_health']
-      is: True
-    
+# returns a list of service names and descriptions for services under the 'Social and Community' category
+code: |
+  for service in HSCqualifying_services.get('Social and Community'):
+    qualifying_social.append({service['Service Name']: service['Service Name'] + "[BR]" + service['Service Name']})
+  qualifying_social.gathered = True
 ---
-# TESTING BLOCK FOR DISPLAYING SERVICES AS CHECKBOXES
-# so, using a dictionary as a choice will just list all it's keys
-# can use a list of objects for users to select from
-# but then will print dictionaries weird, may want to extract a list
-# of service names from our list first and use that as the choices?
-mandatory: False
-question: "we testin again"
-subquestion: |
-  Some spiel about the service listing.
-fields:
-  - no label: selected_services
-    datatype: checkboxes
-    code: |
-      HSClist_of_dicts_test
-      
-      
-      
+# returns a list of service names and descriptions for services under the 'Advocacy Groups' category
+code: |
+  for service in HSCqualifying_services.get('Advocacy Groups'):
+    qualifying_advocacy.append({service['Service Name']: service['Service Name'] + "[BR]" + service['Service Name']})
+  qualifying_advocacy.gathered = True
+---
+# returns a list of service names and descriptions for services under the 'Other Services' category
+code: |
+  for service in HSCqualifying_services.get('Other'):
+    qualifying_other.append({service['Service Name']: service['Service Name'] + "[BR]" + service['Service Name']})
+  qualifying_other.gathered = True
 ---

@@ -84,11 +84,11 @@ fields:
   - no label: HSCconcession
     datatype: checkboxes
     choices:
-     - "Health Care Card": hcc
-     - "Seniors Card": seniors
-     - "Department of Veteran Affairs Card": dva
-     - "Disability Support Pension": dsp
-     - "Student": student
+     - "Health Care Card" #: hcc
+     - "Seniors Card" #: seniors
+     - "Department of Veteran Affairs Card" #: dva
+     - "Disability Support Pension" #: dsp
+     - "Student" #: student
 ---
 question: |
   Do you identify as Aboriginal or Torres Strait Islander?
@@ -100,10 +100,10 @@ fields:
   - no label: HSCfactor
     datatype: checkboxes
     choices:
-     - "Disability": disability 
-     - "ESL": ESL
-     - "Immigrant": immigrant
-     - "Migrant": migrant
-     - "Refugee": refugee
-     - "LGBTQIA": LGBTQIA
+     - "Disability" #: disability 
+     - "ESL" #: ESL
+     - "Immigrant" #: immigrant
+     - "Migrant" #: migrant
+     - "Refugee" #: refugee
+     - "LGBTQIA" #: LGBTQIA
 --- 

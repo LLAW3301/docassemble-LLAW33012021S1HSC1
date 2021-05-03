@@ -23,6 +23,12 @@ objects:
   - selected_services_test_collect: DAList.using(auto_gather=True, there_are_any=False, minimum_number=HSCqualifying_services.number())
   - service_names: DAList.using(auto_gather = False)
   - service_names_by_category: DAList.using(auto_gather=False)
+  - qualifying_health: DAList.using(auto_gather=False)
+  - qualifying_key: DAList.using(auto_gather=False)
+  - qualifying_social: DAList.using(auto_gather=False)
+  - qualifying_advocacy: DAList.using(auto_gather=False)
+  - qualifying_other: DAList.using(auto_gather=False)
+  
 ---
 code: |
   for key in HSCqualifying_services.keys():
@@ -139,7 +145,7 @@ yesno: selected_services_test_collect.there_is_another
 question: Here them services
 subquestion: |
   sdkfjlsdkjfa;lskdfja;lsdkjf;alsekdf
-  
+
 fields:
   - note: |
       ## Key Social Services:
@@ -162,7 +168,8 @@ fields:
   - no label: selected_services_social
     datatype: checkboxes
     code: |
-      HSCqualifying_services.get('Social and Community')
+      #HSCqualifying_services.get('Social and Community')
+      qualifying_social
     none of the above: False
     required: False
   - note: |
@@ -170,7 +177,8 @@ fields:
   - no label: selected_services_advocacy
     datatype: checkboxes
     code: |
-      HSCqualifying_services.get('Advocacy Groups')
+      #HSCqualifying_services.get('Advocacy Groups')
+      qualifying_advocacy
     none of the above: False
     required: False
   - note: |
@@ -178,14 +186,17 @@ fields:
   - no label: selected_services_other
     datatype: checkboxes
     code: |
-      HSCqualifying_services.get('Other')
+      #HSCqualifying_services.get('Other')
+      qualifying_other
     none of the above: False
     required: False
   
 ---
 # this is for the hard coded category list, making sure nothing is displayed if there are no services for that category
+# if there_are_any attribute is not already defined for a list in HSCqualifying_services, then there are no services mapped to that particular category
 generic object: DAList
 code: | 
+  #if 
   x.there_are_any = False
 ---
 template: service_checkbox
@@ -203,11 +214,11 @@ content: |
       #qualifying_key.append(service['Service Name'] + "[BR]" + service['Service Name'])
   #qualifying_key.gathered = True
 ---
-code: |
-  qualifying_health = []
-  if HSCqualifying_services.get('Health and Wellbeing').there_are_any:
-    for service in HSCqualifying_services.get('Health and Wellbeing'):
-      qualifying_health.append(service['Service Name'])
+#code: |
+##  qualifying_health = []
+#  if HSCqualifying_services.get('Health and Wellbeing').there_are_any:
+#    for service in HSCqualifying_services.get('Health and Wellbeing'):
+#      qualifying_health.append(service['Service Name'])
 ---
 # generic 
 # returns a list of service names and descriptions 
@@ -215,9 +226,21 @@ code: |
   qualifying_key = []
   if HSCqualifying_services.get('Key Service').there_are_any:
     for service in HSCqualifying_services.get('Key Service'):
+      #qualifying_key.append(service['Service Name'])
       qualifying_key.append({service['Service Name']: service['Service Name'] + "[BR]" + service['Service Name']})
 ---
-
+generic object: DAList
+code: |
+  #x = []
+  x.clear()
+  for service in HSCqualifying_services.get('Health and Wellbeing'):
+    x.append({service['Service Name']: service['Service Name'] + "[BR]" + service['Service Name']})
+  category_index += 1
+  x.gathered = True
+---
+code: |
+  category_index = 0
+---
 
 
 # doesn't filter, just lists each by category

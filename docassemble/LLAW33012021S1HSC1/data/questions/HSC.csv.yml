@@ -47,7 +47,7 @@ code: |
     # Iterate through the rest of the elements and populate the CSV record
     j = 0
     for an_element in elements:
-      a_row[row_headers[j]] = an_element
+      a_row[row_headers[j]] = an_element#str(an_element.encode("utf-8", 'strict'))
       j += 1
  
     # here is where we'd need to append the a_row to the appropriate list

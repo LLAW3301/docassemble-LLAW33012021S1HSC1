@@ -83,7 +83,7 @@ subquestion: |
   % for category in HSCqualifying_services.keys():
   
   ${ category }
-  
+
   % for service in HSCqualifying_services.get(category):
   
   ${ service.values() }
