@@ -8,14 +8,11 @@ include:
   - HSC_display_output.yml
   - HSC_global_vars.yml
 ---
-objects:
-  - services_shit: DAList
----
 mandatory: True
 code: |
   # hard coded shit, just for testing purposes
   HSCimport_message = "howdy"
-  HSCcouncil = 'Marion'
+  HSCcouncil = 'City of Marion'
   HSCage = 40
   HSCgender = 'Male'
   HSCfamily = 'Single'
@@ -59,63 +56,21 @@ data:
     email: haha gets em everytime
 ---
 mandatory: True
-question: "testing that csv_import puts services in different lists for each council and that it gets stored in the datastore properly"
+question: what kind of bear is best
 subquestion: |
-  ${ test_var }
-  
+  ${ write_HSCdata }
   % for key in HSCdata.keys():
   
   ${ key }
   
   % for service in HSCdata.get(key):
   
-  ${ service.values() }
+  ${ service['Category'] }
   
   % endfor
-  
-  % endfor
-  
-  
-  #### and now, for something completely different
-  % for category in HSCqualifying_services.keys():
-  
-  ${ category }
-  
-  % for service in HSCqualifying_services.get(category):
-  
-  ${ service.values() }
-  
-  % endfor
-  % endfor
-  
-  
-  #### hhhhhhhhhh
-  ${ selected_services_test_collect.number() }
-  
-  
-#attachment:
-#  - name: Test Doc
-#    filename: printout
-#    docx template file: HSC_printout_test.docx
----
-code: |
-  index = 0
-  while index < HSCqualifying_services.number():
-    services_shit[index] = selected_services_test_collect[index]
-    index += index
-  services_shit.there_are_any = False
----
-question: what kind of bear is best
-subquestion: |
-  % for key in HSCdata.keys():
-  
-  ${ key }
-  
-  ${ HSCdata.get(key) }
   % endfor
   
   #### testing the contents of the database are actually dictionaries
-  ${ test_var }
   
   % for key in HSCdata.keys():
   
@@ -124,6 +79,7 @@ subquestion: |
   % endfor
   
   #### and now, for something completely different
+
   % for category in HSCqualifying_services.keys():
   
   ${ category }
@@ -134,3 +90,54 @@ subquestion: |
   
   % endfor
   % endfor
+  
+  ${ test_var_2 }
+
+attachment:
+  - name: Test Doc
+    filename: printout
+    docx template file: HSC_print_out_test_specific.docx
+---
+mandatory: True
+code: |
+  read_data_from_dastore
+  write_data_to_dastore
+  the_last_bit
+---
+question: Read data from DAstore (first time)
+subquestion: |
+  #### Read in data from the `HSCdata` DAStore
+  
+  % for key in HSCdata.keys():
+  - `${ key }` Value: `${ HSCdata.get(key) }`
+  % endfor
+continue button field: read_data_from_dastore
+---
+# Split into two question blocks so we can separate the reads and the writes
+question: Write data to DAStore
+subquestion: |
+  #### Write the data into `HSCdata`
+  We do this by looking for `write_HSCdata`.  Should be True --> `${ write_HSCdata }
+  #### Here's what's in `csv_data`
+  %for key in csv_data.keys():
+  - Key: `${ key }` Value: `${ csv_data[key] }`
+  %endfor
+  #### Read in data from `HSCdata` DAStore again
+  % for key in HSCdata.keys():
+  - Key: `${ key }` Value: `${ HSCdata.get(key) }`
+  % endfor
+continue button field: write_data_to_dastore
+---
+question: The last bit
+subquestion: |
+  #### and now, for something completely different
+  (Not sure what this is for but anyway...  I'll work it out!)
+  % for category in HSCqualifying_services.keys():
+  **Category: ${ category }**
+  
+  % for service in HSCqualifying_services.get(category):
+  - Service Values: ${ service.values() }
+  % endfor
+  % endfor
+continue button field: the_last_bit
+---

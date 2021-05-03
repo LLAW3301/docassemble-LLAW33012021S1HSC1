@@ -20,7 +20,9 @@ content: |
   howdy
 ---
 objects:
-  - selected_services_test_collect: DAList.using(auto_gather=True, there_are_any=True)
+  - selected_services_test_collect: DAList.using(auto_gather=True, there_are_any=False, minimum_number=HSCqualifying_services.number())
+  - service_names: DAList.using(auto_gather = False)
+  - service_names_by_category: DAList.using(auto_gather=False)
 ---
 code: |
   for key in HSCqualifying_services.keys():
@@ -48,28 +50,89 @@ fields:
       
       
 ---
+code: |
+  for category in HSCqualifying_services.keys():
+    selected_services_test_collect.appendObject(DADict)
+  #selected_services_test_collect.there_is_another = False
+  #selected_services_test_collect.gathered = True
+  test_var_2 = 0
+---
+code: |
+  selected_services_test_collect[i].there_are_any = False
+---
 # testing using list collect
 question: Here they be again
 subquestion: |
   blah blah blah
   
 fields:
-  - no label: selected_services_test_collect[i]
+  - no label: selected_services_test_collect[i] # a DAList of dictionaries of services mapping to boolean values
     datatype: checkboxes
     code: |
       #HSCqualifying_services.keys()
-      HSCqualifying_services.get(HSCqualifying_services.keys()[i])
+      #HSCqualifying_services.get(HSCqualifying_services.keys()[i])
+      #service_names
+      service_names_by_category[i]
+    none of the above: False
+    required: False
 list collect:
   enable: not selected_services_test_collect.has_been_gathered()
   #i < HSCqualifying_services.number()
   #not selected_services_test_collect.has_been_gathered()
-  is final: True
+  is final: False
   allow append: False
   allow delete: False
   label: |
-    ###${ HSCqualifying_services.keys() } ${ i } ${ HSCqualifying_services.number() }
+    ###${ HSCqualifying_services.keys()[i] }
 ---
-
+# WORKS!!!
+# well kinda
+# this allows us to display each service name as a checkbox, but it still only does it for a single category, ie i never increments??
+code: |
+  category_list = HSCqualifying_services.keys()
+  current_category = category_list[i]
+  services = HSCqualifying_services.get(current_category) # a list of dicts representing the services
+  
+  # go through each service in the list, and append each of the names to the new list
+  for service in services:
+    service_names.append(service['Service Name'])
+  service_names.gathered = True
+  #service_names = services#['Service Name']
+---
+# we can instead try to make it a list of lists, ie a list containing the list of service names for each category, and then call service_names_by_category[i] in the checkboxes
+# maybe this will make it so it prints the checkboxes for each category??
+code: |
+  category_list = HSCqualifying_services.keys()
+  service_names_temp = []
+  for current_category in category_list:
+    services = HSCqualifying_services.get(current_category) # the list of dicts representing the services of the current category
+    
+    # then, iterate through each service in the current list, and append each of the names to a new list
+    #service_names.gathered = False
+    #service_names.clear()
+    service_names_temp = []
+    for service in services:
+      service_names_temp.append(service['Service Name'])
+    #service_names.gathered = True
+    
+    service_names_by_category.append(service_names_temp)
+    
+  service_names_by_category.gathered = True
+  service_names_by_category[i] = service_names_by_category[i]
+---
+#code: |
+  #if i >= HSCqualifying_services.number() or selected_services_test_collect.has_been_gathered():
+    #selected_services_test_collect.there_is_another = False
+  #else:
+  #selected_services_test_collect.there_is_another = True
+---
+question: |
+  Are there any more fruit?
+yesno: selected_services_test_collect.there_is_another
+---
+#code: |
+#  selected_services_test_collect.there_is_another = True
+---
 
 
 # no filtering, hard coded categories
@@ -83,33 +146,80 @@ fields:
   - no label: selected_services_key
     datatype: checkboxes
     code: |
-      HSCqualifying_services.get('Key Service')
+      qualifying_key
+    none of the above: False
+    required: False
   - note: |
       ## Health and Wellbeing Services:
   - no label: selected_services_health
     datatype: checkboxes
     code: |
-      HSCqualifying_services.get('Health and Wellbeing')
+      qualifying_health
+    none of the above: False
+    required: False
   - note: |
       ## Social and Community Services:
   - no label: selected_services_social
     datatype: checkboxes
     code: |
       HSCqualifying_services.get('Social and Community')
+    none of the above: False
+    required: False
   - note: |
       ## Advocacy Groups:
   - no label: selected_services_advocacy
     datatype: checkboxes
     code: |
       HSCqualifying_services.get('Advocacy Groups')
+    none of the above: False
+    required: False
   - note: |
       ## Other Services:
   - no label: selected_services_other
     datatype: checkboxes
     code: |
       HSCqualifying_services.get('Other')
+    none of the above: False
+    required: False
   
 ---
+# this is for the hard coded category list, making sure nothing is displayed if there are no services for that category
+generic object: DAList
+code: | 
+  x.there_are_any = False
+---
+template: service_checkbox
+subject: |
+  **service name**
+content: |
+  service deets
+---
+#code: |
+#  qualifying_key = []
+#  if HSCqualifying_services.get('Key Service').there_are_any:
+#    for service in HSCqualifying_services.get('Key Service'):
+      #info_display = "
+#      qualifying_key.append(service_checkbox.subject + "[BR]" + service_checkbox.content)
+      #qualifying_key.append(service['Service Name'] + "[BR]" + service['Service Name'])
+  #qualifying_key.gathered = True
+---
+code: |
+  qualifying_health = []
+  if HSCqualifying_services.get('Health and Wellbeing').there_are_any:
+    for service in HSCqualifying_services.get('Health and Wellbeing'):
+      qualifying_health.append(service['Service Name'])
+---
+# generic 
+# returns a list of service names and descriptions 
+code: |
+  qualifying_key = []
+  if HSCqualifying_services.get('Key Service').there_are_any:
+    for service in HSCqualifying_services.get('Key Service'):
+      qualifying_key.append({service['Service Name']: service['Service Name'] + "[BR]" + service['Service Name']})
+---
+
+
+
 # doesn't filter, just lists each by category
 question: Here them services
 subquestion: |
@@ -185,72 +295,6 @@ fields:
     code: |
       HSClist_of_dicts_test
       
-      
-      
----
-question: ""
-subquestion:  |
-  Based on your answers, you might be eligible for support from the following agencies.
-
-  You should contact them as soon as you can to try an arrange emergency housing.
-
-  % if HAApets and len(HAAdisplay_pets) > 0:
-  ### Services for Pets
-
-  The agencies listed here will not accept pets.
-  
-  Contact these agencies to discuss alternative 
-  care options for your pet.
-
-  %for HAAdisplay_entry in HAAdisplay_pets:
-  ${ HAAdisplay_entry['display_record'].show() }
-  %endfor  
-  % endif
-  
-  % if HAAgender != 'other':
-  % if HAAgender == 'male' and len(HAAdisplay_gender) > 0:
-  ### Services for Men
-  % elif HAAgender == 'female' and len(HAAdisplay_gender) > 0:
-  ### Services for Women
-  % endif
-  
-  %for HAAdisplay_entry in HAAdisplay_gender:
-  ${ HAAdisplay_entry['display_record'].show() }
-  %endfor  
-  
-  % endif
-  
-  % if HAAabor and len(HAAdisplay_atsi) > 0:
-  ### Services for Aboriginal or Torres Strait Islander Residents
-  
-  %for HAAdisplay_entry in HAAdisplay_atsi:
-  ${ HAAdisplay_entry['display_record'].show() }
-  %endfor 
-  
-  % endif
-  
-  % if HAAfamily == 'singles' and len(HAAdisplay_families) > 0:
-  ### Services for Single Accommodation
-  % elif HAAfamily == 'family' and len(HAAdisplay_families) > 0:
-  ### Services for Families
-  % endif
-  
-  %for HAAdisplay_entry in HAAdisplay_families:
-  ${ HAAdisplay_entry['display_record'].show() }
-  %endfor  
-  
-  % if len(HAAdisplay_other) > 0:
-  ### Other Services
-  
-  %for HAAdisplay_entry in HAAdisplay_other:
-  ${ HAAdisplay_entry['display_record'].show() }
-  %endfor
-  % endif
-  
-  ### Community Housing
-  
-  Further information on long term accommodation can be found 
-  on the [SA.GOV.AU website](https://www.sa.gov.au/topics/housing/public-and-community-housing/list-of-housing-associations).  
 ---
 template: HAA_agencylist[i]['display_record']
 content: |
@@ -263,145 +307,3 @@ content: |
   ${ HAA_agencylist[i].item('phone') } [BR]
   ${ HAA_agencylist[i].item('blurb') } [BR]
 
----
-objects:
-  HAAdisplay_pets: DAList.using(there_are_any=True, auto_gather=False)
-  HAAdisplay_families: DAList.using(there_are_any=True, auto_gather=False)
-  HAAdisplay_atsi: DAList.using(there_are_any=True, auto_gather=False)
-  HAAdisplay_gender: DAList.using(there_are_any=True, auto_gather=False)
-  HAAdisplay_other: DAList.using(there_are_any=True, auto_gather=False)
----
-# The following code blocks each extract a set of agencies
-# out of the qualifying agencies for display in a separate
-# list.  This way we can display categories of agencies
-# together (eg: Agencies that deal with pets, agencies
-# that deal with ATSI etc).  The logic behind each block
-# is that it:
-# - iterates over all the qualifying agencies
-# - if the relevant test is true then that agency gets added 
-#   to the display list
-# - the key 'printed' is set to true.  This makes sure we
-#   don't display the same agency in more than one display
-#   list.
----
-# Let's deal with pets first
-code: |
-  HAAdisplay_pets.clear()
-  for HAAagency in HAAqualifying_agencies:
-    # Add if the test passes and it hasn't been printed yet
-    if HAAagency.item('printed') == True:
-      # Don't do anything if already printed
-      pass
-    elif HAAagency.item('pets_test') == True:
-      # We add the text to display in the display list
-      HAAdisplay_pets.append(HAAagency)
-      # And mark it as displayed
-      HAAagency['printed'] = True
-    else:
-      # Otherwise don't do anything
-      pass
-  
-  HAAdisplay_pets.gathered = True
----
-# Other categories go here...
-# This is an exercise for students
-# Now onto family/single services
-code: |
-  HAAdisplay_families.clear()
-  for HAAagency in HAAqualifying_agencies:
-  
-    MJFfamilies = HAAagency.item('families')
-    # Set the score to 0
-    MJFtest_score = 0
-    for MJFfamily_key in MJFfamilies.keys():
-      if MJFfamily_key == HAAfamily and MJFfamilies[MJFfamily_key]:
-        MJFtest_score = MJFtest_score + 1
-      elif MJFfamily_key != HAAfamily and MJFfamilies[MJFfamily_key] == False:
-        MJFtest_score = MJFtest_score + 1
-      else:
-        pass
-  
-    # Add if the test passes and it hasn't been printed yet
-    if HAAagency.item('printed') == True:
-      # Don't do anything if already printed
-      pass
-    elif MJFtest_score == len(MJFfamilies):
-    #elif family_specific == True:
-    #elif HAAagency.item['family_specific'] == True:
-      # We add the text to display in the display list
-      HAAdisplay_families.append(HAAagency)
-      # And mark it as displayed
-      HAAagency['printed'] = True
-    else:
-      # Otherwise don't do anything
-      pass
-  
-  HAAdisplay_families.gathered = True
----
-# Next display agencies that cater toward specific genders
-code: |
-  HAAdisplay_gender.clear()
-  for HAAagency in HAAqualifying_agencies:
-  
-    MJFgenders = HAAagency.item('gender')
-    # Set the score to 0
-    MJFtest_score_gender = 0
-    for MJFgender_key in MJFgenders.keys():
-      if MJFgender_key == HAAgender and MJFgenders[MJFgender_key]:
-        MJFtest_score_gender = MJFtest_score_gender + 1
-      elif MJFgender_key != HAAgender and not MJFgenders[MJFgender_key]:
-        MJFtest_score_gender = MJFtest_score_gender + 1
-      else:
-        pass
-  
-    # Add if the test passes and it hasn't been printed yet
-    if HAAagency.item('printed') == True:
-      # Don't do anything if already printed
-      pass
-    elif MJFtest_score_gender == len(MJFgenders):
-      # We add the text to display in the display list
-      HAAdisplay_gender.append(HAAagency)
-      # And mark it as displayed
-      HAAagency['printed'] = True
-    else:
-      # Otherwise don't do anything
-      pass
-  
-  HAAdisplay_gender.gathered = True
----
-# Next display agencies that cater toward Aboriginal/Torres Strait Islander identifying users
-code: |
-  HAAdisplay_atsi.clear()
-  for HAAagency in HAAqualifying_agencies:
-    # Add if the test passes and it hasn't been printed yet
-    if HAAagency.item('printed') == True:
-      # Don't do anything if already printed
-      pass
-    elif HAAagency.item('indigenous') == True:
-      # We add the text to display in the display list
-      HAAdisplay_atsi.append(HAAagency)
-      # And mark it as displayed
-      HAAagency['printed'] = True
-    else:
-      # Otherwise don't do anything
-      pass
-  
-  HAAdisplay_atsi.gathered = True
----
-# Finally, we display everything else.  Everything else
-# is every record in HAAqualifying_agencies that has
-# not yet been printed.
-code: |
-  HAAdisplay_other.clear()
-  for HAAagency in HAAqualifying_agencies:
-    # Only add if not yet printed
-    if HAAagency.item('printed') == True:
-      # Don't do anything if already printed
-      pass
-    else:
-      HAAdisplay_other.append(HAAagency)
-      HAAagency['printed'] = True
-      # I used this for debugging
-      # HAAdisplay_other.append('printed: {}: attr_def: {} item(printed): {}[BR]'.format(HAAagency['service'], HAAagency.attribute_defined('printed'), HAAagency.item('printed')))  
-  HAAdisplay_other.gathered = True
----
