@@ -8,9 +8,6 @@ include:
   - HSC.display.output.yml
   - HSC.global.vars.yml
 ---
-objects:
-  - services_shit: DAList
----
 mandatory: True
 code: |
   # hard coded shit, just for testing purposes
@@ -69,41 +66,19 @@ subquestion: |
   
   % for service in HSCdata.get(key):
   
-  ${ service.values() }
+  ${ service }
   
   % endfor
   
   % endfor
   
   
-  #### and now, for something completely different
-  % for category in HSCqualifying_services.keys():
-  
-  ${ category }
-  
-  % for service in HSCqualifying_services.get(category):
-  
-  ${ service.values() }
-  
-  % endfor
-  % endfor
-  
-  
-  #### hhhhhhhhhh
-  ${ selected_services_test_collect.number() }
   
   
 #attachment:
 #  - name: Test Doc
 #    filename: printout
 #    docx template file: HSC_printout_test.docx
----
-code: |
-  index = 0
-  while index < HSCqualifying_services.number():
-    services_shit[index] = selected_services_test_collect[index]
-    index += index
-  services_shit.there_are_any = False
 ---
 question: what kind of bear is best
 subquestion: |
