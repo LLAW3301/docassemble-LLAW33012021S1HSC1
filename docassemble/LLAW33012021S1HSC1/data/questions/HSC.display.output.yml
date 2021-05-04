@@ -17,6 +17,15 @@ subquestion: |
 
 fields:
   - note: |
+      ## Relevant Services:
+  - no label: selected_services_other
+    datatype: checkboxes
+    code: |
+      #HSCqualifying_services.get('Other')
+      qualifying_other
+    none of the above: False
+    required: False
+  - note: |
       ## Key Social Services:
   - no label: selected_services_key
     datatype: checkboxes
@@ -50,16 +59,6 @@ fields:
       qualifying_advocacy
     none of the above: False
     required: False
-  - note: |
-      ## Other Services:
-  - no label: selected_services_other
-    datatype: checkboxes
-    code: |
-      #HSCqualifying_services.get('Other')
-      qualifying_other
-    none of the above: False
-    required: False
-  
 ---
 # if there_are_any attribute is not already defined for a list in HSCqualifying_services, then there are no services mapped to that particular category
 generic object: DAList
@@ -95,7 +94,7 @@ code: |
 ---
 # returns a list of service names and descriptions for services under the 'Other Services' category
 code: |
-  for service in HSCqualifying_services.get('Other'):
+  for service in HSCqualifying_services.get('Relevant'):
     qualifying_other.append({service['Service name']: service['Service name'] + "[BR]" + service['Service information']})
   qualifying_other.gathered = True
 ---
