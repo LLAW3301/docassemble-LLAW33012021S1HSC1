@@ -14,13 +14,37 @@ buttons:
   - Administration: signin
 sets: HSCsign_in_page
 ---
-# RHS Welcome Screen
-#field: welcome_screen
+# LHS Welcome Screen
 question: ""
 subquestion: |
   ###Welcome to the Hutt Street Centre Access to Community Services Application. 
   
-  This application is designed to help you find community services that may be    helpful to a client accessing services and making connections within their local community.
+  This administration brach is designed to be used only by system administrators. 
+  Any data upload will remove all previously saved data. 
+  
+  Any uploaded CSV file should not include commas. 
+ 
+  ***Disclaimer:***   
+  There is no way to recover data that is overwritten. Flinders University takes no responsibility for lost data. 
+  
+  Are you authorised to make administration changes?
+yesno: HSCadmineligible
+---
+# Text to display when importing CSV files
+question: ""
+subquestion: |
+  ### Uploading new data
+  
+  If you proceed, the current data will be overwritten.
+  File being uploaded is ${csv_import[0].filename}
+yesno: HSCadminupload
+---
+# RHS Welcome Screen
+question: ""
+subquestion: |
+  ###Welcome to the Hutt Street Centre Access to Community Services Application. 
+  
+  This application is designed to help you find community services that may be    helpful to a client accessing services and making connections within their   local community.
  
   ***Disclaimer:***   
   This is a guide only and may not include all services.

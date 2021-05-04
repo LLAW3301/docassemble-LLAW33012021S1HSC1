@@ -117,9 +117,12 @@ code: |
 ---
 question: Import CSV File
 subquestion: |
-  HSCimport_message
+  Please upload the data you wish to store in the form of a CSV file. Ensure that the file you select conforms to the following criteria:
   
-  **Note:** The first row of the file **must** be the header row.
+  * The first row of the file **must** be the header row.
+  * There must be **no commas** in any of the data cells.
+  * The CSV file must be saved as a **CSV UTF-8** file.
+  * Each service name listed in the CSV file must be unique.
   
 fields:
   - no label: csv_import

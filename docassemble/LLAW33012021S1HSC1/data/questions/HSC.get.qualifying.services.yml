@@ -49,8 +49,8 @@ code: |
     #HSCqualifying_services.there_are_any = False
     
   # if there are no services that match the user input, then reach an endpoint
-  if len(HSCqualifying_services) == 0:
-    endpoints['no_services']
+  #if len(HSCqualifying_services) == 0:
+  #  endpoints['no_services']
 ---
 # test for age eligibility
 code: |  

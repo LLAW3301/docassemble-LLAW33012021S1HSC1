@@ -25,17 +25,10 @@ default screen parts:
 include:
   - HSC.display.output.yml
   - HSC.get.qualifying.services.yml
-  #- HSC_display_output.yml
-  #- HSC_get_qualifying_services.yml
   - HSC.global.vars.yml
   - HSC.login.yml
   - HSC.questions.yml
   - HSC.csv.yml
-  #- HSC.read.data.yml
-  #- HSC.service.constants.yml
-  #- HSC.test.file.yml
-  #- HSC.reset.data.yml
-  #- HSC.service.import.main.yml
 ---
 #added HSC logo
 objects:
@@ -56,17 +49,40 @@ code: |
   # The string below creates the HTML and  inserts into it the logo contained in 
   # the file HSClogo using the python format() method 
   HAAlogostring = '<div class="media"><img src="{}" class="mr-3" height="50"><div class="media-body"></div></div>'.format(HSClogo.url_for())
-
   # Once we've created the string we use set_parts() to set our new logo metadata
   set_parts(logo=HAAlogostring)
 ---
 # Is this the section where the code will move the user to the welcome screen?  of from the welcome screen, if they 'run app' the end screen there? - HG
 mandatory: True
 code: |
-  if HSCeligible:
-    endpoints['final_screen']
+  # if the user clicks the 'Administration' option -
+  if welcome_screen == 'signin':
+    # first, ensure that the user is logged in to access this path
+    if user_logged_in():
+      # then, check that the user is eligible to access this path
+      if HSCadmineligible:
+        csv_import                   # upload a CSV file
+        if HSCadminupload:           # confirm the CSV upload
+          write_HSCdata              # write the CSV data to DAStore
+          endpoints['HSCfinal_admin']# send to final admin screen
+        else:
+          endpoints['TERMineligible']# user does not confirm their changes
+      # if the user is not eligible to access this path
+      else: 
+        endpoints['TERMineligible']  # send user to ineligible screen
+    # send user to login screen if they're not logged in
+    else:
+      login_screen
+  # else, if the user clicks the 'Application' option - 
+  elif welcome_screen == 'proceed':
+    # It's a regular user 
+    if HSCeligible:
+      endpoints['final_screen']
+    else:
+      endpoints['TERMineligible']
   else:
-    endpoints['TERMineligible']
+    # Catch an invalid value
+    pass
 ---
 #Will be able to update once I know the codes we are relying on. Jocelyn, happy to use your codes here. HG
 event: endpoints['final_screen']
@@ -75,16 +91,16 @@ subquestion: |
   Please find below the document listing all your selected services.
   
   You may choose to download this as a word document, or email it directly to either yourself or your client.
-  <% write_HSCdata %>
   <% HSCcouncil %>
-  <% HSCage %>
   <% HSCgender %>
+  <% HSCage %>
   <% HSCchildren %>
-  <% HSCatsi %>
   <% HSCconcession %>
+  <% HSCatsi %>
   <% HSCfactor %>
-  <% HSCqualifying_services.keys() %>
-  <% HSCqualifying_services.values() %>
+  % if len(HSCqualifying_services) == 0:
+  <% endpoints['no_services'] %>
+  % endif
 attachment code: |
   HSCprintout
 buttons:
@@ -96,11 +112,19 @@ attachment:
   - name: Hutt Street Centre Community Access Tool 
     filename: Result Printout
     valid formats:
-      - pdf
       - docx
     docx template file: HSC_print_out.docx
     #docx template file: HSC_print_out_test.docx
     variable name: HSCprintout
+---
+event: endpoints['HSCfinal_admin']
+question: Data File Updated
+subquestion: |
+  The data has been updated with the new CSV file. 
+buttons:
+  - Exit: exit
+    url: https://www.huttstcentre.org.au/
+  - Restart: restart
 ---
 event: endpoints['TERMineligible']
 question: Not Eligible
