@@ -61,7 +61,13 @@ mandatory: True
 code: |
   if welcome_screen == 'signin': 
     if user_logged_in():
-      lwelcome_screen
+      HSCadmineligible
+      if HSCadmineligible:
+          write_HSCdata
+          HSCadminupload
+          endpoints['HSCfinal_admin']
+      else: 
+          endpoints['TERMineligible']
     else:
       login_screen
     #Do other admin stuff here
@@ -82,12 +88,12 @@ event: endpoints['final_screen']
 question: Done!
 subquestion: |
   Fin
-  <% write_HSCdata %>
   <% HSCcouncil %>
-  <% HSCage %>
   <% HSCgender %>
+  <% HSCage %>
   <% HSCchildren %>
   <% HSCconcession %>
+  <% HSCatsi %>
   <% HSCfactor %>
   <% HSCqualifying_services.keys() %>
   ${ HSCqualifying_services.values() }
@@ -105,6 +111,15 @@ attachment:
       - docx
     docx template file: HSC_print_out.docx
     variable name: HSCprintout
+---
+event: endpoints['HSCfinal_admin']
+question: Data File Updated
+subquestion: |
+  The data has been updated with the new CSV file. 
+buttons:
+  - Exit: exit
+    url: https://www.huttstcentre.org.au/
+  - Restart: restart
 ---
 event: endpoints['TERMineligible']
 question: Not Eligible
@@ -128,3 +143,17 @@ buttons:
   - Exit: exit
     url: https://www.huttstcentre.org.au/
   - Restart: restart
+---
+event: endpoints['no_services']
+question: No Services Available
+subquestion: |
+  Unfortunately, there are no services relevant to your answers.
+  
+  If you would like to try again, please click the 'Restart' button below.
+  
+  If you would like to exit the application, please click the 'Exit' button.
+buttons:
+  - Exit: exit
+    url: https://www.huttstcentre.org.au/
+  - Restart: restart
+---

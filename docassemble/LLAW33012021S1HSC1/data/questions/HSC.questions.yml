@@ -31,6 +31,15 @@ subquestion: |
   Are you authorised to make administration changes?
 yesno: HSCadmineligible
 ---
+# Template text to display when importing projects
+question: HSCadminupload
+subquestion: |
+  ### Uploading new data
+  
+  If you proceed, the current data will be overwritten.
+  File being uploaded is ${csv_import[0].filename}
+yesno: HSCadminupload
+---
 # RHS Welcome Screen
 question: ""
 subquestion: |
@@ -75,9 +84,9 @@ fields:
   - no label: HSCgender
     datatype: radio
     choices:
-     - "Female": Female
-     - "Male": Male
-     - "Other/Prefer not to Specify": Other
+     - "Female": Gender_Female
+     - "Male": Gender_Male
+     - "Other/Prefer not to Specify": Gender_Other
 ---
 question: |
   What is your age?
