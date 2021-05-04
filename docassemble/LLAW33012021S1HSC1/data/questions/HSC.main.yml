@@ -22,9 +22,7 @@ default screen parts:
     </div>
 ---
 #Will need to insert once we have the names of all the screens
-include:
-  #- HSC.display.output.yml
-  #- HSC.get.qualifying.services.yml
+include:  
   - HSC.display.output.yml
   - HSC.get.qualifying.services.yml
   - HSC.global.vars.yml
@@ -61,26 +59,51 @@ code: |
 # Is this the section where the code will move the user to the welcome screen?  of from the welcome screen, if they 'run app' the end screen there? - HG
 mandatory: True
 code: |
-  if HSCeligible:
-    endpoints['final_screen']
+  if welcome_screen == 'signin': 
+    if user_logged_in():
+      lwelcome_screen
+    else:
+      login_screen
+    #Do other admin stuff here
+  elif welcome_screen == 'proceed':
+    # It's a regular user 
+    if HSCeligible:
+      endpoints['final_screen']
+    elif HSCcouncil == False:
+      endpoints['PCineligible']
+    else:
+      endpoints['TERMineligible']
   else:
-    endpoints['TERMineligible']
+    # Catch an invalid value
+    pass
 ---
 #Will be able to update once I know the codes we are relying on. Jocelyn, happy to use your codes here. HG
 event: endpoints['final_screen']
 question: Done!
 subquestion: |
   Fin
-  ${ write_HSCdata }
+  <% write_HSCdata %>
+  <% HSCcouncil %>
+  <% HSCage %>
+  <% HSCgender %>
+  <% HSCchildren %>
+  <% HSCconcession %>
+  <% HSCfactor %>
+  <% HSCqualifying_services.keys() %>
+  ${ HSCqualifying_services.values() }
+attachment code: |
+  HSCprintout
+buttons:
+  - Exit: exit
+    url: https://www.huttstcentre.org.au
+  - Restart: restart
 ---
 attachment: 
   - name: Hutt Street Centre Community Access Tool 
     filename: Result Printout
     valid formats:
-      - pdf
       - docx
     docx template file: HSC_print_out.docx
-    #docx template file: HSC_printout_test.docx
     variable name: HSCprintout
 ---
 event: endpoints['TERMineligible']
@@ -105,4 +128,3 @@ buttons:
   - Exit: exit
     url: https://www.huttstcentre.org.au/
   - Restart: restart
----
