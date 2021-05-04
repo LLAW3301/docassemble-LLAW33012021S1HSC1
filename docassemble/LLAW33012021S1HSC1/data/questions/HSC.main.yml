@@ -42,6 +42,7 @@ objects:
   - HSCqualifying_agencies: DAList.using(there_are_any=True, auto_gather=False)
   - HSClogo: DAStaticFile.using(filename='HSC_LOGO.jpg')
   - endpoints: DADict
+  #- selected_services_key: DADict
 ---
 # J to play around with this workding. 
 features:
@@ -71,16 +72,19 @@ code: |
 event: endpoints['final_screen']
 question: Done!
 subquestion: |
-  Fin
+  Please find below the document listing all your selected services.
+  
+  You may choose to download this as a word document, or email it directly to either yourself or your client.
   <% write_HSCdata %>
   <% HSCcouncil %>
   <% HSCage %>
   <% HSCgender %>
   <% HSCchildren %>
+  <% HSCatsi %>
   <% HSCconcession %>
   <% HSCfactor %>
   <% HSCqualifying_services.keys() %>
-  ${ HSCqualifying_services.values() }
+  <% HSCqualifying_services.values() %>
 attachment code: |
   HSCprintout
 buttons:
@@ -94,8 +98,8 @@ attachment:
     valid formats:
       - pdf
       - docx
-    docx template file: HSC_print_out_test_specific.docx
-    #docx template file: HSC_printout_test.docx
+    docx template file: HSC_print_out.docx
+    #docx template file: HSC_print_out_test.docx
     variable name: HSCprintout
 ---
 event: endpoints['TERMineligible']
@@ -110,12 +114,25 @@ buttons:
 ---
 event: endpoints['PCineligible']
 question: Not Eligible
-subquestion:
+subquestion: |
   This application does not include information relating to the council you have 
   inserted.  If you would like to restart with a different post code 
   please restart.
 #I'm not sure if HSC want to have this as an internal address like an 
 #intranet 
+buttons:
+  - Exit: exit
+    url: https://www.huttstcentre.org.au/
+  - Restart: restart
+---
+event: endpoints['no_services']
+question: No Services Available
+subquestion: |
+  Unfortunately, there are no services relevant to your answers.
+  
+  If you would like to try again, please click the 'Restart' button below.
+  
+  If you would like to exit the application, please click the 'Exit' button.
 buttons:
   - Exit: exit
     url: https://www.huttstcentre.org.au/

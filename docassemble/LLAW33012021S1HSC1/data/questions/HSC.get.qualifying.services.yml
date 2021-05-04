@@ -19,7 +19,7 @@ code: |
     for current_service in council_services:
       # for each service, run the appropriate eligibility tests
       #if age_test and gender_test and family_test and concessions_test and others_test:
-      if (int(current_service['Age_Min']) <= HSCage) and (int(current_service['Age_Max']) >= HSCage) and (current_service[HSCgender] == 'TRUE') and ((HSCchildren and current_service['Children under 18'] == 'TRUE') or (not HSCchildren and current_service['No Children'] == 'TRUE')):
+      if (int(current_service['Age_Min']) <= HSCage) and (int(current_service['Age_Max']) >= HSCage) and (current_service[HSCgender] == 'TRUE') and ((HSCchildren and current_service['Children under 18'] == 'TRUE') or ((not HSCchildren) and current_service['No Children'] == 'TRUE')) and (((not HSCatsi) and current_service['ATSI'] == 'FALSE') or (HSCatsi)):
         for concession in HSCconcession.true_values():
           if current_service[concession] != 'TRUE':
             continue
@@ -36,6 +36,8 @@ code: |
 
     # finalise the categorised lists
     HSCqualifying_services.gathered = True
+    #if len(HSCqualifying_services) == 0:
+    #  endpoints['INineligible']
     for category in HSCqualifying_services:        # NECESSARY
       HSCqualifying_services[category].there_is_another = False
       #HSCqualifying_services[category].there_are_any = True
@@ -43,7 +45,12 @@ code: |
     # else, if there are no services at the given council area, return an empty dictionary
     #HSCqualifying_services = {}
     HSCqualifying_services.gathered = True
+    #endpoints['INineligible']
     #HSCqualifying_services.there_are_any = False
+    
+  # if there are no services that match the user input, then reach an endpoint
+  if len(HSCqualifying_services) == 0:
+    endpoints['no_services']
 ---
 # test for age eligibility
 code: |  

@@ -10,14 +10,17 @@ objects:
   - qualifying_other: DAList.using(auto_gather=False)
 ---
 # no filtering, hard coded categories
-question: Here them services
+question: Available Services
 subquestion: |
-  Select em
-  ${ HSCqualifying_services.number() }
+  Based on your answers to the previous questions, your client may find the following services useful.
+  
+  Please select whichever services you feel are relevant.
 
 fields:
   - note: |
+      % if qualifying_other.there_are_any:
       ## Relevant Services:
+      % endif
   - no label: selected_services_other
     datatype: checkboxes
     code: |
@@ -26,7 +29,9 @@ fields:
     none of the above: False
     required: False
   - note: |
+      % if qualifying_key.there_are_any:
       ## Key Social Services:
+      % endif
   - no label: selected_services_key
     datatype: checkboxes
     code: |
@@ -34,7 +39,9 @@ fields:
     none of the above: False
     required: False
   - note: |
+      % if qualifying_health.there_are_any:
       ## Health and Wellbeing Services:
+      % endif
   - no label: selected_services_health
     datatype: checkboxes
     code: |
@@ -42,7 +49,9 @@ fields:
     none of the above: False
     required: False
   - note: |
+      % if qualifying_social.there_are_any:
       ## Social and Community Services:
+      % endif
   - no label: selected_services_social
     datatype: checkboxes
     code: |
@@ -51,7 +60,9 @@ fields:
     none of the above: False
     required: False
   - note: |
+      % if qualifying_advocacy.there_are_any:
       ## Advocacy Groups:
+      % endif
   - no label: selected_services_advocacy
     datatype: checkboxes
     code: |
@@ -77,24 +88,24 @@ code: |
 code: |
   #qualifying_health = []
   for service in HSCqualifying_services.get('Health and Wellbeing'):
-    qualifying_health.append({service['Service name']: service['Service name'] + "[BR]" + service['Service information']})
+    qualifying_health.append({service.get('Service name'): service['Service name'] + "[BR]" + service['Service information']})
   qualifying_health.gathered = True
 ---
 # returns a list of service names and descriptions for services under the 'Social and Community' category
 code: |
   for service in HSCqualifying_services.get('Social and Community'):
-    qualifying_social.append({service['Service name']: service['Service name'] + "[BR]" + service['Service information']})
+    qualifying_social.append({service.get('Service name'): service['Service name'] + "[BR]" + service['Service information']})
   qualifying_social.gathered = True
 ---
 # returns a list of service names and descriptions for services under the 'Advocacy Groups' category
 code: |
   for service in HSCqualifying_services.get('Advocacy Groups'):
-    qualifying_advocacy.append({service['Service name']: service['Service name'] + "[BR]" + service['Service information']})
+    qualifying_advocacy.append({service.get('Service name'): service['Service name'] + "[BR]" + service['Service information']})
   qualifying_advocacy.gathered = True
 ---
 # returns a list of service names and descriptions for services under the 'Other Services' category
 code: |
   for service in HSCqualifying_services.get('Relevant'):
-    qualifying_other.append({service['Service name']: service['Service name'] + "[BR]" + service['Service information']})
+    qualifying_other.append({service.get('Service name'): service['Service name'] + "[BR]" + service['Service information']})
   qualifying_other.gathered = True
 ---
