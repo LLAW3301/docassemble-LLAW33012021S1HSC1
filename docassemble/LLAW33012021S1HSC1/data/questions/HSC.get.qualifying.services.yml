@@ -19,14 +19,14 @@ code: |
     for current_service in council_services:
       # for each service, run the appropriate eligibility tests
       #if age_test and gender_test and family_test and concessions_test and others_test:
-      # fuck it, we're gonna do inline tests
-      if (int(current_service['Min Age']) <= HSCage) and (int(current_service['Max Age']) >= HSCage) and (current_service[HSCgender] == 'TRUE') and HSCchildren:
+      if (int(current_service['Age_Min']) <= HSCage) and (int(current_service['Age_Max']) >= HSCage) and (current_service[HSCgender] == 'TRUE') and HSCchildren:
         for concession in HSCconcession.true_values():
           if current_service[concession] != 'TRUE':
             continue
         for factor in HSCfactor.true_values():
           if current_service[factor] != 'TRUE':
             continue
+        #wegettinanay
         # if it passes them all, then add it to it's corresponding category list
         temp_list = HSCqualifying_services.get(current_service.get('Category'))
         temp_list.append(current_service)
@@ -35,7 +35,6 @@ code: |
         #HSCqualifying_services[service['Category']].append(service)
 
     # finalise the categorised lists
-    #dfgdfg
     HSCqualifying_services.gathered = True
     for category in HSCqualifying_services:        # NECESSARY
       HSCqualifying_services[category].there_is_another = False

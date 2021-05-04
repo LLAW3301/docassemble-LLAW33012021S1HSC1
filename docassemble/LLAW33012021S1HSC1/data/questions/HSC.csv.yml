@@ -25,7 +25,10 @@ code: |
 
   # Read the data into a CSV object
   all_the_lines = csv_import.slurp()
-  
+  #f = open(csv_import.path(), 'r', encoding="utf8")
+  #all_the_lines = f.read()
+  #f.close()
+
   # Initialise row_headers so DA doesn't trip over a NameError
   row_headers = []
   
@@ -33,11 +36,12 @@ code: |
   index = 0
   for line in all_the_lines.splitlines():
     elements = line.replace('"', '').split(',')
-    
+
     # Save the row headers, which are the first row
     if index == 0:
       for an_element in elements:
-        row_headers.append(an_element)
+        #if an_element.isascii():
+        row_headers.append(an_element)#str(an_element.encode('utf-8', 'ignore')))
       index += 1
       continue
     
@@ -47,7 +51,11 @@ code: |
     # Iterate through the rest of the elements and populate the CSV record
     j = 0
     for an_element in elements:
-      a_row[row_headers[j]] = an_element#str(an_element.encode("utf-8", 'strict'))
+      #if j <= row_headers.index('Email address'): # temp fix
+      a_row[row_headers[j]] = an_element#str(an_element.encode('utf-8', 'ignore'))
+      #bytes(an_element, 'utf-8').decode('utf-8','ignore')
+      
+      #an_element#str(an_element.encode("utf-8", 'strict'))
       j += 1
  
     # here is where we'd need to append the a_row to the appropriate list
@@ -100,11 +108,11 @@ code: |
   # We clear out data in the HSCdata first
   for key in HSCdata.keys():
     HSCdata.delete(key)
-  
+    
   # And then write the new data in
   for key in csv_data:
     HSCdata.set(key, csv_data[key])
-    
+
   write_HSCdata = True
 ---
 question: Import CSV File

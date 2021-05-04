@@ -59,9 +59,9 @@ fields:
   - no label: HSCgender
     datatype: radio
     choices:
-     - "I am Female": Female
-     - "I am Male": Male
-     - "Other/Prefer not to Specify": Other
+     - "I am Female": Gender_Female
+     - "I am Male": Gender_Male
+     - "Other/Prefer not to Specify": Gender_Other
 ---
 question: |
   What is your age?

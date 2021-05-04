@@ -13,6 +13,7 @@ objects:
 question: Here them services
 subquestion: |
   Select em
+  ${ HSCqualifying_services.number() }
 
 fields:
   - note: |
@@ -68,33 +69,33 @@ code: |
 # returns a list of service names and descriptions for services under the 'Key Service' category
 code: |
   #qualifying_key = []
-  if HSCqualifying_services.get('Key Service').there_are_any:
-    for service in HSCqualifying_services.get('Key Service'):
-      qualifying_key.append({service['Service Name']: service['Service Name'] + "[BR]" + service['Service Name']})
+  #if HSCqualifying_services.get('Key Service').there_are_any:
+  for service in HSCqualifying_services.get('Key Services'):
+    qualifying_key.append({service.get('Service name'): service.get('Service name') + "[BR]" + service['Service information']})
   qualifying_key.gathered = True
 ---
 # returns a list of service names and descriptions for services under the 'Health and Wellbeing' category
 code: |
   #qualifying_health = []
   for service in HSCqualifying_services.get('Health and Wellbeing'):
-    qualifying_health.append({service['Service Name']: service['Service Name'] + "[BR]" + service['Service Name']})
+    qualifying_health.append({service['Service name']: service['Service name'] + "[BR]" + service['Service information']})
   qualifying_health.gathered = True
 ---
 # returns a list of service names and descriptions for services under the 'Social and Community' category
 code: |
   for service in HSCqualifying_services.get('Social and Community'):
-    qualifying_social.append({service['Service Name']: service['Service Name'] + "[BR]" + service['Service Name']})
+    qualifying_social.append({service['Service name']: service['Service name'] + "[BR]" + service['Service information']})
   qualifying_social.gathered = True
 ---
 # returns a list of service names and descriptions for services under the 'Advocacy Groups' category
 code: |
   for service in HSCqualifying_services.get('Advocacy Groups'):
-    qualifying_advocacy.append({service['Service Name']: service['Service Name'] + "[BR]" + service['Service Name']})
+    qualifying_advocacy.append({service['Service name']: service['Service name'] + "[BR]" + service['Service information']})
   qualifying_advocacy.gathered = True
 ---
 # returns a list of service names and descriptions for services under the 'Other Services' category
 code: |
   for service in HSCqualifying_services.get('Other'):
-    qualifying_other.append({service['Service Name']: service['Service Name'] + "[BR]" + service['Service Name']})
+    qualifying_other.append({service['Service name']: service['Service name'] + "[BR]" + service['Service information']})
   qualifying_other.gathered = True
 ---
