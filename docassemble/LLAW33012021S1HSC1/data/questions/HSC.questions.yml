@@ -54,8 +54,8 @@ subquestion: |
   Do you accept these terms?
 yesno: HSCeligible
 ---
-# location question
 question: Where does your client live?
+# location question
 subquestion: |
   Please select the council area that your client lives in.
   
@@ -70,7 +70,9 @@ fields:
       - City of Onkaparinga: City of Onkaparinga
       - City of Port Adelaide Enfield: City of Port Adelaide Enfield
       - City of Tea Tree Gully: City of Tea Tree Gully
-      - Exit: exit
+      - Exit: 'PCineligible'
+      
+#exit pathway to PCineligble needed
 
 right: |
  [FILE mapfinal.png, 400px]
