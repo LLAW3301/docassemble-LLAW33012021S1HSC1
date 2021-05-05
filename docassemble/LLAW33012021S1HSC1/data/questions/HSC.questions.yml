@@ -1,13 +1,16 @@
 ---
 field: welcome_screen
 # Initial screen as per revised flow chat
-question: Welcome to the Hutt Street Centre Access to Community Services Application
+question: Community Access Tool 
 subquestion: |
+  Welcome to the Hutt Street Centre Community Access Tool.
   
-  Which mode would you like to access?
+  This tool is designed to help you find community services that may be    helpful to a client.
   
-  Select Application to run the application.
-  Select Administration to add, remove and edit services from the application.
+  Which mode do you want to access?
+  
+  Select 'Application' button to run the tool.
+  Select 'Administration' button to update the service list.
 buttons:
   - Application: proceed
   - Administration: signin
@@ -40,9 +43,9 @@ yesno: HSCadminupload
 # RHS Welcome Screen
 question: ""
 subquestion: |
-  ###Welcome to the Hutt Street Centre Access to Community Services Application. 
+  ###Welcome to the Hutt Street Centre Access to Community Services Tool. 
   
-  This application is designed to help you find community services that may be    helpful to a client accessing services and making connections within their   local community.
+  This tool is designed to help you find community services that may be    helpful to a client accessing services and making connections within their   local community.
  
   ***Disclaimer:***   
   This is a guide only and may not include all services.
@@ -220,7 +223,7 @@ question: |
 subquestion: | 
   Is the client of Aboriginal or Torres Strait Islander descent?
   
-  This is if they identify as Aboriginal or Torres Strait Islander
+  This is if they identify as Aboriginal or Torres Strait Islander.
 yesno: HSCatsi
 ---
 question: |
