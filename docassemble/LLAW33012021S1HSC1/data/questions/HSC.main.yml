@@ -35,7 +35,6 @@ objects:
   - HSCqualifying_agencies: DAList.using(there_are_any=True, auto_gather=False)
   - HSClogo: DAStaticFile.using(filename='HSC_LOGO.jpg')
   - endpoints: DADict
-  #- selected_services_key: DADict
 ---
 # J to play around with this workding. 
 features:
@@ -77,9 +76,13 @@ code: |
   elif welcome_screen == 'proceed':
     # It's a regular user 
     if HSCeligible:
-      endpoints['final_screen']
+      # if they do not select any of the available council areas
+      if HSCcouncil == 'exit':
+        endpoints['PCineligible'] # redirect to ineligible council area screen
+      else:
+        endpoints['final_screen'] # redirect to final screen question flow
     else:
-      endpoints['TERMineligible']
+      endpoints['TERMineligible'] # redirect to disclaimer rejected screen
   else:
     # Catch an invalid value
     pass
@@ -91,7 +94,6 @@ subquestion: |
   Please find below the document listing all your selected services.
   
   You may choose to download this as a word document, or email it directly to either yourself or your client.
-  <% HSCcouncil %>
   <% HSCgender %>
   <% HSCage %>
   <% HSCchildren %>
@@ -114,7 +116,6 @@ attachment:
     valid formats:
       - docx
     docx template file: HSC_print_out.docx
-    #docx template file: HSC_print_out_test.docx
     variable name: HSCprintout
 ---
 event: endpoints['HSCfinal_admin']
