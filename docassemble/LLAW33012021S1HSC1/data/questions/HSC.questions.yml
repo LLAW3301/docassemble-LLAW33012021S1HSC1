@@ -70,7 +70,7 @@ fields:
       - City of Onkaparinga: City of Onkaparinga
       - City of Port Adelaide Enfield: City of Port Adelaide Enfield
       - City of Tea Tree Gully: City of Tea Tree Gully
-      - Exit: HSCcouncil
+      - Exit: exit
 
 right: |
  [FILE mapfinal.png, 400px]

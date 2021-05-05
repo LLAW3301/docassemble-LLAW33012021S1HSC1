@@ -91,7 +91,9 @@ subquestion: |
   Please find below the document listing all your selected services.
   
   You may choose to download this as a word document, or email it directly to either yourself or your client.
-  <% HSCcouncil %>
+  %if HSCcouncil == 'exit':
+    endpoints['PCineligible']
+  %endif
   <% HSCgender %>
   <% HSCage %>
   <% HSCchildren %>
