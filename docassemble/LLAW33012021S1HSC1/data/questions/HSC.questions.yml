@@ -62,13 +62,12 @@ fields:
   - no label: HSCcouncil
     datatype: radio
     choices:
-      - <b>City of Marion</b>: City of Marion
-      - <b>City of Charles Sturt</b>: City of Charles Sturt
-      - <b>City of Onkaparinga</b>: City of Onkaparinga
-      - <b>City of Port Adelaide Enfield</b>: City of Port Adelaide Enfield
-      - <b>City of Tea Tree Gully</b>: City of Tea Tree Gully
-
-none of the above: False
+      - City of Marion: City of Marion
+      - City of Charles Sturt: City of Charles Sturt
+      - City of Onkaparinga: City of Onkaparinga
+      - City of Port Adelaide Enfield: City of Port Adelaide Enfield
+      - City of Tea Tree Gully: City of Tea Tree Gully
+      - Exit: HSCcouncil
 
 right: |
  [FILE mapfinal.png, 400px]
@@ -76,7 +75,7 @@ right: |
 under: |
   #####City of Marion 
   
-  Suburb|Postcode|Suburb|Postcode|Suburb|Postcode
+  Postcode|Suburb|Postcode|Suburb|Postcode | Suburb
   -------|---------|-------|---------|-------|---------
   5037 | Glandore |5043 |	Morphettville |5048 |	Dover Gardens 
   5038 |	Plympton Park 	|5043 |	Park Holme 	|5049 |	Marino 
@@ -87,33 +86,102 @@ under: |
   5043 |	Ascot Park 	|5047 |	Seacombe Gardens 	|5158 |	Sheidow Park 
   5043 |	Marion 	|5047 |	Seacombe Heights 	|5158 |	Trott Park 
   5043 |	Mitchell Park 	|5047 |	Sturt 	|5158 |	Reynella 
+
+  #####City of Onkaparinga 
   
-  #####City of Charles Sturt
-  
-  Suburb|Postcode|Suburb|Postcode|Suburb|Postcode
+  Postcode|Suburb|Postcode|Suburb|Postcode | Suburb
   -------|---------|-------|---------|-------|---------
-  5037 | Glandore |5043 |	Morphettville |5048 |	Dover Gardens 
-  5038 |	Plympton Park 	|5043 |	Park Holme 	|5049 |	Marino 
-  5038 |	South Plympton 	|5044 |	Glengowrie 	|5049 |	Seacliff Park 
-  5039 |	Edwardstown 	|5046 |	Oaklands Park 	|5049 |	Seaview Downs 
-  5042 |	Bedford Park 	|5046 |	Warradale 	|5158 |	Hallett Cove 
-  5042 |	Clovelly Park 	|5047 |	Darlington 	|5158 |	O'Halloran Hill 
-  5043 |	Ascot Park 	|5047 |	Seacombe Gardens 	|5158 |	Sheidow Park 
-  5043 |	Marion 	|5047 |	Seacombe Heights 	|5158 |	Trott Park 
-  5043 |	Mitchell Park 	|5047 |	Sturt 	|5158 |	Reynella 
+  5047	| Darlington | 5162	| Onkaparinga Hills | 5169	| Seaford Rise 
+  5051	| Coromandel Valley | 5162	| Woodcroft | 5170	| Maslin Beach
+  5153	| Ironbank | 5163	| Hackham | 5171	| Blewitt Springs 
+  5157 |	Cherry Gardens | 5163	| Hackham West |  5171	| McLaren Flat 
+  5157 |	Clarendon | 5163	| Huntfield Heights | 5171	| McLaren Vale 
+  5157	| Coromandel East | 5163	| Onkaparinga Hills | 5171	| Tatachilla 
+  5157	| Kangarilla | 5164	| Christie Downs | 5172	| Whites Valley
+  5158	| O'Halloran Hill | 5165	| Christies Beach | 5172	| Willunga 
+  5159	| Aberfoyle Park | 5166	| O'Sullivan Beach | 5172	| Willunga South 
+  5159	| Chandlers Hill | 5167	| Port Noarlunga | 5173	| Aldinga 
+  5159	| Flagstaff Hill | 5167	| Port Noarlunga South |  5173	| Aldinga Beach
+  5159	| Happy Valley | 5168	| Noarlunga Centre | 5173	| Port Willunga
+  5160	| Lonsdale | 5168	| Noarlunga Downs | 5174	| Sellicks Beach 
+  5161	| Old Reynella | 5168	| Old Noarlunga | 5174	| Sellicks Hill
+  5161	| Reynella | 5169	| Moana |5169	| Seaford
+  5161	| Reynella East | 5162	| Morphett Vale | 5169	| Seaford Meadows 
+
+  ####City of Charles Sturt
+  
+  Postcode|Suburb|Postcode|Suburb|Postcode | Suburb
+  -------|---------|-------|---------|-------|---------
+  5007	| Bowden 	| 5011	| Woodville 	| 5021	| West Lakes
+  5007	| Brompton | 5011 |	Woodville Park | 	5022 |	Grange 
+  5007	| Hindmarsh |	5011 |	Woodville South | 	5022 | Henley Beach 
+  5007	| Welland |	5011 |	Woodville West | 	5022 |	Henley Beach South 
+  5007	| West Hindmarsh |	5012 | Athol Park |	5022 |	Tennyson 
+  5008 | Croydon |	5012 |	Woodville North |	5023 |	Findon 
+  5008	| Devon Park | 5013	| Pennington |	5023 |	Grange 
+  5008	| Renown Park |	5014 |	Albert Park |	5023 |	Seaton 
+  5008	| Ridleyton |	5014 |	Cheltenham |	5024 |	Fulham Gardens 
+  5008	| West Croydon |	5014 |	Hendon |	5024 |	West Beach 
+  5009	| Allenby Gardens |	5014 |	Royal Park |	5025 |	Flinders Park 
+  5009	| Beverley |	5019 |	Semaphore Park |	5025 |	Kidman Park 
+  5009	| Kilkenny |	5020 |	West Lakes Shore |	5082 |	Ovingham 
+  
+  ####City of Port Adelaide Enfield
+  
+  Postcode|Suburb|Postcode|Suburb|Postcode | Suburb
+  -------|---------|-------|---------|-------|--------- 
+  5008	| Croydon Park	| 5015	| Port Adelaide |	5085	| Enfield 
+  5008 |	Devon Park |	5016 |	Largs Bay |	5085 |	Northfield 
+  5008 |	Dudley Park 	5016 |	Largs North |	5085 |	Northgate 
+  5010 |	Angle Park |	5016 |	Peterhead |	5086 |	Gilles Plains 
+  5010 |	Ferryden Park |	5017 |	Osborne |	5086 |	Greenacres 
+  5010 |	Regency Park |	5017 |	Taperoo |	5086 |	Hampstead Gardens 
+  5012 |	Mansfield Park |	5018 |	North Haven |	5086 |	Hillcrest 
+  5012 |	Woodville Gardens |	5018 |	Outer Harbor |	5086 |	Manningham 
+  5013 |	Ottoway |	5019	| Exeter  |	5086 |	Oakden 
+  5013 |	Rosewater |	5019	| Semaphore |	5087 |	Klemzig 
+  5013 |	Wingfield |	5019 |	Semaphore South |	5087 |	Windsor Gardens 
+  5014 |	Alberton |	5075 |	Dernancourt |	5088 |	Holden Hill 
+  5014 |	Queenstown |	5083 |	Broadview |	5093 |	Valley View 
+  5015 |	Birkenhead |	5083 |	Sefton Park |	5094 |	Dry Creek 
+  5015 |	Ethelton |	5084 |	Blair Athol |	5094 |	Gepps Cross 
+  5015 |	Glanville |	5084 |	Kilburn |	5098 |	Walkley Heights 
+  5015 |	New Port |	5085 |	Clearview 	
+  
+  ####City of Tea Tree Gully
+  
+  Postcode|Suburb|Postcode|Suburb|Postcode | Suburb
+  -------|---------|-------|---------|-------|--------- 
+  5075 |	Dernancourt |	5092 |	Modbury Heights |	5109	| Salisbury Heights 
+  5086 |	Gilles Plains |	5092	| Modbury North |	5125	| Golden Grove   
+  5088	| Holden Hill |	5093 |	Valley View |	5125	| Greenwith 
+  5089 |	Highbury |	5096 |	Gulfview Heights |	5126	| Fairview Park 
+  5090 |	Hope Valley |	5096	| Para Hills |	5126	| Surrey Downs 
+  5091 |	Banksia Park |	5097 |	Redwood Park |	5126	| Yatala Vale 
+  5091 |	Tea Tree Gully |	5097 | Ridgehaven |	5127	| Wynn Vale 
+  5091 | Vista |	5097	| St Agnes |	5131	| Houghton 
+  5092	| Modbury |	5109	| Salisbury East
 ---
 question: |
-  What is your gender?
+  Gender
+subquestion: |
+  Which gender below best describes the client?
+  
+  Choose 'Other' if male or female does not describe you.
+  
+  If you do not want to share, choose 'Prefer not to say'.
 fields: 
   - no label: HSCgender
     datatype: radio
     choices:
      - "Female": Gender_Female
      - "Male": Gender_Male
-     - "Other/Prefer not to Specify": Gender_Other
+     - "Other or Prefer not to say": Gender_Other
 ---
 question: |
-  What is your age?
+  Age
+subquestion: |
+  What is their age?
 fields:
   Age: HSCage
   datatype: integer
@@ -124,11 +192,19 @@ fields:
       Please enter an age between 0 and 100
 --- 
 question: |
-  Do you have any children under 18 years of age?
+  Children
+subquestion: |
+  Does the client have any children under 18 years of age?
 yesno: HSCchildren
 ---
 question: |
-  Please identify any Concessions that you may hold:
+  Concessions
+subquestion: |
+  Which concessions is the client eligible for?
+  
+  You can choose as many as you need. 
+  
+  If you are unsure, please select 'None of the above'.
 fields: 
   - no label: HSCconcession
     datatype: checkboxes
@@ -140,11 +216,21 @@ fields:
      - "Student" #: student
 ---
 question: |
-  Do you identify as Aboriginal or Torres Strait Islander?
+  ATSI
+subquestion: | 
+  Is the client of Aboriginal or Torres Strait Islander descent?
+  
+  This is if they identify as Aboriginal or Torres Strait Islander
 yesno: HSCatsi
 ---
 question: |
-  Are there any other factors that we need to consider?
+  Other
+subquestion: | 
+  Which of the below apply to the client?
+  
+  You can choose as many as you need. 
+  
+  If you are unsure, please select 'None of the above'.
 fields: 
   - no label: HSCfactor
     datatype: checkboxes
