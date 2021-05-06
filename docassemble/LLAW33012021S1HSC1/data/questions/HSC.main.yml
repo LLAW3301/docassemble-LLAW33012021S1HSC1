@@ -36,7 +36,7 @@ objects:
   - HSClogo: DAStaticFile.using(filename='HSC_LOGO.jpg')
   - endpoints: DADict
 ---
-# J to play around with this workding. 
+# J to play around with this wording. 
 features:
   css: X2.01.SACAT.css
   debug: True
@@ -128,10 +128,15 @@ buttons:
   - Restart: restart
 ---
 event: endpoints['TERMineligible']
-question: Not Eligible
+question: Disclaimer 
 subquestion: |
-  The disclaimer has not been understood and accepted.  Please exit the
-  application or restart if you'd like to accept the disclaimer.
+  You must agree to the terms to continue. 
+  
+  If you do not agree, you will not be able to use the tool.
+  
+  If you do not want to, click 'Exit'. 
+  
+  If you change your mind, click 'Restart' to try again. 
 buttons:
   - Exit: exit
     url: https://www.huttstcentre.org.au/
@@ -140,9 +145,14 @@ buttons:
 event: endpoints['PCineligible']
 question: Not Eligible
 subquestion: |
-  This application does not include information relating to the council you have 
-  inserted.  If you would like to restart with a different post code 
-  please restart.
+  You need to select a valid location. 
+  
+  You can not use the tool if you do not know the client's council area. 
+  
+  *Please speak to your manager if you think a council area should be added.*
+  
+  Click 'Restart' to try again. 
+  
 #I'm not sure if HSC want to have this as an internal address like an 
 #intranet 
 buttons:
@@ -153,11 +163,11 @@ buttons:
 event: endpoints['no_services']
 question: No Services Available
 subquestion: |
-  Unfortunately, there are no services relevant to your answers.
+  Unfortunately, there are no services that match the answers.
   
-  If you would like to try again, please click the 'Restart' button below.
+  If you would like to try again, please click 'Restart'.
   
-  If you would like to exit the application, please click the 'Exit' button.
+  If you would like to exit the application, please click 'Exit'.
 buttons:
   - Exit: exit
     url: https://www.huttstcentre.org.au/

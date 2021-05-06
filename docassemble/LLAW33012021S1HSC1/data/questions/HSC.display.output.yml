@@ -30,7 +30,7 @@ fields:
     required: False
   - note: |
       % if qualifying_key.there_are_any:
-      ## Key Social Services:
+      ## Key Services:
       % endif
   - no label: selected_services_key
     datatype: checkboxes

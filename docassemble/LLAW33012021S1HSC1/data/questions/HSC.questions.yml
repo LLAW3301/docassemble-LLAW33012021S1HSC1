@@ -5,30 +5,30 @@ question: Community Access Tool
 subquestion: |
   Welcome to the Hutt Street Centre Community Access Tool.
   
-  This tool is designed to help you find community services that may be helpful to a client.
+  The tool can help you make a list of relevant community services for a client. It will filter community services based on council area and information about the client.
   
-  Which mode do you want to access?
+  Choose the mode you want to access.
   
-  Select 'Application' button to run the tool.
-  Select 'Administration' button to update the service list.
+  Click 'Application' to use the tool.
+  
+  Click 'Administration' to update the service list.
 buttons:
   - Application: proceed
   - Administration: signin
 sets: HSCsign_in_page
 ---
 # LHS Welcome Screen
-question: Update Services Function
+question: Edit Service List
 subquestion: |
   
-  #####This function can be used to update service information. 
+  To make a change to the services you need to change the master file. 
   
-  #####Files should not include commas. 
-  ##### 
- 
+  Upload the file to make the changes in the tool. 
+   
   ***Disclaimer:***   
-  There is no way to recover data that is lost. Flinders University takes no responsibility for lost data. 
+  There is no way to recover lost data. Flinders University is not responsible for lost data. 
   
-  Are you authorised to make system changes?
+  Do you have consent to make changes?
 yesno: HSCadmineligible
 ---
 # Text to display when importing CSV files
@@ -36,16 +36,17 @@ question: ""
 subquestion: |
   ### Uploading new data
   
+  Confirm you would like to upload the new file. 
+  
   If you proceed, the current data will be overwritten.
-  File being uploaded is ${csv_import[0].filename}
+  File being uploaded is **${csv_import[0].filename}**.
 yesno: HSCadminupload
 ---
 # RHS Welcome Screen
-question: ""
+question: Community Services Tool
 subquestion: |
-  ###Welcome to the Hutt Street Centre Access to Community Services Application. 
   
-  This application is designed to help you find community services that may be helpful to a client accessing services and making connections within their local community.
+  This tool can help you make a list of relevant community services for a client. It will filter community services based on council area and information about the client.
  
   ***Disclaimer:***   
   This is a guide only and may not include all services.
@@ -59,7 +60,7 @@ question: Where does your client live?
 subquestion: |
   Please select the council area that your client lives in.
   
-  If you can not see your clients suburb, the area is not currently supported by this application. Click 'Exit'. 
+  If you can not see your clients suburb suburb or council area listed below, the area is not currently supported by this application. Click 'Other/I'm not sure'. 
   
 fields:
   - no label: HSCcouncil
