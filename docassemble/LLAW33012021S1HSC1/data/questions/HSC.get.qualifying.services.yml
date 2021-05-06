@@ -20,13 +20,30 @@ code: |
       # for each service, run the appropriate eligibility tests
       #if age_test and gender_test and family_test and concessions_test and others_test:
       if (int(current_service['Age_Min']) <= HSCage) and (int(current_service['Age_Max']) >= HSCage) and (current_service[HSCgender] == 'TRUE') and ((HSCchildren and current_service['Children under 18'] == 'TRUE') or ((not HSCchildren) and current_service['No Children'] == 'TRUE')) and (((not HSCatsi) and current_service['ATSI'] == 'FALSE') or (HSCatsi)):
-        for concession in HSCconcession.true_values():
-          if current_service[concession] != 'TRUE':
-            continue
-        for factor in HSCfactor.true_values():
-          if current_service[factor] != 'TRUE':
-            continue
-        #wegettinanay
+        # create temporary list to hold all the selected concessions and other factors
+        selected_factors = HSCconcession.true_values()
+        selected_factors.extend(HSCfactor.true_values())
+        eligible_selection = False
+        
+        # if the user has selected any of either concessions or other factors
+        if selected_factors.number() != 0 or True:
+          # iterate through the selections
+          for selection in selected_factors:
+            # if at least one of the selections pertains to the current service, then it should pass the test
+            if current_service[selection] == 'TRUE':
+              eligible_selection = True
+              break
+        # else, if the user has not selected any concessions or other factors
+        #else:
+          # consolidate the unselected options into a single list
+          #unselected_factors = HSCconcession.false_values()
+          #unselected_factors.append(HSCfactor.false_values())
+          # iterate through the options not selected
+          #for option in unselected_factors:
+            # if the current service is specific to a particular 
+        if not eligible_selection:
+          continue
+          
         # if it passes them all, then add it to it's corresponding category list
         temp_list = HSCqualifying_services.get(current_service.get('Category'))
         temp_list.append(current_service)

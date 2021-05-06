@@ -15,7 +15,6 @@ subquestion: |
   Based on your answers to the previous questions, your client may find the following services useful.
   
   Please select whichever services you feel are relevant.
-
 fields:
   - note: |
       % if qualifying_other.there_are_any:
