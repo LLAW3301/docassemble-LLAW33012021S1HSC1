@@ -26,7 +26,7 @@ code: |
         eligible_selection = False
         
         # if the user has selected any of either concessions or other factors
-        if selected_factors.number() != 0 or True:
+        if selected_factors.number() != 0:
           # iterate through the selections
           for selection in selected_factors:
             # if at least one of the selections pertains to the current service, then it should pass the test
@@ -34,7 +34,10 @@ code: |
               eligible_selection = True
               break
         # else, if the user has not selected any concessions or other factors
-        #else:
+        else:
+          # only include the service if it isn't a 'Relevant' service
+          if current_service.get('Category') != 'Relevant':
+            eligible_selection = True
           # consolidate the unselected options into a single list
           #unselected_factors = HSCconcession.false_values()
           #unselected_factors.append(HSCfactor.false_values())
