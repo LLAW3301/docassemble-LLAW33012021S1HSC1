@@ -51,6 +51,10 @@ code: |
   # Once we've created the string we use set_parts() to set our new logo metadata
   set_parts(logo=HAAlogostring)
 ---
+features:
+  progress bar: True
+  show progress bar percentage: True
+---
 # Is this the section where the code will move the user to the welcome screen?  of from the welcome screen, if they 'run app' the end screen there? - HG
 mandatory: True
 code: |
@@ -91,9 +95,9 @@ code: |
 event: endpoints['final_screen']
 question: Done!
 subquestion: |
-  Please find below the document listing all your selected services.
+  There is a link below to download the document listing all of the selected services.
   
-  You may choose to download this as a word document, or email it directly to either yourself or your client.
+  You may also choose to email it directly to yourself or your client.
   <% HSCgender %>
   <% HSCage %>
   <% HSCchildren %>
@@ -109,9 +113,10 @@ buttons:
   - Exit: exit
     url: https://www.huttstcentre.org.au
   - Restart: restart
+progress: 100
 ---
 attachment: 
-  - name: Hutt Street Centre Community Access Tool 
+  - name: Hutt Street Centre Community Services List
     filename: Result Printout
     valid formats:
       - docx
@@ -126,6 +131,7 @@ buttons:
   - Exit: exit
     url: https://www.huttstcentre.org.au/
   - Restart: restart
+progress: 100
 ---
 event: endpoints['TERMineligible']
 question: Disclaimer 
@@ -141,6 +147,7 @@ buttons:
   - Exit: exit
     url: https://www.huttstcentre.org.au/
   - Restart: restart
+progress: 100
 ---
 event: endpoints['PCineligible']
 question: Not Eligible
@@ -159,6 +166,7 @@ buttons:
   - Exit: exit
     url: https://www.huttstcentre.org.au/
   - Restart: restart
+progress: 100
 ---
 event: endpoints['no_services']
 question: No Services Available
@@ -172,4 +180,5 @@ buttons:
   - Exit: exit
     url: https://www.huttstcentre.org.au/
   - Restart: restart
+progress: 100
 ---

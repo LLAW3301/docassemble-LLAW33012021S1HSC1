@@ -16,7 +16,7 @@ subquestion: |
   
   Please select the services you want to add to the document.
   
-  **Only the services you select will be included.**
+  **The services that are selected will be included in the document.**
   
 fields:
   - note: |
@@ -72,6 +72,7 @@ fields:
       qualifying_advocacy
     none of the above: False
     required: False
+progress: 90
 ---
 # if there_are_any attribute is not already defined for a list in HSCqualifying_services, then there are no services mapped to that particular category
 generic object: DAList

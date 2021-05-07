@@ -109,4 +109,6 @@ font-size: 1.4rem;
 color: rgba(209,95,59,1);
 }
 
-
+table {
+  width: 100%;
+}

@@ -127,5 +127,6 @@ subquestion: |
 fields:
   - no label: csv_import
     datatype: file
+progress: 50
 ---
 
