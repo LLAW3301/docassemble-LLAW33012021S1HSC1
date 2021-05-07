@@ -38,7 +38,7 @@ objects:
 ---
 # J to play around with this wording. 
 features:
-  css: X2.01.SACAT.css
+  css: HSC.css
   debug: True
   hide standard menu: False
 ---

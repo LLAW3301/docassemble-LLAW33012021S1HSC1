@@ -14,7 +14,6 @@ code: |
   if HSCdata.defined(HSCcouncil):
     # retrieve the list of services at the given council
     council_services = HSCdata.get(HSCcouncil)
-
     # go through the returned list and extract all eligible services
     for current_service in council_services:
       # for each service, run the appropriate eligibility tests
@@ -53,7 +52,6 @@ code: |
         HSCqualifying_services[current_service.get('Category')] = temp_list
         #HSCqualifying_services[current_service.get('Category')].there_are_any = True
         #HSCqualifying_services[service['Category']].append(service)
-
     # finalise the categorised lists
     HSCqualifying_services.gathered = True
     #if len(HSCqualifying_services) == 0:

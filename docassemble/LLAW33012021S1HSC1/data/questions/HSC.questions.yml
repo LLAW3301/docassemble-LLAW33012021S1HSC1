@@ -12,6 +12,7 @@ subquestion: |
   Click 'Tool' to start.
   
   Click 'Administration' to update the service list.
+  
 buttons:
   - Tool: proceed
   - Administration: signin
@@ -76,7 +77,7 @@ fields:
       - City of Tea Tree Gully: City of Tea Tree Gully
       - Other/I'm not sure: exit
 right: |
- [FILE mapfinal1.png, 400px]
+ [FILE mapfinal.png, 400px]
  
 under: |
   #####City of Marion 
@@ -92,6 +93,7 @@ under: |
   5043 |	Ascot Park 	|5047 |	Seacombe Gardens 	|5158 |	Sheidow Park 
   5043 |	Marion 	|5047 |	Seacombe Heights 	|5158 |	Trott Park 
   5043 |	Mitchell Park 	|5047 |	Sturt 	|5158 |	Reynella 
+  
   #####City of Onkaparinga 
   
   Postcode|Suburb|Postcode|Suburb|Postcode | Suburb
@@ -112,6 +114,7 @@ under: |
   5161	| Old Reynella | 5168	| Old Noarlunga | 5174	| Sellicks Hill
   5161	| Reynella | 5169	| Moana |5169	| Seaford
   5161	| Reynella East | 5162	| Morphett Vale | 5169	| Seaford Meadows 
+  
   ####City of Charles Sturt
   
   Postcode|Suburb|Postcode|Suburb|Postcode | Suburb
@@ -172,9 +175,11 @@ question: |
 subquestion: |
   Which gender below best describes the client?
   
-  Choose 'Other' if male or female does not describe you.
+  Choose 'Other' if male or female does not describe them.
   
-  If you do not want to share, choose 'Prefer not to say'.
+  If the client chooses not to disclose their gender, this may effect the service outcome.
+  
+  If they do not want to share, choose 'Prefer not to say'.
 fields: 
   - no label: HSCgender
     datatype: radio
@@ -201,7 +206,7 @@ fields:
 question: |
   Children
 subquestion: |
-  Does the client have any children under 18 years of age?
+  Does the client have any children under 18 years of age in their care?
 yesno: HSCchildren
 ---
 question: |
