@@ -33,7 +33,7 @@ include:
 #added HSC logo
 objects:
   - HSCqualifying_agencies: DAList.using(there_are_any=True, auto_gather=False)
-  - HSClogo: DAStaticFile.using(filename='HSC_LOGO.jpg')
+  - HSClogo: DAStaticFile.using(filename='HSClogo.png')
   - endpoints: DADict
 ---
 # J to play around with this wording. 
