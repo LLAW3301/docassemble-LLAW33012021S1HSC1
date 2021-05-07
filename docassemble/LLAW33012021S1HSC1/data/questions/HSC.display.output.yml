@@ -12,9 +12,12 @@ objects:
 # no filtering, hard coded categories
 question: Available Services
 subquestion: |
-  Based on your answers to the previous questions, your client may find the following services useful.
+  Based on the answers, your client may find the following services helpful.
   
-  Please select whichever services you feel are relevant.
+  Please select the services you want to add to the document.
+  
+  **Only the services you select will be included.**
+  
 fields:
   - note: |
       % if qualifying_other.there_are_any:

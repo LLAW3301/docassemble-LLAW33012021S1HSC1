@@ -32,7 +32,7 @@ subquestion: |
 yesno: HSCadmineligible
 
 terms:
-  file: Must be a CSV formatted file
+  file: The master file must be a CSV formatted file
 ---
 # Text to display when importing CSV files
 question: ""
