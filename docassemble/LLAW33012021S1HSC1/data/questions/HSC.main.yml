@@ -101,8 +101,8 @@ subquestion: |
   <% HSCgender %>
   <% HSCage %>
   <% HSCchildren %>
-  <% HSCconcession %>
   <% HSCatsi %>
+  <% HSCconcession %>
   <% HSCfactor %>
   % if len(HSCqualifying_services) == 0:
   <% endpoints['no_services'] %>

@@ -249,6 +249,15 @@ yesno: HSCchildren
 progress: 50
 ---
 question: |
+  ATSI
+subquestion: | 
+  Is the client of Aboriginal or Torres Strait Islander descent?
+  
+  This is if they identify as Aboriginal or Torres Strait Islander.
+yesno: HSCatsi
+progress: 60
+---
+question: |
   Concessions
 subquestion: |
   Which concessions is the client eligible for?
@@ -265,15 +274,6 @@ fields:
      - "Department of Veteran Affairs Card" #: dva
      - "Disability Support Pension" #: dsp
      - "Student" #: student
-progress: 60
----
-question: |
-  ATSI
-subquestion: | 
-  Is the client of Aboriginal or Torres Strait Islander descent?
-  
-  This is if they identify as Aboriginal or Torres Strait Islander.
-yesno: HSCatsi
 progress: 70
 ---
 question: |

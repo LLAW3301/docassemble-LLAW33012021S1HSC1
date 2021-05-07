@@ -63,7 +63,7 @@ fields:
     required: False
   - note: |
       % if qualifying_advocacy.there_are_any:
-      ## Advocacy Groups:
+      ## Advocacy Services:
       % endif
   - no label: selected_services_advocacy
     datatype: checkboxes
