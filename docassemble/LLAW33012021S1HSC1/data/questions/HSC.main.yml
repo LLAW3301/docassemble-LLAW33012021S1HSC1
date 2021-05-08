@@ -6,6 +6,12 @@ metadata:
   short title: |
     Community Access Tool 
   organisation: Flinders University
+  authors:
+    - name: Jocelyn Neumueller 
+    - name: Hannah Guest
+    - name: Laura Spencer
+    - name: Kaitlyn Laverick
+
   show login: True
 ---
 #Jocelyn, can you please help me with inserting this code once we get the photo from HSC? HG This is the flinders logo below. Have inserted HSC one below 
@@ -39,8 +45,10 @@ objects:
 # J to play around with this wording. 
 features:
   css: HSC.css
-  debug: True
-  hide standard menu: False
+  debug: false
+  hide standard menu: True
+  progress bar: True
+  show progress bar percentage: True
 ---
 #HG not amended
 mandatory: True
@@ -50,10 +58,6 @@ code: |
   HAAlogostring = '<div class="media"><img src="{}" class="mr-3" height="50"><div class="media-body"></div></div>'.format(HSClogo.url_for())
   # Once we've created the string we use set_parts() to set our new logo metadata
   set_parts(logo=HAAlogostring)
----
-features:
-  progress bar: True
-  show progress bar percentage: True
 ---
 # Is this the section where the code will move the user to the welcome screen?  of from the welcome screen, if they 'run app' the end screen there? - HG
 mandatory: True
