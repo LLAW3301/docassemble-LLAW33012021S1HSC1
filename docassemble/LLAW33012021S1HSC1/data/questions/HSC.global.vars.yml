@@ -1,0 +1,5 @@
+#Data store
+---
+objects:
+  - HSCdata: DAStore.using(base='global')
+---
