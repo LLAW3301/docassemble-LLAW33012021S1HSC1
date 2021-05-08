@@ -154,7 +154,7 @@ progress: 100
 event: endpoints['UPLOADineligible']
 question: Upload Not Successful
 subquestion: |
-  You must confirm upload for service information to be updated. 
+  You must confirm the upload for service information to be updated. 
   
   If you do not confirm, the changes will not be made in the tool.
   

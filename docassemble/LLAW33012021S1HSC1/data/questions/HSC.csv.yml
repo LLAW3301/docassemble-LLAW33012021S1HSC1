@@ -7,7 +7,7 @@
 # question block.
 ---
 include:
-  - HSC_global_vars.yml
+  - HSC.global.vars.yml
 ---
 objects:
  # - csv_data: DAList.using(auto_gather=False, there_are_any=True)
