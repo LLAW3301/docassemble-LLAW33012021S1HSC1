@@ -16,8 +16,8 @@ subquestion: |
 buttons:
   - Tool: proceed
   - Administration: signin
+progress: 1
 sets: HSCsign_in_page
-progress: 0
 ---
 # LHS Welcome Screen
 question: Edit Service List
@@ -25,7 +25,9 @@ subquestion: |
   
   To make a change to the services you need to change the master file. 
   
-  Upload the {file} to make the changes in the tool. 
+  Upload the {CSV} file to make the changes in the tool. 
+  
+  It is important that you have consent to make changes.
    
   ***Disclaimer:***   
   There is no way to recover lost data. Flinders University is not responsible for lost data. 
@@ -34,13 +36,12 @@ subquestion: |
 yesno: HSCadmineligible
 
 terms:
-  file: The master file must be a CSV formatted file
+  CSV: CSV is a simple file format used to store tabular data, such as a spreadsheet or database
 progress: 25
 ---
 # Text to display when importing CSV files
-question: ""
+question: Confirm Upload
 subquestion: |
-  ### Uploading new data
   
   Confirm you would like to upload the new file. 
   
@@ -83,12 +84,15 @@ fields:
       - City of Tea Tree Gully: City of Tea Tree Gully
       - Other/I'm not sure: exit
  
+    default: |
+      City of Marion
+    
 under: |
   #####City of Marion 
   
   Postcode|Suburb|Postcode|Suburb
   -------|---------|-------|---------
-  5037 | Glandore |5043 |	5047 |	Darlington
+  5037 | Glandore |	5047 |	Darlington
   5038 |	Plympton Park 	|5047 |	Seacombe Gardens
   5038 |	South Plympton 	|5047 |	Seacombe Heights
   5039 |	Edwardstown 	|5047 |	Sturt
@@ -223,6 +227,8 @@ fields:
      - "Female": Gender_Female
      - "Male": Gender_Male
      - "Other or Prefer not to say": Gender_Other
+    default: |
+      Female
 progress: 30
 ---
 # age question
@@ -232,20 +238,26 @@ subquestion: |
   What is their age?
 fields:
   Age: HSCage
+  help: |
+    Enter the age as a number like 24 or 50
   datatype: integer
   min: 0
   max: 100
   validation messages: 
     max: |
       Please enter an age between 0 and 100
+  default: |
+    33
 progress: 40
 ---
 # children under 18 years question
 question: |
   Children
 subquestion: |
-  Does the client have any children under 18 years of age in their care?
+  Does the client have any children under 18 years of age in their {care}?
 yesno: HSCchildren
+terms:
+  care: A child or children are in a clients care if they have custody of or live with them
 progress: 50
 ---
 question: |
@@ -274,6 +286,8 @@ fields:
      - "Department of Veteran Affairs Card" #: dva
      - "Disability Support Pension" #: dsp
      - "Student" #: student
+    default: |
+      Disability Support Pension
 progress: 70
 ---
 question: |
@@ -294,5 +308,7 @@ fields:
      - "Migrant" #: migrant
      - "Refugee" #: refugee
      - "LGBTQIA" #: LGBTQIA
+    default: |
+      Disability
 progress: 80
 --- 

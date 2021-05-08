@@ -69,7 +69,7 @@ code: |
           write_HSCdata              # write the CSV data to DAStore
           endpoints['HSCfinal_admin']# send to final admin screen
         else:
-          endpoints['TERMineligible']# user does not confirm their changes
+          endpoints['UPLOADineligible']# user does not confirm their changes
       # if the user is not eligible to access this path
       else: 
         endpoints['TERMineligible']  # send user to ineligible screen
@@ -93,8 +93,10 @@ code: |
 ---
 #Will be able to update once I know the codes we are relying on. Jocelyn, happy to use your codes here. HG
 event: endpoints['final_screen']
-question: Done!
+question: Complete!
 subquestion: |
+  The document is ready. 
+  
   There is a link below to download the document listing all of the selected services.
   
   You may also choose to email it directly to yourself or your client.
@@ -134,13 +136,29 @@ buttons:
 progress: 100
 ---
 event: endpoints['TERMineligible']
-question: Disclaimer 
+question: Disclaimer Not Accepted
 subquestion: |
   You must agree to the terms to continue. 
   
   If you do not agree, you will not be able to use the tool.
   
   If you do not want to, click 'Exit'. 
+  
+  If you change your mind, click 'Restart' to try again. 
+buttons:
+  - Exit: exit
+    url: https://www.huttstcentre.org.au/
+  - Restart: restart
+progress: 100
+---
+event: endpoints['UPLOADineligible']
+question: Upload Not Successful
+subquestion: |
+  You must confirm upload for service information to be updated. 
+  
+  If you do not confirm, the changes will not be made in the tool.
+  
+  If you do not want to make changes, click 'Exit'. 
   
   If you change your mind, click 'Restart' to try again. 
 buttons:

@@ -17,19 +17,16 @@
 
 .navbar .dropdown-menu{
 
-    background-color: rgba(255,255,255,0.3);
+    background-color: rgba(255,255,255,1);
 }
 .dropdown-item:hover{
-    background-color: rgba(255,255,255,0.3);
+    background-color: rgba(255,255,255,1);
 }
 .navbar form button{
     background-color: rgba(255,255,255,0.3);
     color:#FFF;
    
     border:0;
-}
-.navbar form button:hover{
-    background-color: rgba(255,255,255,0.3);
 }
 
 .da-page-header {
@@ -56,17 +53,13 @@ body.daadminbody {
 }
 
 h1 {
-  color: rgba(209,95,59,1);
+  color: rgba(241,93,36,1);
 }
 
 .bg-dark {
-background-color: rgba(53,50,59,1)!important;
+background-color: rgba(26,25,25,1)!important;
 }
 
-.navbar {
-font-size: 16px;
-padding: .0rem .3rem;
-}
 
 .navbar form button:hover {
 background-color: rgba(53,50,59,1);
@@ -84,18 +77,42 @@ color: rgba(209,95,59,1) !important;
 
 .btn-primary:not(:disabled):not(.disabled).active, .btn-primary:not(:disabled):not(.disabled):active, .show>.btn-primary.dropdown-toggle {
 color: #fff;
-background-color: rgba(209,95,59,1);
-border-color: rgba(209,95,59,1);
+background-color: rgba(241,93,36,1);
+border-color: rgba(241,93,36,1);
 }
 
 .btn-primary {
 color: #fff;
-background-color: rgba(209,95,59,1);
-border-color: rgba(209,95,59,1);
+background-color: rgba(241,93,36,1);
+border-color: rgba(241,93,36,1);
+}
+
+.btn-primary {
+color: #fff;
+background-color: rgba(241,93,36,1);
+border-color: rgba(241,93,36,1);
+}
+
+.btn-primary:hover {
+color: #fff;
+background-color: rgba(88,193,214,1);
+border-color: rgba(88,193,214,1);
+}
+
+.btn-secondary {
+color: #fff;
+background-color: rgba(39,94,126,1);
+border-color: rgba(39,94,126,1);
+}
+
+.btn-secondary:hover {
+color: #fff;
+background-color: rgba(88,193,214,1);
+border-color: rgba(88,193,214,1);
 }
 
 .text-muted {
-color: rgba(209,95,59,1)!important;
+color: rgba(241,93,36,1)!important;
 }
 
 .navbar .navbar-brand {
@@ -106,9 +123,35 @@ font-size: 1.2em;
 
 .h2, h2 {
 font-size: 1.4rem;
-color: rgba(209,95,59,1);
+color: rgba(241,93,36,1);
 }
 
 table {
   width: 100%;
 }
+
+.progress-bar {
+color: #fff;
+background-color: rgba(39,94,126,1);
+}
+
+.navbar form button {
+background-color: rgba(26, 25, 25, 1);
+color: rgba(255,255,255,1);
+border: 0;
+}
+
+.mt-2, .my-2 {
+margin-top: 2.5rem!important;
+}
+
+img.mr-3 {
+height: 70px;
+}
+
+.da-page-header {
+padding-bottom: 5px;
+margin: 35px 0 10px;
+border-bottom: 1px solid #eee;
+}
+
