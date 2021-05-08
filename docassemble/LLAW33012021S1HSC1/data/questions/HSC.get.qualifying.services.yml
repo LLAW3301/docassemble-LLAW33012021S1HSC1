@@ -1,0 +1,100 @@
+---
+objects:
+  - HSCqualifying_services: DADict.using(auto_gather=False, there_are_any=True, object_type=DAList)
+#  - current_service: DADict
+---
+# Go through the list that corresponds to the selected council.
+# extract all the qualifying services and put them in a list
+# corresponding to their category.
+# These lists are what will be displayed in the display_output file
+code: |
+  HSCqualifying_services.clear()
+  
+  # if there are services for the given council area
+  if HSCdata.defined(HSCcouncil):
+    # retrieve the list of services at the given council
+    council_services = HSCdata.get(HSCcouncil)
+    # go through the returned list and extract all eligible services
+    for current_service in council_services:
+      # for each service, run the appropriate eligibility tests
+      #if age_test and gender_test and family_test and concessions_test and others_test:
+      if (int(current_service['Age_Min']) <= HSCage) and (int(current_service['Age_Max']) >= HSCage) and (current_service[HSCgender] == 'TRUE') and ((HSCchildren and current_service['Children under 18'] == 'TRUE') or ((not HSCchildren) and current_service['No Children'] == 'TRUE')) and (((not HSCatsi) and current_service['ATSI'] == 'FALSE') or (HSCatsi)):
+        # create temporary list to hold all the selected concessions and other factors
+        selected_factors = HSCconcession.true_values()
+        selected_factors.extend(HSCfactor.true_values())
+        eligible_selection = False
+        
+        # if the user has selected any of either concessions or other factors
+        if selected_factors.number() != 0:
+          # iterate through the selections
+          for selection in selected_factors:
+            # if at least one of the selections pertains to the current service, then it should pass the test
+            if current_service[selection] == 'TRUE':
+              eligible_selection = True
+              break
+        # else, if the user has not selected any concessions or other factors
+        else:
+          # only include the service if it isn't a 'Relevant' service
+          if current_service.get('Category') != 'Relevant':
+            eligible_selection = True
+          # consolidate the unselected options into a single list
+          #unselected_factors = HSCconcession.false_values()
+          #unselected_factors.append(HSCfactor.false_values())
+          # iterate through the options not selected
+          #for option in unselected_factors:
+            # if the current service is specific to a particular 
+        if not eligible_selection:
+          continue
+          
+        # if it passes them all, then add it to it's corresponding category list
+        temp_list = HSCqualifying_services.get(current_service.get('Category'))
+        temp_list.append(current_service)
+        HSCqualifying_services[current_service.get('Category')] = temp_list
+        #HSCqualifying_services[current_service.get('Category')].there_are_any = True
+        #HSCqualifying_services[service['Category']].append(service)
+    # finalise the categorised lists
+    HSCqualifying_services.gathered = True
+    #if len(HSCqualifying_services) == 0:
+    #  endpoints['INineligible']
+    for category in HSCqualifying_services:        # NECESSARY
+      HSCqualifying_services[category].there_is_another = False
+      #HSCqualifying_services[category].there_are_any = True
+  else:
+    # else, if there are no services at the given council area, return an empty dictionary
+    #HSCqualifying_services = {}
+    HSCqualifying_services.gathered = True
+    #endpoints['INineligible']
+    #HSCqualifying_services.there_are_any = False
+    
+  # if there are no services that match the user input, then reach an endpoint
+  #if len(HSCqualifying_services) == 0:
+  #  endpoints['no_services']
+---
+# test for age eligibility
+code: |  
+  age_test = (int(current_service['Min Age']) <= HSCage) and (int(current_service['Max Age']) >= HSCage)
+---
+# test for gender eligibility
+code: |
+  gender_test = (current_service[HSCgender] == 'TRUE')
+---
+# test for family situation eligibility
+code: |
+  family_test = HSCchildren#(current_service[HSCchildren] == 'TRUE')
+---
+# test for eligibility with concessions
+code: |
+  # return false if the services do not pertain to the client's concessions
+  for concession in HSCconcession.true_values():
+    if current_service[concession] != 'TRUE':
+      concessions_test = False
+  concessions_test = True # else, return true
+---
+# test for eligibility with other factors
+code: |
+  # return false if the services do not pertain to the client's details
+  for factor in HSCfactor.true_values():
+    if current_service[factor] != 'TRUE':
+      others_test = False
+  others_test = True # else, return true
+---
