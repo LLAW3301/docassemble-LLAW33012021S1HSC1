@@ -1,0 +1,314 @@
+---
+field: welcome_screen
+# Initial screen as per revised flow chat
+question: Hutt Street Centre
+subquestion: |
+  Welcome to the Hutt Street Centre Community Access Tool.
+  
+  The tool can help you make a list of relevant community services for a client. It will filter community services based on council area and information about the client.
+  
+  What do you want to do?
+  
+  Click 'Tool' to start.
+  
+  Click 'Administration' to update the service list.
+  
+buttons:
+  - Tool: proceed
+  - Administration: signin
+progress: 1
+sets: HSCsign_in_page
+---
+# LHS Welcome Screen
+question: Edit Service List
+subquestion: |
+  
+  To make a change to the services you need to change the master file. 
+  
+  Upload the {CSV} file to make the changes in the tool. 
+  
+  It is important that you have consent to make changes.
+   
+  ***Disclaimer:***   
+  There is no way to recover lost data. Flinders University is not responsible for lost data. 
+  
+  Do you have consent to make changes?
+yesno: HSCadmineligible
+
+terms:
+  CSV: CSV is a simple file format used to store tabular data, such as a spreadsheet or database
+progress: 25
+---
+# Text to display when importing CSV files
+question: Confirm Upload
+subquestion: |
+  
+  Confirm you would like to upload the new file. 
+  
+  If you proceed, the current data will be overwritten.
+  File being uploaded is **${csv_import[0].filename}**.
+yesno: HSCadminupload
+progress: 75
+---
+# RHS Welcome Screen
+question: Community Services Tool
+subquestion: |
+  
+  This tool can help you make a list of relevant community services for a client. It will filter community services based on council area and information about the client.
+ 
+  ***Disclaimer:***   
+  This is a guide only and may not include all services.
+  There are no guarantees that any individual service will accept your clients enquiry or provide services to them.
+  
+  Do you accept these terms?
+yesno: HSCeligible
+progress: 10
+---
+# location question
+question: Where does your client live?
+subquestion: |
+  Please select the council area that your client lives in.
+  
+  If you can not see your clients suburb suburb or council area listed below, the area is not currently supported by this application. Click 'Other/I'm not sure'.
+  
+  If you are not sure which council area your client lives in there is a list below. 
+  
+fields:
+  - no label: HSCcouncil
+    datatype: radio
+    choices:
+      - City of Marion: City of Marion
+      - City of Charles Sturt: City of Charles Sturt
+      - City of Onkaparinga: City of Onkaparinga
+      - City of Port Adelaide Enfield: City of Port Adelaide Enfield
+      - City of Tea Tree Gully: City of Tea Tree Gully
+      - Other/I'm not sure: exit
+ 
+    default: |
+      City of Marion
+    
+under: |
+  #####City of Marion 
+  
+  Postcode|Suburb|Postcode|Suburb
+  -------|---------|-------|---------
+  5037 | Glandore |	5047 |	Darlington
+  5038 |	Plympton Park 	|5047 |	Seacombe Gardens
+  5038 |	South Plympton 	|5047 |	Seacombe Heights
+  5039 |	Edwardstown 	|5047 |	Sturt
+  5042 |	Bedford Park 	|5048 |	Dover Gardens
+  5042 |	Clovelly Park 	|5049 |	Marino
+  5043 |	Ascot Park 	|5049 |	Seacliff Park
+  5043 |	Marion 	|5049 |	Seaview Downs
+  5043 |	Mitchell Park 	|5047 |	Sturt
+  5043 |	Morphettville | 5158 |	Hallett Cove 
+  5043 |	Park Holme 	| 5158 |	O'Halloran Hill 
+  5044 |	Glengowrie 	| 5158 |	Sheidow Park 
+  5046 |	Oaklands Park 	| 5158 |	Trott Park 
+  5046 |	Warradale 	| 5158 |	Reynella 
+  
+  #####City of Onkaparinga 
+  
+  Postcode|Suburb|Postcode|Suburb
+  -------|---------|-------|---------
+  5047	 | 	Darlington 	 | 	5165	 | 	Christies Beach 
+  5051	 | 	Coromandel Valley 	 | 	5166	 | 	O'Sullivan Beach 
+  5153	 | 	Ironbank 	 | 	5167	 | 	Port Noarlunga 
+  5157	 | 	Cherry Gardens 	 | 	5167	 | 	Port Noarlunga South 
+  5157	 | 	Clarendon 	 | 	5168	 | 	Noarlunga Centre 
+  5157	 | 	Coromandel East 	 | 	5168	 | 	Noarlunga Downs 
+  5157	 | 	Kangarilla 	 | 	5168	 | 	Old Noarlunga 
+  5158	 | 	O'Halloran Hill 	 | 	5169	 | 	Moana 
+  5159	 | 	Aberfoyle Park 	 | 	5169	 | 	Seaford 
+  5159	 | 	Chandlers Hill 	 | 	5169	 | 	Seaford Meadows 
+  5159	 | 	Flagstaff Hill 	 | 	5169	 | 	Seaford Rise 
+  5159	 | 	Happy Valley 	 | 	5170	 | 	Maslin Beach 
+  5160	 | 	Lonsdale 	 | 	5171	 | 	Blewitt Springs 
+  5161	 | 	Old Reynella 	 | 	5171	 | 	McLaren Flat 
+  5161	 | 	Reynella 	 | 	5171	 | 	McLaren Vale 
+  5161	 | 	Reynella East 	 | 	5171	 | 	Tatachilla 
+  5162	 | 	Morphett Vale 	 | 	5172	 | 	Whites Valley 
+  5162	 | 	Onkaparinga Hills 	 | 	5172	 | 	Willunga 
+  5162	 | 	Woodcroft 	 | 	5172	 | 	Willunga South 
+  5163	 | 	Hackham 	 | 	5173	 | 	Aldinga 
+  5163	 | 	Hackham West 	 | 	5173	 | 	Aldinga Beach 
+  5163	 | 	Huntfield Heights 	 | 	5173	 | 	Port Willunga
+  5163	 | 	Onkaparinga Hills 	 | 	5174	 | 	Sellicks Beach 
+  5164	 | 	Christie Downs 	 | 	5174	 | 	Sellicks Hill
+  
+  ####City of Charles Sturt
+  
+  Postcode|Suburb|Postcode|Suburb
+  -------|---------|-------|---------
+  5007	| Bowden 	| 5013 | Pennington
+  5007	| Brompton |  5014 |	Albert Park
+  5007	| Hindmarsh |	5014 |	Cheltenham
+  5007	| Welland | 5014 |	Hendon
+  5007	| West Hindmarsh |	5014	| Royal Park
+  5008 | Croydon |	5020 |	5019 |	Semaphore Park 
+  5008	| Devon Park | 5020 | West Lakes Shore 
+  5008	| Renown Park |	5021 |	West Lakes
+  5008	| Ridleyton | 5022 |	Grange
+  5008	| West Croydon |	5022 |	Henley Beach
+  5009	| Allenby Gardens |	5022 |	Henley Beach South 
+  5009	| Beverley |	5022 |	Tennyson 
+  5009	| Kilkenny |	5023 |	Findon
+  5011	| Woodville 	| 5023	| Seaton
+  5011 |	Woodville Park | 5024 |	Fulham Gardens 
+  5011 |	Woodville South | 5024 |	West Beach 
+  5011 |	Woodville West | 5025 | Flinders Park
+  5012 | Athol Park | 5025 |	Kidman Park
+  5012 |	Woodville North | 5082 |	Ovingham
+
+  ####City of Port Adelaide Enfield
+  
+  Postcode|Suburb|Postcode|Suburb
+  -------|---------|-------|--------- 
+  	5008	 | 	Croydon Park 	 | 	5019	 | 	Exeter 
+  	5008	 | 	Devon Park 	 | 	5019	 | 	Semaphore 
+  	5008	 | 	Dudley Park 	 | 	5019	 | 	Semaphore South 
+  	5010	 | 	Angle Park 	 | 	5075	 | 	Dernancourt 
+  	5010	 | 	Ferryden Park 	 | 	5083	 | 	Broadview 
+  	5010	 | 	Regency Park 	 | 	5083	 | 	Sefton Park 
+  	5012	 | 	Mansfield Park 	 | 	5084	 | 	Blair Athol 
+  	5012	 | 	Woodville Gardens 	 | 	5084	 | 	Kilburn 
+  	5013	 | 	Ottoway 	 | 	5085	 | 	Clearview 
+  	5013	 | 	Rosewater 	 | 	5085	 | 	Enfield 
+  	5013	 | 	Wingfield 	 | 	5085	 | 	Northfield 
+  	5014	 | 	Alberton 	 | 	5085	 | 	Northgate 
+  	5014	 | 	Queenstown 	 | 	5086	 | 	Gilles Plains 
+  	5015	 | 	Birkenhead 	 | 	5086	 | 	Greenacres 
+  	5015	 | 	Ethelton 	 | 	5086	 | 	Hampstead Gardens 
+  	5015	 | 	Glanville 	 | 	5086	 | 	Hillcrest 
+  	5015	 | 	New Port 	 | 	5086	 | 	Manningham 
+  	5015	 | 	Port Adelaide 	 | 	5086	 | 	Oakden 
+  	5016	 | 	Largs Bay 	 | 	5087	 | 	Klemzig 
+  	5016	 | 	Largs North 	 | 	5087	 | 	Windsor Gardens 
+  	5016	 | 	Peterhead 	 | 	5088	 | 	Holden Hill 
+  	5017	 | 	Osborne 	 | 	5093	 | 	Valley View 
+  	5017	 | 	Taperoo 	 | 	5094	 | 	Dry Creek 
+  	5018	 | 	North Haven 	 | 	5094	 | 	Gepps Cross 
+  	5018	 | 	Outer Harbor 	 | 	5098	 | 	Walkley Heights 	
+  
+  ####City of Tea Tree Gully
+  
+  Postcode|Suburb|Postcode|Suburb
+  -------|---------|-------|---------
+  5075 |	Dernancourt |	5096	| Para Hills
+  5086 |	Gilles Plains |	5097 |	Redwood Park 	
+  5088	| Holden Hill |	5097 | Ridgehaven 
+  5089 |	Highbury |	5097	| St Agnes 
+  5090 |	Hope Valley |	5109	| Salisbury East 
+  5091 |	Banksia Park |	5109	| Salisbury Heights  
+  5091 |	Tea Tree Gully |	5125	| Golden Grove    
+  5091 | Vista |	5125	| Greenwith |	5131	| Houghton 
+  5092	| Modbury |	5126	| Fairview Park 
+  5092 |	Modbury Heights | 5126	| Surrey Downs
+  5092	| Modbury North |	5126	| Yatala Vale 
+  5093 |	Valley View |	5127	| Wynn Vale 
+  5096 |	Gulfview Heights
+progress: 20
+---
+# gender question
+question: |
+  Gender
+subquestion: |
+  Which gender below best describes the client?
+  
+  Choose 'Other' if male or female does not describe them.
+  
+  If the client chooses not to disclose their gender, this may effect the service outcome.
+  
+  If they do not want to share, choose 'Prefer not to say'.
+fields: 
+  - no label: HSCgender
+    datatype: radio
+    choices:
+     - "Female": Gender_Female
+     - "Male": Gender_Male
+     - "Other or Prefer not to say": Gender_Other
+    default: |
+      Female
+progress: 30
+---
+# age question
+question: |
+  Age
+subquestion: |
+  What is their age?
+fields:
+  Age: HSCage
+  help: |
+    Enter the age as a number like 24 or 50
+  datatype: integer
+  min: 0
+  max: 100
+  validation messages: 
+    max: |
+      Please enter an age between 0 and 100
+  default: |
+    33
+progress: 40
+---
+# children under 18 years question
+question: |
+  Children
+subquestion: |
+  Does the client have any children under 18 years of age in their {care}?
+yesno: HSCchildren
+terms:
+  care: A child or children are in a clients care if they have custody of or live with them
+progress: 50
+---
+question: |
+  ATSI
+subquestion: | 
+  Is the client of Aboriginal or Torres Strait Islander descent?
+  
+  This is if they identify as Aboriginal or Torres Strait Islander.
+yesno: HSCatsi
+progress: 60
+---
+question: |
+  Concessions
+subquestion: |
+  Which concessions is the client eligible for?
+  
+  You can choose as many as you need. 
+  
+  If you are unsure, please select 'None of the above'.
+fields: 
+  - no label: HSCconcession
+    datatype: checkboxes
+    choices:
+     - "Health Care Card" #: hcc
+     - "Seniors Card" #: seniors
+     - "Department of Veteran Affairs Card" #: dva
+     - "Disability Support Pension" #: dsp
+     - "Student" #: student
+    default: |
+      Disability Support Pension
+progress: 70
+---
+question: |
+  Other
+subquestion: | 
+  Which of the below apply to the client?
+  
+  You can choose as many as you need. 
+  
+  If you are unsure, please select 'None of the above'.
+fields: 
+  - no label: HSCfactor
+    datatype: checkboxes
+    choices:
+     - "Disability" #: disability 
+     - "ESL" #: ESL
+     - "Immigrant" #: immigrant
+     - "Migrant" #: migrant
+     - "Refugee" #: refugee
+     - "LGBTQIA" #: LGBTQIA
+    default: |
+      Disability
+progress: 80
+--- 
