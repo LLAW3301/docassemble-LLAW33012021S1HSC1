@@ -1,0 +1,202 @@
+# This is the main file for the HSC application 
+---
+metadata:
+  title: |
+    Hutt Street Centre Community Access Tool 
+  short title: |
+    Community Access Tool 
+  organisation: Flinders University
+  show login: True
+---
+#Jocelyn, can you please help me with inserting this code once we get the photo from HSC? HG This is the flinders logo below. Have inserted HSC one below 
+default screen parts:
+  post: |
+    <div style="display: flex; height: 200px; align-items: flex-end; flex-direction: row-reverse">
+    <div style="margin: 5px"><img src="https://staff.flinders.edu.au/etc.clientlibs/flinders/clientlibs/clientlib-site/resources/images/flinderuni_main_logo_black.png" height="40">
+    </div>
+    <div style="margin: 5px; text-align: right">
+    <cite><small><i>
+    Developed by Flinders University in collaboration with Hutt Street Centre
+    </i></small></cite>
+    </div>
+    </div>
+---
+#Will need to insert once we have the names of all the screens
+include:
+  - HSC.display.output.yml
+  - HSC.get.qualifying.services.yml
+  - HSC.global.vars.yml
+  - HSC.login.yml
+  - HSC.questions.yml
+  - HSC.csv.yml
+---
+#added HSC logo
+objects:
+  - HSCqualifying_agencies: DAList.using(there_are_any=True, auto_gather=False)
+  - HSClogo: DAStaticFile.using(filename='HSClogo.png')
+  - endpoints: DADict
+---
+# J to play around with this wording. 
+features:
+  css: HSC.css
+  debug: True
+  hide standard menu: False
+---
+#HG not amended
+mandatory: True
+code: |
+  # The string below creates the HTML and  inserts into it the logo contained in 
+  # the file HSClogo using the python format() method 
+  HAAlogostring = '<div class="media"><img src="{}" class="mr-3" height="50"><div class="media-body"></div></div>'.format(HSClogo.url_for())
+  # Once we've created the string we use set_parts() to set our new logo metadata
+  set_parts(logo=HAAlogostring)
+---
+features:
+  progress bar: True
+  show progress bar percentage: True
+---
+# Is this the section where the code will move the user to the welcome screen?  of from the welcome screen, if they 'run app' the end screen there? - HG
+mandatory: True
+code: |
+  # if the user clicks the 'Administration' option -
+  if welcome_screen == 'signin':
+    # first, ensure that the user is logged in to access this path
+    if user_logged_in():
+      # then, check that the user is eligible to access this path
+      if HSCadmineligible:
+        csv_import                   # upload a CSV file
+        if HSCadminupload:           # confirm the CSV upload
+          write_HSCdata              # write the CSV data to DAStore
+          endpoints['HSCfinal_admin']# send to final admin screen
+        else:
+          endpoints['UPLOADineligible']# user does not confirm their changes
+      # if the user is not eligible to access this path
+      else: 
+        endpoints['TERMineligible']  # send user to ineligible screen
+    # send user to login screen if they're not logged in
+    else:
+      login_screen
+  # else, if the user clicks the 'Application' option - 
+  elif welcome_screen == 'proceed':
+    # It's a regular user 
+    if HSCeligible:
+      # if they do not select any of the available council areas
+      if HSCcouncil == 'exit':
+        endpoints['PCineligible'] # redirect to ineligible council area screen
+      else:
+        endpoints['final_screen'] # redirect to final screen question flow
+    else:
+      endpoints['TERMineligible'] # redirect to disclaimer rejected screen
+  else:
+    # Catch an invalid value
+    pass
+---
+#Will be able to update once I know the codes we are relying on. Jocelyn, happy to use your codes here. HG
+event: endpoints['final_screen']
+question: Complete!
+subquestion: |
+  The document is ready. 
+  
+  There is a link below to download the document listing all of the selected services.
+  
+  You may also choose to email it directly to yourself or your client.
+  <% HSCgender %>
+  <% HSCage %>
+  <% HSCchildren %>
+  <% HSCatsi %>
+  <% HSCconcession %>
+  <% HSCfactor %>
+  % if len(HSCqualifying_services) == 0:
+  <% endpoints['no_services'] %>
+  % endif
+attachment code: |
+  HSCprintout
+buttons:
+  - Exit: exit
+    url: https://www.huttstcentre.org.au
+  - Restart: restart
+progress: 100
+---
+attachment: 
+  - name: Hutt Street Centre Community Services List
+    filename: Result Printout
+    valid formats:
+      - docx
+    docx template file: HSC_print_out.docx
+    variable name: HSCprintout
+---
+event: endpoints['HSCfinal_admin']
+question: Data File Updated
+subquestion: |
+  The data has been updated with the new CSV file. 
+buttons:
+  - Exit: exit
+    url: https://www.huttstcentre.org.au/
+  - Restart: restart
+progress: 100
+---
+event: endpoints['TERMineligible']
+question: Disclaimer Not Accepted
+subquestion: |
+  You must agree to the terms to continue. 
+  
+  If you do not agree, you will not be able to use the tool.
+  
+  If you do not want to, click 'Exit'. 
+  
+  If you change your mind, click 'Restart' to try again. 
+buttons:
+  - Exit: exit
+    url: https://www.huttstcentre.org.au/
+  - Restart: restart
+progress: 100
+---
+event: endpoints['UPLOADineligible']
+question: Upload Not Successful
+subquestion: |
+  You must confirm the upload for service information to be updated. 
+  
+  If you do not confirm, the changes will not be made in the tool.
+  
+  If you do not want to make changes, click 'Exit'. 
+  
+  If you change your mind, click 'Restart' to try again. 
+buttons:
+  - Exit: exit
+    url: https://www.huttstcentre.org.au/
+  - Restart: restart
+progress: 100
+---
+event: endpoints['PCineligible']
+question: Not Eligible
+subquestion: |
+  You need to select a valid location. 
+  
+  You can not use the tool if you do not know the client's council area. 
+  
+  *Please speak to your manager if you think a council area should be added.*
+  
+  Click 'Restart' to try again. 
+  
+#I'm not sure if HSC want to have this as an internal address like an 
+#intranet 
+buttons:
+  - Exit: exit
+    url: https://www.huttstcentre.org.au/
+  - Restart: restart
+progress: 100
+---
+event: endpoints['no_services']
+question: No Services Available
+subquestion: |
+  Unfortunately, there are no services that match the answers.
+  
+  If you would like to try again, please click 'Restart'.
+  
+  If you would like to exit the application, please click 'Exit'.
+buttons:
+  - Exit: exit
+    url: https://www.huttstcentre.org.au/
+  - Restart: restart
+progress: 100
+---
