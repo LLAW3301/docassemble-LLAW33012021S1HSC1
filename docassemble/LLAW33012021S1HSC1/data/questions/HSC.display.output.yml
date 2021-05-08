@@ -1,0 +1,114 @@
+---
+include:
+  - HSC.get.qualifying.services.yml
+---
+objects:
+  - qualifying_health: DAList.using(auto_gather=False)
+  - qualifying_key: DAList.using(auto_gather=False)
+  - qualifying_social: DAList.using(auto_gather=False)
+  - qualifying_advocacy: DAList.using(auto_gather=False)
+  - qualifying_other: DAList.using(auto_gather=False)
+---
+# no filtering, hard coded categories
+question: Available Services
+subquestion: |
+  Based on the answers, your client may find the following services helpful.
+  
+  Please select the services you want to add to the document.
+  
+  **The services that are selected will be included in the document.**
+  
+fields:
+  - note: |
+      % if qualifying_other.there_are_any:
+      ## Relevant Services:
+      % endif
+  - no label: selected_services_other
+    datatype: checkboxes
+    code: |
+      #HSCqualifying_services.get('Other')
+      qualifying_other
+    none of the above: False
+    required: False
+  - note: |
+      % if qualifying_key.there_are_any:
+      ## Key Services:
+      % endif
+  - no label: selected_services_key
+    datatype: checkboxes
+    code: |
+      qualifying_key
+    none of the above: False
+    required: False
+  - note: |
+      % if qualifying_health.there_are_any:
+      ## Health and Wellbeing Services:
+      % endif
+  - no label: selected_services_health
+    datatype: checkboxes
+    code: |
+      qualifying_health
+    none of the above: False
+    required: False
+  - note: |
+      % if qualifying_social.there_are_any:
+      ## Social and Community Services:
+      % endif
+  - no label: selected_services_social
+    datatype: checkboxes
+    code: |
+      #HSCqualifying_services.get('Social and Community')
+      qualifying_social
+    none of the above: False
+    required: False
+  - note: |
+      % if qualifying_advocacy.there_are_any:
+      ## Advocacy Services:
+      % endif
+  - no label: selected_services_advocacy
+    datatype: checkboxes
+    code: |
+      #HSCqualifying_services.get('Advocacy Groups')
+      qualifying_advocacy
+    none of the above: False
+    required: False
+progress: 90
+---
+# if there_are_any attribute is not already defined for a list in HSCqualifying_services, then there are no services mapped to that particular category
+generic object: DAList
+code: | 
+  x.there_are_any = False
+---
+# returns a list of service names and descriptions for services under the 'Key Service' category
+code: |
+  #qualifying_key = []
+  #if HSCqualifying_services.get('Key Service').there_are_any:
+  for service in HSCqualifying_services.get('Key Services'):
+    qualifying_key.append({service.get('Service name'): service.get('Service name') + "[BR]" + service['Service information'], 'default': True})
+  qualifying_key.gathered = True
+---
+# returns a list of service names and descriptions for services under the 'Health and Wellbeing' category
+code: |
+  #qualifying_health = []
+  for service in HSCqualifying_services.get('Health and Wellbeing'):
+    qualifying_health.append({service.get('Service name'): service['Service name'] + "[BR]" + service['Service information'], 'default': True})
+  qualifying_health.gathered = True
+---
+# returns a list of service names and descriptions for services under the 'Social and Community' category
+code: |
+  for service in HSCqualifying_services.get('Social and Community'):
+    qualifying_social.append({service.get('Service name'): service['Service name'] + "[BR]" + service['Service information'], 'default': True})
+  qualifying_social.gathered = True
+---
+# returns a list of service names and descriptions for services under the 'Advocacy Groups' category
+code: |
+  for service in HSCqualifying_services.get('Advocacy Groups'):
+    qualifying_advocacy.append({service.get('Service name'): service['Service name'] + "[BR]" + service['Service information'], 'default': True})
+  qualifying_advocacy.gathered = True
+---
+# returns a list of service names and descriptions for services under the 'Other Services' category
+code: |
+  for service in HSCqualifying_services.get('Relevant'):
+    qualifying_other.append({service.get('Service name'): service['Service name'] + "[BR]" + service['Service information'], 'default': True})
+  qualifying_other.gathered = True
+---
