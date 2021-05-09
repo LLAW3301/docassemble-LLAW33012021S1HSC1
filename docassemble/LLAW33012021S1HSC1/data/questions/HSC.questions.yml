@@ -1,7 +1,7 @@
 ---
 # Initial screen as per revised flow chat
 field: welcome_screen
-question: Hutt Street Centre
+question: Welcome
 subquestion: |
   Welcome to the Hutt Street Centre Community Access Tool.
   
@@ -225,9 +225,9 @@ fields:
   - no label: HSCgender
     datatype: radio
     choices:
-     - "Female": Gender_Female
-     - "Male": Gender_Male
-     - "Other or Prefer not to say": Gender_Other
+     - "Female": Female
+     - "Male": Male
+     - "Other or Prefer not to say": Other
     default: |
       Female
 progress: 30
