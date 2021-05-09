@@ -1,5 +1,4 @@
 .navbar{
-
     background-color: rgb(255,255,255) !important;
 }
 .navbar .navbar-brand{
@@ -154,4 +153,16 @@ display: inline-block;
 font-size: inherit;
 height: 0.9em;
 overflow: visible;
+}
+
+.btn-warning {
+color: rgba(255,255,255,1);
+background-color: rgba(88,193,214,1);
+border-color: rgba(88,193,214,1);
+}
+
+.btn-warning:hover {
+color: rgba(255,255,255,1);
+background-color: rgba(241,93,36,1);
+border-color: rgba(241,93,36,1);
 }
