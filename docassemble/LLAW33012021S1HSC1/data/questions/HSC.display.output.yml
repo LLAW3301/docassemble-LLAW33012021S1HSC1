@@ -12,6 +12,15 @@ question: Available Services
 subquestion: |
   Based on the answers, your client may find the following services helpful.
   
+  Question|Answer
+  -------|-------
+  Location                   | ${ HSCcouncil }
+  Gender                     | ${ HSCgender }
+  Age                        | ${ HSCage }
+  Children Under 18          | ${ HSCchildren }
+  ATSI                       | ${ HSCatsi }
+  Concessions and Factors    | ${ selected_factors }
+  
   Please select the services you want to add to the document.
   
   **The services that are selected will be included in the document.**
