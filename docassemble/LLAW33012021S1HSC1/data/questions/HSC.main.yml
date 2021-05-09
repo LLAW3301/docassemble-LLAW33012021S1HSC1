@@ -37,7 +37,7 @@ include:
 # Objects for storing HSC logo image and code endpoints and the data store
 objects:
   - HSCdata: DAStore.using(base='global')
-  - HSClogo: DAStaticFile.using(filename='HSClogo.png')
+  - HSClogo: DAStaticFile.using(filename='HuttStreetCentrelogo.png')
   - endpoints: DADict
 ---
 # Application features configuration
