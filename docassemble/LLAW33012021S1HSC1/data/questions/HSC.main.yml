@@ -1,4 +1,4 @@
-# This is the main file for the HSC application 
+# This is the main file for the HSC application. This file drives the application.
 ---
 metadata:
   title: |
@@ -6,9 +6,15 @@ metadata:
   short title: |
     Community Access Tool 
   organisation: Flinders University
+  authors:
+    - name: Jocelyn Neumueller 
+    - name: Hannah Guest
+    - name: Laura Spencer
+    - name: Kaitlyn Laverick
+
   show login: True
 ---
-#Jocelyn, can you please help me with inserting this code once we get the photo from HSC? HG This is the flinders logo below. Have inserted HSC one below 
+# HTML code to structure Flinders logo
 default screen parts:
   post: |
     <div style="display: flex; height: 200px; align-items: flex-end; flex-direction: row-reverse">
@@ -21,28 +27,28 @@ default screen parts:
     </div>
     </div>
 ---
-#Will need to insert once we have the names of all the screens
 include:
   - HSC.display.output.yml
   - HSC.get.qualifying.services.yml
-  - HSC.global.vars.yml
   - HSC.login.yml
   - HSC.questions.yml
   - HSC.csv.yml
 ---
-#added HSC logo
+# objects for storing HSC logo image and code endpoints and the data store
 objects:
-  - HSCqualifying_agencies: DAList.using(there_are_any=True, auto_gather=False)
+  - HSCdata: DAStore.using(base='global')
   - HSClogo: DAStaticFile.using(filename='HSClogo.png')
   - endpoints: DADict
 ---
-# J to play around with this wording. 
+# application features configuration
 features:
-  css: X2.01.SACAT.css
-  debug: True
-  hide standard menu: False
+  css: HSC.css
+  debug: false
+  hide standard menu: True
+  progress bar: True
+  show progress bar percentage: True
 ---
-#HG not amended
+# HTML code to structure HSC logo
 mandatory: True
 code: |
   # The string below creates the HTML and  inserts into it the logo contained in 
@@ -51,54 +57,52 @@ code: |
   # Once we've created the string we use set_parts() to set our new logo metadata
   set_parts(logo=HAAlogostring)
 ---
-# Is this the section where the code will move the user to the welcome screen?  of from the welcome screen, if they 'run app' the end screen there? - HG
+# mandatory block to direct the user to the correct pathway through the application depending on whether they wish to make administrative changes or if they would like to run the application as a typical user.
 mandatory: True
 code: |
   # if the user clicks the 'Administration' option -
   if welcome_screen == 'signin':
-    # first, ensure that the user is logged in to access this path
-    if user_logged_in():
-      # then, check that the user is eligible to access this path
-      if HSCadmineligible:
-        csv_import                   # upload a CSV file
-        if HSCadminupload:           # confirm the CSV upload
-          write_HSCdata              # write the CSV data to DAStore
-          endpoints['HSCfinal_admin']# send to final admin screen
+    if user_logged_in():               # if the user is already logged in
+      if HSCadmineligible:             # if the user is eligible to access this path
+        csv_import                     # upload a CSV file
+        if HSCadminupload:             # confirm the CSV upload
+          write_HSCdata                # actually write the CSV data to DAStore
+          endpoints['HSCfinal_admin']  # send user to final admin screen
         else:
-          endpoints['TERMineligible']# user does not confirm their changes
-      # if the user is not eligible to access this path
-      else: 
-        endpoints['TERMineligible']  # send user to ineligible screen
-    # send user to login screen if they're not logged in
+          endpoints['UPLOADineligible']# user does not confirm their changes
+      else:                            # else, the user is not eligible to access this
+        endpoints['TERMineligible']    # send user to ineligible screen
     else:
-      login_screen
-  # else, if the user clicks the 'Application' option - 
+      login_screen                     # send user to login screen if not logged in
+  
+  # else, if the user clicks the 'Tool' option - 
   elif welcome_screen == 'proceed':
-    # It's a regular user 
-    if HSCeligible:
-      # if they do not select any of the available council areas
-      if HSCcouncil == 'exit':
-        endpoints['PCineligible'] # redirect to ineligible council area screen
-      else:
-        endpoints['final_screen'] # redirect to final screen question flow
-    else:
-      endpoints['TERMineligible'] # redirect to disclaimer rejected screen
+    if HSCeligible:                # if the user accepts the terms and conditions
+      if HSCcouncil == 'exit':     # if the user does not select an available council
+        endpoints['PCineligible']  # redirect to ineligible council area screen
+      else:                        # else, if they select an available council area
+        endpoints['final_screen']  # redirect to final screen question flow
+    else:                          # if they do not accept the terms and conditions
+      endpoints['TERMineligible']  # redirect to disclaimer rejected screen
+  
+  # extra else clause to catch invalid values
   else:
-    # Catch an invalid value
     pass
 ---
-#Will be able to update once I know the codes we are relying on. Jocelyn, happy to use your codes here. HG
+# final screen for regular user pathway to display a final message and generate the final results document.Forcibly invokes the desired question blocks in the desired order.
 event: endpoints['final_screen']
-question: Done!
+question: Complete!
 subquestion: |
-  Please find below the document listing all your selected services.
+  The document is ready. 
   
-  You may choose to download this as a word document, or email it directly to either yourself or your client.
+  There is a link below to download the document listing all of the selected services.
+  
+  You may also choose to email it directly to yourself or your client.
   <% HSCgender %>
   <% HSCage %>
   <% HSCchildren %>
-  <% HSCconcession %>
   <% HSCatsi %>
+  <% HSCconcession %>
   <% HSCfactor %>
   % if len(HSCqualifying_services) == 0:
   <% endpoints['no_services'] %>
@@ -109,15 +113,17 @@ buttons:
   - Exit: exit
     url: https://www.huttstcentre.org.au
   - Restart: restart
+progress: 100
 ---
 attachment: 
-  - name: Hutt Street Centre Community Access Tool 
+  - name: Hutt Street Centre Community Services List
     filename: Result Printout
     valid formats:
       - docx
     docx template file: HSC_print_out.docx
     variable name: HSCprintout
 ---
+# final screen for the system admin pathway to confirm that their CSV file has been uploaded into the system.
 event: endpoints['HSCfinal_admin']
 question: Data File Updated
 subquestion: |
@@ -126,9 +132,11 @@ buttons:
   - Exit: exit
     url: https://www.huttstcentre.org.au/
   - Restart: restart
+progress: 100
 ---
+# end screen for users who do not accept the terms and conditions of the system.
 event: endpoints['TERMineligible']
-question: Disclaimer 
+question: Disclaimer Not Accepted
 subquestion: |
   You must agree to the terms to continue. 
   
@@ -141,7 +149,26 @@ buttons:
   - Exit: exit
     url: https://www.huttstcentre.org.au/
   - Restart: restart
+progress: 100
 ---
+# end screen for system admin users who choose not to confirm the upload of a new CSV file.
+event: endpoints['UPLOADineligible']
+question: Upload Not Successful
+subquestion: |
+  You must confirm the upload for service information to be updated. 
+  
+  If you do not confirm, the changes will not be made in the tool.
+  
+  If you do not want to make changes, click 'Exit'. 
+  
+  If you change your mind, click 'Restart' to try again. 
+buttons:
+  - Exit: exit
+    url: https://www.huttstcentre.org.au/
+  - Restart: restart
+progress: 100
+---
+# end screen for users who select 'Other /I'm not sure' option when selecting a council area
 event: endpoints['PCineligible']
 question: Not Eligible
 subquestion: |
@@ -152,14 +179,13 @@ subquestion: |
   *Please speak to your manager if you think a council area should be added.*
   
   Click 'Restart' to try again. 
-  
-#I'm not sure if HSC want to have this as an internal address like an 
-#intranet 
 buttons:
   - Exit: exit
     url: https://www.huttstcentre.org.au/
   - Restart: restart
+progress: 100
 ---
+# end screen for users whose answers correspond to zero relevant services.
 event: endpoints['no_services']
 question: No Services Available
 subquestion: |
@@ -172,4 +198,5 @@ buttons:
   - Exit: exit
     url: https://www.huttstcentre.org.au/
   - Restart: restart
+progress: 100
 ---

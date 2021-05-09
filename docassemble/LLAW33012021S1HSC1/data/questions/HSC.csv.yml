@@ -1,33 +1,19 @@
-# Code to import a CSV into a DAList of dictionaries.  
+# Code to import a CSV into a DADict of DALists mapped to council keys.
 #
 # Assumes the first row of the CSV is the header row.
 # Reads the input file and calls csv to create a list of lists.
-# 
-# Must set the variable HSCimport_message to something.  See the
-# question block.
----
-include:
-  - HSC_global_vars.yml
+#
+# Invoked by referencing the write_HSCdata variable.
 ---
 objects:
- # - csv_data: DAList.using(auto_gather=False, there_are_any=True)
   - csv_data: DADict.using(auto_gather=False, there_are_any=True)
 ---
 code: |
-  #csv_data.clear()
-  #csv_data = DADict()
   csv_data.clear()
   csv_data.object_type = DAList
-  
-  # clear the data store each time we upload a new csv file
-  #for key in HSCdata.keys():
-  #  HSCdata.delete(key)
 
   # Read the data into a CSV object
   all_the_lines = csv_import.slurp()
-  #f = open(csv_import.path(), 'r', encoding="utf8")
-  #all_the_lines = f.read()
-  #f.close()
 
   # Initialise row_headers so DA doesn't trip over a NameError
   row_headers = []
@@ -40,71 +26,37 @@ code: |
     # Save the row headers, which are the first row
     if index == 0:
       for an_element in elements:
-        #if an_element.isascii():
-        row_headers.append(an_element)#str(an_element.encode('utf-8', 'ignore')))
+        row_headers.append(an_element)
       index += 1
       continue
     
     # Initialise temp variable
     a_row = {}
-    #a_row = DADict()
+    
     # Iterate through the rest of the elements and populate the CSV record
     j = 0
     for an_element in elements:
-      #if j <= row_headers.index('Email address'): # temp fix
-      a_row[row_headers[j]] = an_element#str(an_element.encode('utf-8', 'ignore'))
-      #bytes(an_element, 'utf-8').decode('utf-8','ignore')
-      
-      #an_element#str(an_element.encode("utf-8", 'strict'))
+      a_row[row_headers[j]] = an_element
       j += 1
- 
-    # here is where we'd need to append the a_row to the appropriate list
-    # and use the name as a key to the data store
-    #if a_row[row_headers[1]] not in csv_data_dict:
     
-    #csv_data.get(a_row.get('Council')) = a_row
-    
-    # add the current row to the list at the particular council key in the dictionary
+    # append the current row to the appropriate list in csv_data and use the council name associated with the current row as the key
     temp_list = csv_data.get(a_row.get('Council'))
     temp_list.append(a_row)
     csv_data[a_row.get('Council')] = temp_list
     
-    # append to the data
-    #csv_data.append(a_row)
     # Increment the loop index
     index += 1
     
-    
-  csv_data.gathered = True              # NECESSARY
-  #csv_data_copy = csv_data.split()
+  # gather the csv_data object and all it's contents
+  csv_data.gathered = True
   for key in csv_data.keys():
-    csv_data[key].gathered = True        # NECESSARY
-    #csv_data[key].last().there_is_another = False
-    #for service in csv_data[key]:
-    #  if service != csv_data[key].last():
-    #    service.there_is_another = True
-    #  else:
-    #    service.there_is_another = False
-    #csv_data[key].last().there_is_another = False
-    #csv_data[key].there_is_another = False
-    #csv_data[key][max(csv_data[key].number() - 1, 0)].there_is_another = False
-    #HSCdata.set(key, csv_data[key])
-    #HSCdata.get(key).gathered = True
-    #HSCdata.get(key).set_object_type(DAList)
-    #undefine('csv_data[key]')
-    #test_var += 1
-  # undefine the temporary object used to create the DAStore
-  # so that from now on data will only be taken from the DAStore
-  # and not from csv_data
-  
-  #undefine('csv_data')
-  test_var = 0
+    csv_data[key].gathered = True
 ---
 # And I'll create a new code block to set the data in HSCdata
+
 code: |
-  # The key is a council.  The value of the key is a dictionary
-  # containing council information.  See the csv_data.gathered code
-  # block for more information
+  # The key is a council.  The value of the key is a list containing the service information for that council. See the csv_data.gathered code block for more information
+  
   # We clear out data in the HSCdata first
   for key in HSCdata.keys():
     HSCdata.delete(key)
@@ -115,6 +67,7 @@ code: |
 
   write_HSCdata = True
 ---
+# question block to allow users to upload a CSV data file
 question: Import CSV File
 subquestion: |
   Please upload the data you wish to store in the form of a CSV file. Ensure that the file you select conforms to the following criteria:
@@ -127,5 +80,5 @@ subquestion: |
 fields:
   - no label: csv_import
     datatype: file
+progress: 50
 ---
-
