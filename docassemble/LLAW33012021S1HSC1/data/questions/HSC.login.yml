@@ -9,14 +9,14 @@ code: |
 include:
   - HSC.questions.yml
 ---
-# Redirect to login screen if required
+# Redirect to appropriate pathway
 code: |
   if user_logged_in():
     HSCadmineligible
   else:
     login_screen
 ---
-#Set login redirection 
+#Gets user to login 
 event: login_screen
 question: |
     Please log in to proceed.
