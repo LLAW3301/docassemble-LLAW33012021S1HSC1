@@ -1,6 +1,6 @@
 ---
-field: welcome_screen
 # Initial screen as per revised flow chat
+field: welcome_screen
 question: Hutt Street Centre
 subquestion: |
   Welcome to the Hutt Street Centre Community Access Tool.
@@ -19,7 +19,7 @@ buttons:
 progress: 1
 sets: HSCsign_in_page
 ---
-# LHS Welcome Screen
+# LHS Welcome Screen -- system admin pathway
 question: Edit Service List
 subquestion: |
   
@@ -39,7 +39,7 @@ terms:
   CSV: CSV is a simple file format used to store tabular data, such as a spreadsheet or database
 progress: 25
 ---
-# Text to display when importing CSV files
+# Confirmation screen when uploading CSV data to the system
 question: Confirm Upload
 subquestion: |
   
@@ -47,10 +47,12 @@ subquestion: |
   
   If you proceed, the current data will be overwritten.
   File being uploaded is **${csv_import[0].filename}**.
+  
+  No changes will be made if you do not confirm.
 yesno: HSCadminupload
 progress: 75
 ---
-# RHS Welcome Screen
+# RHS Welcome Screen -- regular user pathway
 question: Community Services Tool
 subquestion: |
   
@@ -159,7 +161,6 @@ under: |
   5011 |	Woodville West | 5025 | Flinders Park
   5012 | Athol Park | 5025 |	Kidman Park
   5012 |	Woodville North | 5082 |	Ovingham
-
   ####City of Port Adelaide Enfield
   
   Postcode|Suburb|Postcode|Suburb
@@ -209,7 +210,7 @@ under: |
   5096 |	Gulfview Heights
 progress: 20
 ---
-# gender question
+# Gender question
 question: |
   Gender
 subquestion: |
@@ -231,7 +232,7 @@ fields:
       Female
 progress: 30
 ---
-# age question
+# Age question
 question: |
   Age
 subquestion: |
@@ -250,7 +251,7 @@ fields:
     33
 progress: 40
 ---
-# children under 18 years question
+# Children question
 question: |
   Children
 subquestion: |
@@ -260,6 +261,7 @@ terms:
   care: A child or children are in a clients care if they have custody of or live with them
 progress: 50
 ---
+# ATSI question
 question: |
   ATSI
 subquestion: | 
@@ -269,6 +271,7 @@ subquestion: |
 yesno: HSCatsi
 progress: 60
 ---
+# Concessions question
 question: |
   Concessions
 subquestion: |
@@ -281,17 +284,18 @@ fields:
   - no label: HSCconcession
     datatype: checkboxes
     choices:
-     - "Health Care Card" #: hcc
-     - "Seniors Card" #: seniors
-     - "Department of Veteran Affairs Card" #: dva
-     - "Disability Support Pension" #: dsp
-     - "Student" #: student
+     - "Health Care Card"
+     - "Seniors Card"
+     - "Department of Veteran Affairs Card"
+     - "Disability Support Pension"
+     - "Student"
     default: |
       Disability Support Pension
 progress: 70
 ---
+# Other factors question
 question: |
-  Other
+  Other Factors
 subquestion: | 
   Which of the below apply to the client?
   
@@ -302,13 +306,13 @@ fields:
   - no label: HSCfactor
     datatype: checkboxes
     choices:
-     - "Disability" #: disability 
-     - "ESL" #: ESL
-     - "Immigrant" #: immigrant
-     - "Migrant" #: migrant
-     - "Refugee" #: refugee
-     - "LGBTQIA" #: LGBTQIA
+     - "Disability"
+     - "ESL"
+     - "Immigrant"
+     - "Migrant"
+     - "Refugee"
+     - "LGBTQIA"
     default: |
       Disability
 progress: 80
---- 
+---
