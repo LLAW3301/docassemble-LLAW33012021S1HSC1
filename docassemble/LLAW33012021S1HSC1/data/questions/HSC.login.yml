@@ -1,4 +1,10 @@
 ---
+# Start off by making sure we're logged in
+mandatory: True
+code: |
+  if not user_logged_in():
+    login_screen
+---
 #Will need to insert once we have the names of all the screens
 include:
   - HSC.questions.yml
@@ -9,16 +15,12 @@ code: |
   else:
     login_screen
 ---
-# Log in screen 
-field: login_screen
-question: Login
-subquestion: |
-  ###Welcome to the Hutt Street Centre Access to Community Services Application. 
-  
-  Please log in to proceed.
- 
+event: login_screen
+question: |
+    Please log in to proceed.
 buttons:
-  - Sign In: signin
-sets: HSCsign_in_page
+  - Log in: leave
+    url: ${ url_of('login', next=interview_url())}
+  - Exit: exit
+    url: https://docassemble.flinders.edu.au
 ---
-
