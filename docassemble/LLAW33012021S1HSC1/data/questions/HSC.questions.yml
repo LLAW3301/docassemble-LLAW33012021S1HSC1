@@ -67,7 +67,7 @@ yesno: HSCeligible
 progress: 10
 ---
 # location question
-question: Where does your client live?
+question: Client Location
 subquestion: |
   Please select the council area that your client lives in.
   

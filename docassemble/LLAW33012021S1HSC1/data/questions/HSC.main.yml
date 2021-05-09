@@ -43,7 +43,7 @@ objects:
 # Application features configuration
 features:
   css: HSC.css
-  debug: true
+  debug: false
   hide standard menu: True
   progress bar: True
   show progress bar percentage: True
