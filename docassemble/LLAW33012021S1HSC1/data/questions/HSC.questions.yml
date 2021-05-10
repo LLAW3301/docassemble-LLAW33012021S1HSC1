@@ -16,7 +16,6 @@ subquestion: |
 buttons:
   - Tool: proceed
   - Administration: signin
-progress: 1
 sets: HSCsign_in_page
 ---
 # LHS Welcome Screen -- system admin pathway
