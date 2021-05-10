@@ -1,75 +1,36 @@
+/* Set padding, font*/
 .navbar{
-    background-color: rgb(255,255,255) !important;
-}
-.navbar .navbar-brand{
-    color : #000;
-    font-weight: bolder;
-    font-size: 2.0em;
-}
-.navbar .navbar-brand:hover{
-    color: #000;
+    font-size: 17px;
+    padding: .0rem .3rem;
 }
 
-.navbar .dropdown-menu{
-
-    background-color: rgba(255,255,255,1);
-}
-
-.navbar form button{
-    background-color: rgba(255,255,255,0.3);
-    color:#FFF;
-   
-    border:0;
-}
-
-
-.navbar {
-   font-size: 17px;
-   padding: .0rem .3rem;
-}
-
-.navbar form button:hover {
-background-color: rgba(53,50,59,1);
-}
-
-.navbar form button {
-background-color: rgba(53,50,59,1);
-color: rgba(255,255,255,1);
-border: 0;
-}
-
+/* Navbar text formatting (eg. login email top right) */
 .navbar .nav-item a {
 color: rgba(209,95,59,1) !important;
 }
 
-
-body.daadminbody {
-    border: 0px;
-    margin: 0px;
-    padding-bottom: 0px;
-    font-size: 14px;
+/* Back button formatting  */
+.text-muted {
+color: rgba(241,93,36,1)!important;
 }
 
+.navbar form button:hover {
+background-color: rgba(26,25,25,1);
+}
+
+.navbar form button {
+background-color: rgba(26, 25, 25, 1);
+color: rgba(241,93,36,1);
+border: 0;
+}
+
+/* Space formatting */
 .da-pad-for-navbar {
     padding-top: 60px;
     padding-bottom: 0px;
 }
 
-h1 {
-  color: rgba(241,93,36,1);
-}
-
-.bg-dark {
-background-color: rgba(26,25,25,1)!important;
-}
-
-.btn-primary:not(:disabled):not(.disabled).active, .btn-primary:not(:disabled):not(.disabled):active, .show>.btn-primary.dropdown-toggle {
-
-color: #fff;
-background-color: rgba(241,93,36,1);
-border-color: rgba(241,93,36,1);
-}
-
+/* Button formatting */
 .btn-primary {
 color: #fff;
 background-color: rgba(241,93,36,1);
@@ -94,42 +55,52 @@ background-color: rgba(88,193,214,1);
 border-color: rgba(88,193,214,1);
 }
 
-.text-muted {
-color: rgba(241,93,36,1)!important;
+.btn-warning {
+color: rgba(255,255,255,1);
+background-color: rgba(88,193,214,1);
+border-color: rgba(88,193,214,1);
 }
 
-.navbar .navbar-brand {
-color: #000;
-font-weight: bolder;
-font-size: 1.2em;
+.btn-warning:hover {
+color: rgba(255,255,255,1);
+background-color: rgba(241,93,36,1);
+border-color: rgba(241,93,36,1);
+}
+
+/* Text heading formatting */
+h1 {
+  color: rgba(241,93,36,1);
 }
 
 .h2, h2 {
 font-size: 1.4rem;
-color: rgba(241,93,36,1);
+color: rgba(39,94,126,1);
 }
 
-table {
-  width: 100%;
-}
-
+/* Progress bar formatting */
 .progress-bar {
 color: #fff;
 background-color: rgba(39,94,126,1);
 }
 
-.navbar form button {
-background-color: rgba(26, 25, 25, 1);
-color: rgba(255,255,255,1);
-border: 0;
-}
-
+/* Top margin formatting */
 .mt-2, .my-2 {
 margin-top: 2.5rem!important;
 }
 
+/* Image height formatting */
 img.mr-3 {
 height: 70px;
+}
+
+/* Spinner formatting to not overlap  */
+.svg-inline--fa.fa-w-16 {
+width: 0.3em;
+}
+
+/* navbar backgroud  */
+.bg-dark {
+background-color: rgba(26,25,25,1)!important;
 }
 
 .da-page-header {
@@ -138,6 +109,17 @@ margin: 35px 0 10px;
 border-bottom: 1px solid #eee;
 }
 
-.dropdown-item:hover{
-    background-color: rgba(255,255,255,1);
+/* navbar button size  */
+.navbar .navbar-brand {
+color: #000;
+font-weight: bolder;
+font-size: 1.4em;
+}
+
+
+body.daadminbody {
+    border: 0px;
+    margin: 0px;
+    padding-bottom: 0px;
+    font-size: 14px;
 }
