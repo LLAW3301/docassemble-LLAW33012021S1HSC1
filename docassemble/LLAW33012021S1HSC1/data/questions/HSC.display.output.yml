@@ -1,7 +1,5 @@
 ---
-include:
-  - HSC.get.qualifying.services.yml
----
+# The lists used to hold the eligible services for each category of service
 objects:
   - qualifying_health: DAList.using(auto_gather=False)
   - qualifying_key: DAList.using(auto_gather=False)
@@ -9,10 +7,19 @@ objects:
   - qualifying_advocacy: DAList.using(auto_gather=False)
   - qualifying_other: DAList.using(auto_gather=False)
 ---
-# no filtering, hard coded categories
+# List of eligible services as a series of checkboxes
 question: Available Services
 subquestion: |
   Based on the answers, your client may find the following services helpful.
+  
+  Question|Answer
+  -------|-------
+  Location                   | ${ HSCcouncil }
+  Gender                     | ${ HSCgender }
+  Age                        | ${ HSCage }
+  Children Under 18          | ${ HSCchildren }
+  ATSI                       | ${ HSCatsi }
+  Concessions and Factors    | ${ selected_factors }
   
   Please select the services you want to add to the document.
   
@@ -26,7 +33,6 @@ fields:
   - no label: selected_services_other
     datatype: checkboxes
     code: |
-      #HSCqualifying_services.get('Other')
       qualifying_other
     none of the above: False
     required: False
@@ -57,7 +63,6 @@ fields:
   - no label: selected_services_social
     datatype: checkboxes
     code: |
-      #HSCqualifying_services.get('Social and Community')
       qualifying_social
     none of the above: False
     required: False
@@ -68,45 +73,41 @@ fields:
   - no label: selected_services_advocacy
     datatype: checkboxes
     code: |
-      #HSCqualifying_services.get('Advocacy Groups')
       qualifying_advocacy
     none of the above: False
     required: False
 progress: 90
 ---
-# if there_are_any attribute is not already defined for a list in HSCqualifying_services, then there are no services mapped to that particular category
+# Block to catch lists in HSCqualifying_services that do not yet have their there_are_any attribute defined
 generic object: DAList
 code: | 
   x.there_are_any = False
 ---
-# returns a list of service names and descriptions for services under the 'Key Service' category
+# Returns a list of service names and descriptions for services under the 'Key Service' category
 code: |
-  #qualifying_key = []
-  #if HSCqualifying_services.get('Key Service').there_are_any:
   for service in HSCqualifying_services.get('Key Services'):
     qualifying_key.append({service.get('Service name'): service.get('Service name') + "[BR]" + service['Service information'], 'default': True})
   qualifying_key.gathered = True
 ---
-# returns a list of service names and descriptions for services under the 'Health and Wellbeing' category
+# Returns a list of service names and descriptions for services under the 'Health and Wellbeing' category
 code: |
-  #qualifying_health = []
   for service in HSCqualifying_services.get('Health and Wellbeing'):
     qualifying_health.append({service.get('Service name'): service['Service name'] + "[BR]" + service['Service information'], 'default': True})
   qualifying_health.gathered = True
 ---
-# returns a list of service names and descriptions for services under the 'Social and Community' category
+# Returns a list of service names and descriptions for services under the 'Social and Community' category
 code: |
   for service in HSCqualifying_services.get('Social and Community'):
     qualifying_social.append({service.get('Service name'): service['Service name'] + "[BR]" + service['Service information'], 'default': True})
   qualifying_social.gathered = True
 ---
-# returns a list of service names and descriptions for services under the 'Advocacy Groups' category
+# Returns a list of service names and descriptions for services under the 'Advocacy Groups' category
 code: |
   for service in HSCqualifying_services.get('Advocacy Groups'):
     qualifying_advocacy.append({service.get('Service name'): service['Service name'] + "[BR]" + service['Service information'], 'default': True})
   qualifying_advocacy.gathered = True
 ---
-# returns a list of service names and descriptions for services under the 'Other Services' category
+# Returns a list of service names and descriptions for services under the 'Other Services' category
 code: |
   for service in HSCqualifying_services.get('Relevant'):
     qualifying_other.append({service.get('Service name'): service['Service name'] + "[BR]" + service['Service information'], 'default': True})
