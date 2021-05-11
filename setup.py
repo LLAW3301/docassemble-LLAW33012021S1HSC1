@@ -45,7 +45,7 @@ def find_package_data(where='.', package='', exclude=standard_exclude, exclude_d
 setup(name='docassemble.LLAW33012021S1HSC1',
       version='0.0.1',
       description=('A docassemble extension.'),
-      long_description='# Hutt Street Centre Community Access Tool - LLAW33012021S1HSC1\r\n\r\n\r\nThe Hutt Street Centre Community Access Tool is an application that uses a series of questions to gather information about a client, which filters a database of community services to produce a document of relevant services available in their local council area. \r\n\r\nThe application was written to assist Hutt Street Centre staff in providing all of its clients with consistent and reliable information on community services available in their local council area. \r\n\r\n\r\n\r\n## Authors\r\n\r\nJocelyn Neumueller, Hannah Guest, Laura Spencer and Kaitlyn Laverick\r\n',
+      long_description='# Hutt Street Centre Community Access Tool - LLAW33012021S1HSC1\r\n\r\n\r\nThe Hutt Street Centre Community Access Tool is an application that uses a series of questions to gather information about a client, which filters a database of community services to produce a document of relevant services available in their local council area. \r\n\r\nThe application has been designed to assist Hutt Street Centre staff to provide all of its clients with consistent and reliable information on community services available in their local council area. \r\n\r\n\r\n\r\n## Authors\r\n\r\nJocelyn Neumueller, Hannah Guest, Laura Spencer and Kaitlyn Laverick\r\n',
       long_description_content_type='text/markdown',
       author='Mark Ferraretto',
       author_email='mark.ferraretto@flinders.edu.au',
