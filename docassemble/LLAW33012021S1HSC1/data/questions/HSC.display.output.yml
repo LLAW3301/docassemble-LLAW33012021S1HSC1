@@ -8,22 +8,13 @@ objects:
   - qualifying_other: DAList.using(auto_gather=False)
 ---
 # List of eligible services as a series of checkboxes
-question: Available Services
+question: Edit Relevant Services
 subquestion: |
   Based on the answers, your client may find the following services helpful.
   
-  Question|Answer
-  -------|-------
-  Location                   | ${ HSCcouncil }
-  Gender                     | ${ HSCgender }
-  Age                        | ${ HSCage }
-  Children Under 18          | ${ HSCchildren }
-  ATSI                       | ${ HSCatsi }
-  Concessions and Factors    | ${ selected_factors }
+  Please remove any services you do not want to add to the document.
   
-  Please select the services you want to add to the document.
-  
-  **The services that are selected will be included in the document.**
+  **The services that are selected will be included in the document. All services have been pre-selected.**
   
 fields:
   - note: |
@@ -76,6 +67,20 @@ fields:
       qualifying_advocacy
     none of the above: False
     required: False
+
+under: |
+  The listed services were based on the answers on the questions. 
+  The responses to the question are listed below for your reference. 
+  
+  Question|Answer
+  -------|-------
+  Location                   | ${ HSCcouncil }
+  Gender                     | ${ HSCgender }
+  Age                        | ${ HSCage }
+  Children Under 18          | ${ HSCchildren }
+  ATSI                       | ${ HSCatsi }
+  Concessions and Factors    | ${ selected_factors }
+  
 progress: 90
 ---
 # Block to catch lists in HSCqualifying_services that do not yet have their there_are_any attribute defined

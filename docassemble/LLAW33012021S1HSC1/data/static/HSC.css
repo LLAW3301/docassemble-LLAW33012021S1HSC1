@@ -43,6 +43,7 @@ background-color: rgba(88,193,214,1);
 border-color: rgba(88,193,214,1);
 }
 
+
 .btn-secondary {
 color: #fff;
 background-color: rgba(39,94,126,1);
@@ -93,10 +94,6 @@ img.mr-3 {
 height: 70px;
 }
 
-/* Spinner formatting to not overlap  */
-.svg-inline--fa.fa-w-16 {
-width: 0.3em;
-}
 
 /* navbar backgroud  */
 .bg-dark {
@@ -123,3 +120,4 @@ body.daadminbody {
     padding-bottom: 0px;
     font-size: 14px;
 }
+

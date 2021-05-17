@@ -35,7 +35,7 @@ subquestion: |
 yesno: HSCadmineligible
 
 terms:
-  CSV: CSV is a simple file format used to store tabular data, such as a spreadsheet or database
+  CSV: You can use the template CSV file named HSC2TEMPLATE.csv to input data and the appropriate information. 
 progress: 25
 ---
 # Confirmation screen when uploading CSV data to the system
@@ -70,7 +70,7 @@ question: Client Location
 subquestion: |
   Please select the council area that your client lives in.
   
-  If you can not see your clients suburb suburb or council area listed below, the area is not currently supported by this application. Click 'Other/I'm not sure'.
+  If you can not see your client's suburb or council area listed below, the area is not currently supported by this application. Click '**Other/I'm not sure**'.
   
   If you are not sure which council area your client lives in there is a list below. 
   
@@ -160,6 +160,7 @@ under: |
   5011 |	Woodville West | 5025 | Flinders Park
   5012 | Athol Park | 5025 |	Kidman Park
   5012 |	Woodville North | 5082 |	Ovingham
+  
   ####City of Port Adelaide Enfield
   
   Postcode|Suburb|Postcode|Suburb
@@ -218,8 +219,7 @@ subquestion: |
   Choose 'Other' if male or female does not describe them.
   
   If the client chooses not to disclose their gender, this may effect the service outcome.
-  
-  If they do not want to share, choose 'Prefer not to say'.
+
 fields: 
   - no label: HSCgender
     datatype: radio
@@ -235,11 +235,9 @@ progress: 30
 question: |
   Age
 subquestion: |
-  What is their age?
+  What is the client's age?
 fields:
   Age: HSCage
-  help: |
-    Enter the age as a number like 24 or 50
   datatype: integer
   min: 0
   max: 100
@@ -247,7 +245,7 @@ fields:
     max: |
       Please enter an age between 0 and 100
   default: |
-    33
+    36
 progress: 40
 ---
 # Children question
@@ -262,11 +260,9 @@ progress: 50
 ---
 # ATSI question
 question: |
-  ATSI
+  Aboriginal or Torres Strait Islander
 subquestion: | 
   Is the client of Aboriginal or Torres Strait Islander descent?
-  
-  This is if they identify as Aboriginal or Torres Strait Islander.
 yesno: HSCatsi
 progress: 60
 ---
@@ -289,7 +285,7 @@ fields:
      - "Disability Support Pension"
      - "Student"
     default: |
-      Disability Support Pension
+      Health Care Card
 progress: 70
 ---
 # Other factors question
@@ -312,6 +308,6 @@ fields:
      - "Refugee"
      - "LGBTQIA"
     default: |
-      Disability
+      ESL
 progress: 80
 ---
