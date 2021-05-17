@@ -5,6 +5,9 @@
 #
 # Invoked by referencing the write_HSCdata variable.
 ---
+imports:
+  - re
+---
 objects:
   - csv_data: DADict.using(auto_gather=False, there_are_any=True)
 ---
@@ -21,7 +24,9 @@ code: |
   # Outer loop index
   index = 0
   for line in all_the_lines.splitlines():
-    elements = line.replace('"', '').split(',')
+    #elements = line.split(',')
+    #elements = re.split('[^#],', line)
+    elements = re.split('(?<!#),', line.replace('"', ''))
     
     # Save the row headers, which are the first row
     if index == 0:
@@ -36,7 +41,8 @@ code: |
     # Iterate through the rest of the elements and populate the CSV record
     j = 0
     for an_element in elements:
-      a_row[row_headers[j]] = an_element
+      #if j < len(row_headers):
+      a_row[row_headers[j]] = an_element.replace('#', '')#.replace('##', ',')
       j += 1
     
     # Append the current row to the appropriate list in csv_data and use the council name associated with the current row as the key
@@ -73,7 +79,7 @@ subquestion: |
   Please upload the data you wish to store in the form of a CSV file. Ensure that the file you select conforms to the following criteria:
   
   * The first row of the file **must** be the header row.
-  * There must be **no commas** in any of the data cells.
+  * All commas in the CSV file **must** be preceded by a single **'#'** symbol.
   * The CSV file must be saved as a **CSV UTF-8** file.
   * Each service name listed in the CSV file must be unique.
   

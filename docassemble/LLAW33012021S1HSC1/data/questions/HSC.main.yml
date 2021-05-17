@@ -17,7 +17,7 @@ metadata:
 default screen parts:
   post: |
     <div style="display: flex; height: 200px; align-items: flex-end; flex-direction: row-reverse">
-    <div style="margin: 3px"><img src="https://staff.flinders.edu.au/etc.clientlibs/flinders/clientlibs/clientlib-site/resources/images/flinderuni_main_logo_black.png" height="35">
+    <div style="margin: 3px"><img src="https://staff.flinders.edu.au/etc.clientlibs/flinders/clientlibs/clientlib-site/resources/images/flinderuni_main_logo_black.png" alt="Flinders University Logo" height="35">
     </div>
     <div style="margin: 3px; text-align: right">
     <cite><small><i>
@@ -36,7 +36,7 @@ include:
 # Objects for storing HSC logo image and code endpoints and the data store
 objects:
   - HSCdata: DAStore.using(base='global')
-  - HSClogo: DAStaticFile.using(filename='HuttStreetCentrelogo.png')
+  - HSClogo: DAStaticFile.using(filename='HuttStreetCentrelogo.png', alt_text='Hutt Street Centre Logo')
   - endpoints: DADict
 ---
 # Application features configuration
@@ -52,7 +52,7 @@ mandatory: True
 code: |
   # The string below creates the HTML and  inserts into it the logo contained in 
   # The file HSClogo using the python format() method 
-  HAAlogostring = '<div class="media"><img src="{}" class="mr-3" height="50"><div class="media-body"></div></div>'.format(HSClogo.url_for())
+  HAAlogostring = '<div class="media"><img src="{}" alt="Hutt Street Centre Logo" class="mr-3" height="50"><div class="media-body"></div></div>'.format(HSClogo.url_for())
   # Once we've created the string we use set_parts() to set our new logo metadata
   set_parts(logo=HAAlogostring)
 ---
