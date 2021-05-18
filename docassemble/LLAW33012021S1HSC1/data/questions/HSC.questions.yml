@@ -1,4 +1,14 @@
 ---
+objects:
+  - HSCpostcodes: DADict
+---
+mandatory: True
+code: |
+  HSCpostcodes['5097'] = ['City of Tea Tree Gully']
+  HSCpostcodes['5047'] = ['City of Marion', 'City of Onkaparinga']
+
+  HSCpostcodes.gathered = True
+---
 # Initial screen as per revised flow chat
 field: welcome_screen
 question: Welcome
@@ -64,6 +74,13 @@ subquestion: |
   Do you accept these terms?
 yesno: HSCeligible
 progress: 10
+---
+# postcode question
+question: Client Postcode
+subquestion: |
+  Please input the postcode where your client lives.
+fields:
+  - Postcode: HSCpostcode
 ---
 # location question
 question: Client Location

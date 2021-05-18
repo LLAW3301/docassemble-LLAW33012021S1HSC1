@@ -42,7 +42,7 @@ objects:
 # Application features configuration
 features:
   css: HSC.css
-  debug: false
+  debug: False
   hide standard menu: True
   progress bar: True
   show progress bar percentage: True
@@ -77,7 +77,7 @@ code: |
   # else, if the user clicks the 'Tool' option - 
   elif welcome_screen == 'proceed':
     if HSCeligible:                # if the user accepts the terms and conditions
-      if HSCcouncil == 'exit':     # if the user does not select an available council
+      if HSCpostcode not in HSCpostcodes:     # if the user does not provide a supported postcode
         endpoints['PCineligible']  # redirect to ineligible council area screen
       else:                        # else, if they select an available council area
         endpoints['final_screen']  # redirect to final screen question flow

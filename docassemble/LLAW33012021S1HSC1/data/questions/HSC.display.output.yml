@@ -14,7 +14,7 @@ subquestion: |
   
   Question|Answer
   -------|-------
-  Location                   | ${ HSCcouncil }
+  Location                   | ${ HSCpostcodes[HSCpostcode] }
   Gender                     | ${ HSCgender }
   Age                        | ${ HSCage }
   Children Under 18          | ${ HSCchildren }
