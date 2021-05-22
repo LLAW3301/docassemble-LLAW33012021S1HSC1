@@ -2,6 +2,9 @@
 .navbar{
     font-size: 17px;
     padding: .0rem .3rem;
+    border-bottom-color: rgba(241,93,36,1);
+    border-bottom-width: 4px;
+    border-bottom-style: solid;
 }
 
 /* Navbar text formatting (eg. login email top right) */
@@ -119,4 +122,9 @@ body.daadminbody {
     margin: 0px;
     padding-bottom: 0px;
     font-size: 14px;
+}
+
+/* prevent weird resizing on backspace after suburb selection */
+#postcode-input-container, #postcode-input-container .dainput-embedded {
+  max-width: 140px;
 }

@@ -46,6 +46,8 @@ features:
   hide standard menu: True
   progress bar: True
   show progress bar percentage: True
+  navigation back button: False 
+  question back button: True
 ---
 # HTML code to structure HSC logo
 mandatory: True
@@ -60,7 +62,7 @@ code: |
 mandatory: True
 code: |
   # if the user clicks the 'Administration' option -
-  if welcome_screen == 'signin':
+  if 'admin' in url_args:
     if user_logged_in():               # if the user is already logged in
       if HSCadmineligible:             # if the user is eligible to access this path
         csv_import                     # upload a CSV file
@@ -75,7 +77,7 @@ code: |
       login_screen                     # send user to login screen if not logged in
   
   # else, if the user clicks the 'Tool' option - 
-  elif welcome_screen == 'proceed':
+  else: 
     if HSCeligible:                # if the user accepts the terms and conditions
       if HSCcouncil == 'exit':     # if the user does not select an available council
         endpoints['PCineligible']  # redirect to ineligible council area screen
@@ -83,10 +85,6 @@ code: |
         endpoints['final_screen']  # redirect to final screen question flow
     else:                          # if they do not accept the terms and conditions
       endpoints['TERMineligible']  # redirect to disclaimer rejected screen
-  
-  # extra else clause to catch invalid values
-  else:
-    pass
 ---
 # Final screen for regular user pathway to display a final message and generate the final results document. Forcibly invokes the desired question blocks in the desired order.
 event: endpoints['final_screen']
