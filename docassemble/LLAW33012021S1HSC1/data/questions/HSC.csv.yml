@@ -24,9 +24,9 @@ code: |
   # Outer loop index
   index = 0
   for line in all_the_lines.splitlines():
-    #elements = line.split(',')
+    elements = line.replace('"', '').split(',')
     #elements = re.split('[^#],', line)
-    elements = re.split('(?<!#),', line.replace('"', ''))
+    #elements = re.split('(?<!#),', line.replace('"', ''))
     
     # Save the row headers, which are the first row
     if index == 0:
@@ -42,7 +42,7 @@ code: |
     j = 0
     for an_element in elements:
       #if j < len(row_headers):
-      a_row[row_headers[j]] = an_element.replace('#', '')#.replace('##', ',')
+      a_row[row_headers[j]] = an_element.replace('#', ',')
       j += 1
     
     # Append the current row to the appropriate list in csv_data and use the council name associated with the current row as the key
@@ -79,7 +79,7 @@ subquestion: |
   Please upload the data you wish to store in the form of a CSV file. Ensure that the file you select conforms to the following criteria:
   
   * The first row of the file **must** be the header row.
-  * All commas in the CSV file **must** be preceded by a single **'#'** symbol.
+  * There must be **no** commas in the data cells. Where you wish to include commas, you should instead use the **'#'** symbol.
   * The CSV file must be saved as a **CSV UTF-8** file.
   * Each service name listed in the CSV file must be unique.
   
