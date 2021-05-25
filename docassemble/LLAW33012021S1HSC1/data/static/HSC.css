@@ -14,7 +14,7 @@ color: rgba(209,95,59,1) !important;
 
 /* Back button formatting  */
 .text-muted {
-color: rgba(241,93,36,1)!important;
+color: rgba(29,94,62,1)!important;
 }
 
 .navbar form button:hover {
@@ -127,4 +127,29 @@ body.daadminbody {
 /* prevent weird resizing on backspace after suburb selection */
 #postcode-input-container, #postcode-input-container .dainput-embedded {
   max-width: 140px;
+}
+
+/* spinner */
+.fa-spin {
+position: fixed !important;
+width: 5% !important;
+height: 70% !important;
+display: block;
+}
+
+.fa-3x {
+font-size: 5em;
+}
+
+/* back button */
+.btn-link {
+font-weight: 400;
+color: white;
+background-color: rgb(88, 193, 214);
+text-decoration: none;
+}
+
+.btn-link:hover {
+color: white;
+background-color: rgb(241, 93, 36)
 }
