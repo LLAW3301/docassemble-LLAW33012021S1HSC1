@@ -81,7 +81,7 @@ under: |
   ATSI                       | ${ HSCatsi }
   Concessions and Factors    | ${ selected_factors }
   
-progress: 90
+progress: 89
 ---
 # Block to catch lists in HSCqualifying_services that do not yet have their there_are_any attribute defined
 generic object: DAList

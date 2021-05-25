@@ -1,94 +1,201 @@
 ---
-imports:
-  - json
+# LHS Welcome Screen -- system admin pathway
+question: Edit Service List
+subquestion: |
+  
+  To make a change to the services you need to change the master file. 
+  
+  Upload the {CSV} file to make the changes in the tool. 
+  
+  It is important that you have consent to make changes.
+   
+  ***Disclaimer:***   
+  There is no way to recover lost data. Flinders University is not responsible for lost data. 
+  
+  Do you have consent to make changes?
+yesno: HSCadmineligible
+
+terms:
+  CSV: You can use the template CSV file named HSC2TEMPLATE.csv to input data and the appropriate information. 
+progress: 25
 ---
-features:
-  css: HSC.css
+# Confirmation screen when uploading CSV data to the system
+question: Confirm Upload
+subquestion: |
+  
+  Confirm you would like to upload the new file. 
+  
+  If you proceed, the current data will be overwritten.
+  File being uploaded is **${csv_import[0].filename}**.
+  
+  No changes will be made if you do not confirm.
+yesno: HSCadminupload
+progress: 75
 ---
-objects from file:
-# Postcodes information is from a database by Matthew Proctor, available
-# at https://www.matthewproctor.com/full_australian_postcodes_sa
-# 
-# **It will eventually need to be updated**
-# 
-# The data was copy-pasted into excel, converted to a CSV file containing only
-# the Postcode and Locality columns, and then a Find+Replace run on
-# this CSV file using Notepad++ & Regex:
-#   Find: ^(\d+),(.+)$
-#   Replace with: \t{"postcode": "$1", "placename": "$2"}
-# Then start & end characters were added manually:
-#   Start: [
-#   End: ]
-# And finally the last comma in the list was removed, producing
-# a valid json file to use here.
-  - postcodes: HSC.json
----
-initial: True
-code: |
-  log("var HSCcouncil = " + json.dumps(postcodes.as_serializable()) + ";", "javascript")
+# RHS Welcome Screen -- regular user pathway
+question: Community Services Tool
+subquestion: |
+  
+  This tool can help you make a list of relevant community services for a client. It will filter community services based on council area and information about the client.
+ 
+  ***Disclaimer:***   
+  This is a guide only and may not include all services.
+  There are no guarantees that any individual service will accept your clients enquiry or provide services to them.
+  
+  Do you accept these terms?
+yesno: HSCeligible
+progress: 1
 ---
 question: |
   Location
 subquestion: |
-  Please enter your clients postcode and then select a relevant council. 
-  If two council areas come up refer to cheat sheet/hint. 
+  Please enter your client's postcode then **select the appropriate council area from the list**. 
   
-  <span id="postcode-input-container">[FIELD HSCcouncil]</span>
+  If multiple council areas are displayed, the postcode or suburb is part of more than one council area. Enter your client's address into the  *Find My Council by Location* application below to check your client's council area. 
   
-  <div id="postcodes-list"></div>
+  If your client's council area is not listed, the area is not currently supported by this application. **Click 'Other'**.
 fields:
-  - Council area: HSCcouncil
-script: |
-  <script>
-    const resultsLimit = 20;
-    
-    const postcodeInputSpan = document.getElementById('postcode-input-container');
-    const postcodeInput = postcodeInputSpan.getElementsByClassName('dainput-embedded')[0];
-    const postcodesList = document.getElementById('postcodes-list');
-    
-    postcodeInput.addEventListener('input', updateSearchList);
-    
-    function updateSearchList(e) {
-      const searchQuery = e.target.value.replace(/\W/g, '');
-      
-      if (searchQuery.length == 0) {
-        postcodesList.innerHTML = '';
-        return;
-      }
-      
-      const searchRegex = new RegExp(searchQuery, 'i');
-      
-      let results = [];
-      for (i = 0; i < HSCcouncil.elements.length; i++) {
-        const entry = HSCcouncil.elements[i];
-        const entrySearchText = (entry.postcode + entry.placename).replace(/\W/g, '');
-        if (searchRegex.test(entrySearchText)) {
-          results.push(entry);
-        }
-        if (results.length >= resultsLimit) {
-          break;
-        }
-      }
-      
-      postcodesList.innerHTML = results.map(r => '<p><div class="btn btn-da btn-info postcode-search-result" onclick="selectPostcode(' + r.postcode + ')">' + r.postcode + ': ' + r.placename + '</div></p>').join('');
-    }
-    
-    function selectPostcode(postcode) {
-      postcodeInput.value = postcode;
-      HSCcouncil_area.value = postcode;
-      postcodesList.innerHTML = '';
-    }
-  </script>
+  - Postcode: HSCpostcode
+    datatype: integer
+    min: 5000
+    max: 5999
+    validation messages: 
+      max: |
+        Please enter a 4 digit postcode
+    default: 5043
+  - Council: HSCcouncil
+    datatype: radio
+    code:
+      councils
+      #HSCpostcodes[HSCpostcode]
+    #none of the above: None of the above
+check in: input_postcode
+under: |
+  <iframe src="https://lga-sa.maps.arcgis.com/apps/InformationLookup/index.html?appid=f2d1b2911b414de9be1c9bb13a89db11" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+progress: 11
 ---
-#variable name: data_structure
-#use objects: True
-#data:
-#  - 5067:
-#    Norwood: Norwood and St Peters
-#    Beulah Park: Norwood and St Peters
-#    Norwood South: Norwood and St Peters
-##  - 5043:
-#    Someplace: A place
+#sets: councils
+event: input_postcode
+code: |
+  if action_argument('HSCpostcode') and HSCpostcode != int(action_argument('HSCpostcode')):
+    HSCpostcode = int(action_argument('HSCpostcode'))
+    if HSCpostcode not in HSCcouncils:
+      councils = ['Other']
+    else:
+      # assign a copy of the list, so that when we append 'None of the Above' option, the original list does not change
+      councils = HSCcouncils[HSCpostcode].copy()
+      councils.append('Other')
+    background_response('refresh')
+  background_response()
+---
+mandatory: True
+code: |
+  HSCpostcode = 5043
+  councils = HSCcouncils[HSCpostcode].copy()
+  councils.append('None of the Above')
+---
+# Gender question
+question: |
+  Gender
+subquestion: |
+  Which gender below best describes the client?
+  
+  Choose 'Other' if male or female does not describe them.
+  
+  If the client chooses not to disclose their gender, this may effect the service outcome.
+  
+  If they do not want to share, choose 'Prefer not to say'.
+fields: 
+  - no label: HSCgender
+    datatype: radio
+    choices:
+     - "Female": Female
+     - "Male": Male
+     - "Other or Prefer not to say": Other
+    default: |
+      Female
+progress: 22
+---
+# Age question
+question: |
+  Age
+subquestion: |
+  What is the client's age?
+fields:
+  Age: HSCage
+  datatype: integer
+  min: 0
+  max: 100
+  validation messages: 
+    max: |
+      Please enter an age between 0 and 100
+  default: |
+    36
+progress: 33
+---
+# Children question
+question: |
+  Children
+subquestion: |
+  Does the client have any children under 18 years of age in their {care}?
+yesno: HSCchildren
+terms:
+  care: A child or children are in a clients care if they have custody of or live with them
+progress: 44
+---
+# ATSI question
+question: |
+  Aboriginal or Torres Strait Islander
+subquestion: | 
+  Is the client of Aboriginal or Torres Strait Islander descent?
+yesno: HSCatsi
+progress: 55
+---
+# Concessions question
+question: |
+  Concessions
+subquestion: |
+  Which concessions is the client eligible for?
+  
+  You can choose as many as you need. 
+  
+  If you are unsure, please select 'None of the above'.
+fields: 
+  - no label: HSCconcession
+    datatype: checkboxes
+    choices:
+     - "Health Care Card"
+     - "Seniors Card"
+     - "Department of Veteran Affairs Card"
+     - "Disability Support Pension"
+     - "Student"
+    default: |
+      Health Care Card
+progress: 66
+---
+# Other factors question
+question: |
+  Other Factors
+subquestion: | 
+  Which of the below apply to the client?
+  
+  You can choose as many as you need. 
+  
+  If you are unsure, please select 'None of the above'.
+fields: 
+  - no label: HSCfactor
+    datatype: checkboxes
+    choices:
+     - "Disability"
+     - "ESL"
+     - "Immigrant"
+     - "Migrant"
+     - "Refugee"
+     - "LGBTQIA"
+    default: |
+      ESL
+progress: 77
+---
 ---
 objects:
   - HSCcouncils: DADict
@@ -167,229 +274,4 @@ code: |
   HSCcouncils[5173] = ['City of Onkaparinga']
   HSCcouncils[5174] = ['City of Onkaparinga']
   HSCcouncils.gathered = True
----
-# Initial screen as per revised flow chat
-field: welcome_screen
-question: Welcome
-subquestion: |
-  Welcome to the Hutt Street Centre Community Access Tool.
-  
-  The tool can help you make a list of relevant community services for a client. It will filter community services based on council area and information about the client.
-  
-  What do you want to do?
-  
-  Click 'Tool' to start.
-  
-  Click 'Administration' to update the service list.
-  
-buttons:
-  - Tool: proceed
-  - Administration: signin
-sets: HSCsign_in_page
----
-# LHS Welcome Screen -- system admin pathway
-question: Edit Service List
-subquestion: |
-  
-  To make a change to the services you need to change the master file. 
-  
-  Upload the {CSV} file to make the changes in the tool. 
-  
-  It is important that you have consent to make changes.
-   
-  ***Disclaimer:***   
-  There is no way to recover lost data. Flinders University is not responsible for lost data. 
-  
-  Do you have consent to make changes?
-yesno: HSCadmineligible
-
-terms:
-  CSV: You can use the template CSV file named HSC2TEMPLATE.csv to input data and the appropriate information. 
-progress: 25
----
-# Confirmation screen when uploading CSV data to the system
-question: Confirm Upload
-subquestion: |
-  
-  Confirm you would like to upload the new file. 
-  
-  If you proceed, the current data will be overwritten.
-  File being uploaded is **${csv_import[0].filename}**.
-  
-  No changes will be made if you do not confirm.
-yesno: HSCadminupload
-progress: 75
----
-# RHS Welcome Screen -- regular user pathway
-question: Community Services Tool
-subquestion: |
-  
-  This tool can help you make a list of relevant community services for a client. It will filter community services based on council area and information about the client.
- 
-  ***Disclaimer:***   
-  This is a guide only and may not include all services.
-  There are no guarantees that any individual service will accept your clients enquiry or provide services to them.
-  
-  Do you accept these terms?
-yesno: HSCeligible
-progress: 1
----
-question: |
-  Location
-subquestion: |
-  Please enter your clients postcode and then select a relevant council. 
-  If two council areas come up refer to cheat sheet/hint.
-fields:
-  - Postcode: HSCpostcode
-    datatype: integer
-    min: 5000
-    max: 5999
-    validation messages: 
-      max: |
-        Please enter a 4 digit postcode
-    default: 5043
-  - Council: HSCcouncil
-    datatype: radio
-    code:
-      councils
-      #HSCpostcodes[HSCpostcode]
-    #none of the above: None of the above
-check in: input_postcode
----
-#sets: councils
-event: input_postcode
-code: |
-  if action_argument('HSCpostcode') and HSCpostcode != int(action_argument('HSCpostcode')):
-    HSCpostcode = int(action_argument('HSCpostcode'))
-    if HSCpostcode not in HSCcouncils:
-      councils = ['No Councils Available']
-    else:
-      # assign a copy of the list, so that when we append 'None of the Above' option, the original list does not change
-      councils = HSCcouncils[HSCpostcode].copy()
-      councils.append('None of the Above')
-    background_response('refresh')
-  background_response()
----
-mandatory: True
-code: |
-  HSCpostcode = 5043
-  councils = HSCcouncils[HSCpostcode].copy()
-  councils.append('None of the Above')
----
-#reset:
-#  - councils
----
-question: |
-  Council
-subquestion:
-fields:
-  - no label: HSCcouncil_old
-    datatype: radio
-    choices:
-      - City of Marion
-      - City of Charles Sturt
-      - City of Port Adelaide Enfield
-      - City of Tea Tree Gully
----
-# Gender question
-question: |
-  Gender
-subquestion: |
-  Which gender below best describes the client?
-  
-  Choose 'Other' if male or female does not describe them.
-  
-  If the client chooses not to disclose their gender, this may effect the service outcome.
-  
-  If they do not want to share, choose 'Prefer not to say'.
-fields: 
-  - no label: HSCgender
-    datatype: radio
-    choices:
-     - "Female": Female
-     - "Male": Male
-     - "Other or Prefer not to say": Other
-    default: |
-      Female
-progress: 30
----
-# Age question
-question: |
-  Age
-subquestion: |
-  What is the client's age?
-fields:
-  Age: HSCage
-  datatype: integer
-  min: 0
-  max: 100
-  validation messages: 
-    max: |
-      Please enter an age between 0 and 100
-  default: |
-    36
-progress: 40
----
-# Children question
-question: |
-  Children
-subquestion: |
-  Does the client have any children under 18 years of age in their {care}?
-yesno: HSCchildren
-terms:
-  care: A child or children are in a clients care if they have custody of or live with them
-progress: 50
----
-# ATSI question
-question: |
-  Aboriginal or Torres Strait Islander
-subquestion: | 
-  Is the client of Aboriginal or Torres Strait Islander descent?
-yesno: HSCatsi
-progress: 60
----
-# Concessions question
-question: |
-  Concessions
-subquestion: |
-  Which concessions is the client eligible for?
-  
-  You can choose as many as you need. 
-  
-  If you are unsure, please select 'None of the above'.
-fields: 
-  - no label: HSCconcession
-    datatype: checkboxes
-    choices:
-     - "Health Care Card"
-     - "Seniors Card"
-     - "Department of Veteran Affairs Card"
-     - "Disability Support Pension"
-     - "Student"
-    default: |
-      Health Care Card
-progress: 70
----
-# Other factors question
-question: |
-  Other Factors
-subquestion: | 
-  Which of the below apply to the client?
-  
-  You can choose as many as you need. 
-  
-  If you are unsure, please select 'None of the above'.
-fields: 
-  - no label: HSCfactor
-    datatype: checkboxes
-    choices:
-     - "Disability"
-     - "ESL"
-     - "Immigrant"
-     - "Migrant"
-     - "Refugee"
-     - "LGBTQIA"
-    default: |
-      ESL
-progress: 80
 ---
