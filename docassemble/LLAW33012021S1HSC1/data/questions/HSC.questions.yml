@@ -264,7 +264,8 @@ code: |
     if HSCpostcode not in HSCcouncils:
       councils = ['No Councils Available']
     else:
-      councils = HSCcouncils[HSCpostcode]
+      # assign a copy of the list, so that when we append 'None of the Above' option, the original list does not change
+      councils = HSCcouncils[HSCpostcode].copy()
       councils.append('None of the Above')
     background_response('refresh')
   background_response()
@@ -272,7 +273,8 @@ code: |
 mandatory: True
 code: |
   HSCpostcode = 5043
-  councils = ['No Councils Available']
+  councils = HSCcouncils[HSCpostcode].copy()
+  councils.append('None of the Above')
 ---
 #reset:
 #  - councils
