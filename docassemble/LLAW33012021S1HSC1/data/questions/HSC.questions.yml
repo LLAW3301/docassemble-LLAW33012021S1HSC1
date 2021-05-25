@@ -1,3 +1,4 @@
+---
 imports:
   - json
 ---
@@ -26,11 +27,9 @@ initial: True
 code: |
   log("var HSCcouncil = " + json.dumps(postcodes.as_serializable()) + ";", "javascript")
 ---
-mandatory: true
 question: |
   Location
 subquestion: |
-
   Please enter your clients postcode and then select a relevant council. 
   If two council areas come up refer to cheat sheet/hint. 
   
@@ -76,9 +75,98 @@ script: |
     
     function selectPostcode(postcode) {
       postcodeInput.value = postcode;
+      HSCcouncil_area.value = postcode;
       postcodesList.innerHTML = '';
     }
   </script>
+---
+#variable name: data_structure
+#use objects: True
+#data:
+#  - 5067:
+#    Norwood: Norwood and St Peters
+#    Beulah Park: Norwood and St Peters
+#    Norwood South: Norwood and St Peters
+##  - 5043:
+#    Someplace: A place
+---
+objects:
+  - HSCcouncils: DADict
+---
+mandatory: True
+code: |
+  HSCcouncils[5007] = ['City of Charles Sturt']
+  HSCcouncils[5008] = ['City of Charles Sturt', 'City of Port Adelaide Enfield']
+  HSCcouncils[5009] = ['City of Charles Sturt']
+  HSCcouncils[5010] = ['City of Port Adelaide Enfield']
+  HSCcouncils[5011] = ['City of Charles Sturt']
+  HSCcouncils[5012] = ['City of Charles Sturt', 'City of Port Adelaide Enfield']
+  HSCcouncils[5013] = ['City of Charles Sturt', 'City of Port Adelaide Enfield']
+  HSCcouncils[5014] = ['City of Charles Sturt', 'City of Port Adelaide Enfield']
+  HSCcouncils[5015] = ['City of Port Adelaide Enfield']
+  HSCcouncils[5016] = ['City of Port Adelaide Enfield']
+  HSCcouncils[5017] = ['City of Port Adelaide Enfield']
+  HSCcouncils[5018] = ['City of Port Adelaide Enfield']
+  HSCcouncils[5019] = ['City of Charles Sturt', 'City of Port Adelaide Enfield']
+  HSCcouncils[5020] = ['City of Charles Sturt']
+  HSCcouncils[5021] = ['City of Charles Sturt']
+  HSCcouncils[5022] = ['City of Charles Sturt']
+  HSCcouncils[5023] = ['City of Charles Sturt']
+  HSCcouncils[5024] = ['City of Charles Sturt']
+  HSCcouncils[5025] = ['City of Charles Sturt']
+  HSCcouncils[5037] = ['City of Marion']
+  HSCcouncils[5038] = ['City of Marion']
+  HSCcouncils[5039] = ['City of Marion']
+  HSCcouncils[5042] = ['City of Marion']
+  HSCcouncils[5043] = ['City of Marion']
+  HSCcouncils[5044] = ['City of Marion']
+  HSCcouncils[5046] = ['City of Marion']
+  HSCcouncils[5047] = ['City of Marion', 'City of Onkaparinga']
+  HSCcouncils[5048] = ['City of Marion']
+  HSCcouncils[5049] = ['City of Marion']
+  HSCcouncils[5051] = ['City of Onkaparinga']
+  HSCcouncils[5075] = ['City of Port Adelaide Enfield', 'City of Tea Tree Gully']
+  HSCcouncils[5082] = ['City of Charles Sturt']
+  HSCcouncils[5083] = ['City of Port Adelaide Enfield']
+  HSCcouncils[5084] = ['City of Port Adelaide Enfield']
+  HSCcouncils[5085] = ['City of Port Adelaide Enfield']
+  HSCcouncils[5086] = ['City of Port Adelaide Enfield', 'City of Tea Tree Gully']
+  HSCcouncils[5087] = ['City of Port Adelaide Enfield']
+  HSCcouncils[5088] = ['City of Port Adelaide Enfield', 'City of Tea Tree Gully']
+  HSCcouncils[5089] = ['City of Tea Tree Gully']
+  HSCcouncils[5090] = ['City of Tea Tree Gully']
+  HSCcouncils[5091] = ['City of Tea Tree Gully']
+  HSCcouncils[5092] = ['City of Tea Tree Gully']
+  HSCcouncils[5093] = ['City of Port Adelaide Enfield', 'City of Tea Tree Gully']
+  HSCcouncils[5094] = ['City of Port Adelaide Enfield']
+  HSCcouncils[5096] = ['City of Tea Tree Gully']
+  HSCcouncils[5097] = ['City of Tea Tree Gully']
+  HSCcouncils[5098] = ['City of Port Adelaide Enfield']
+  HSCcouncils[5109] = ['City of Tea Tree Gully']
+  HSCcouncils[5125] = ['City of Tea Tree Gully']
+  HSCcouncils[5126] = ['City of Tea Tree Gully']
+  HSCcouncils[5127] = ['City of Tea Tree Gully']
+  HSCcouncils[5131] = ['City of Tea Tree Gully']
+  HSCcouncils[5153] = ['City of Onkaparinga']
+  HSCcouncils[5157] = ['City of Onkaparinga']
+  HSCcouncils[5158] = ['City of Marion', 'City of Onkaparinga']
+  HSCcouncils[5159] = ['City of Onkaparinga']
+  HSCcouncils[5160] = ['City of Onkaparinga']
+  HSCcouncils[5161] = ['City of Onkaparinga']
+  HSCcouncils[5162] = ['City of Onkaparinga']
+  HSCcouncils[5163] = ['City of Onkaparinga']
+  HSCcouncils[5164] = ['City of Onkaparinga']
+  HSCcouncils[5165] = ['City of Onkaparinga']
+  HSCcouncils[5166] = ['City of Onkaparinga']
+  HSCcouncils[5167] = ['City of Onkaparinga']
+  HSCcouncils[5168] = ['City of Onkaparinga']
+  HSCcouncils[5169] = ['City of Onkaparinga']
+  HSCcouncils[5170] = ['City of Onkaparinga']
+  HSCcouncils[5171] = ['City of Onkaparinga']
+  HSCcouncils[5172] = ['City of Onkaparinga']
+  HSCcouncils[5173] = ['City of Onkaparinga']
+  HSCcouncils[5174] = ['City of Onkaparinga']
+  HSCcouncils.gathered = True
 ---
 # Initial screen as per revised flow chat
 field: welcome_screen
@@ -145,7 +233,61 @@ subquestion: |
   Do you accept these terms?
 yesno: HSCeligible
 progress: 1
-
+---
+question: |
+  Location
+subquestion: |
+  Please enter your clients postcode and then select a relevant council. 
+  If two council areas come up refer to cheat sheet/hint.
+fields:
+  - Postcode: HSCpostcode
+    datatype: integer
+    min: 5000
+    max: 5999
+    validation messages: 
+      max: |
+        Please enter a 4 digit postcode
+    default: 5043
+  - Council: HSCcouncil
+    datatype: radio
+    code:
+      councils
+      #HSCpostcodes[HSCpostcode]
+    #none of the above: None of the above
+check in: input_postcode
+---
+#sets: councils
+event: input_postcode
+code: |
+  if action_argument('HSCpostcode') and HSCpostcode != int(action_argument('HSCpostcode')):
+    HSCpostcode = int(action_argument('HSCpostcode'))
+    if HSCpostcode not in HSCcouncils:
+      councils = ['No Councils Available']
+    else:
+      councils = HSCcouncils[HSCpostcode]
+      councils.append('None of the Above')
+    background_response('refresh')
+  background_response()
+---
+mandatory: True
+code: |
+  HSCpostcode = 5043
+  councils = ['No Councils Available']
+---
+#reset:
+#  - councils
+---
+question: |
+  Council
+subquestion:
+fields:
+  - no label: HSCcouncil_old
+    datatype: radio
+    choices:
+      - City of Marion
+      - City of Charles Sturt
+      - City of Port Adelaide Enfield
+      - City of Tea Tree Gully
 ---
 # Gender question
 question: |

@@ -79,7 +79,7 @@ code: |
   # else, if the user clicks the 'Tool' option - 
   else: 
     if HSCeligible:                # if the user accepts the terms and conditions
-      if HSCcouncil == 'exit':     # if the user does not select an available council
+      if HSCcouncil == 'No Councils Availalbe' or HSCcouncil == 'None of the Above':     # if the user does not select an available council
         endpoints['PCineligible']  # redirect to ineligible council area screen
       else:                        # else, if they select an available council area
         endpoints['final_screen']  # redirect to final screen question flow
@@ -191,6 +191,8 @@ subquestion: |
   If you would like to try again, please click 'Restart'.
   
   If you would like to exit the application, please click 'Exit'.
+  
+  ${ HSCcouncil }
 buttons:
   - Exit: exit
     url: https://www.huttstcentre.org.au/
