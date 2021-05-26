@@ -69,8 +69,8 @@ fields:
     required: False
 
 under: |
-  The listed services were based on the answers on the questions. 
-  The responses to the question are listed below for your reference. 
+  The listed services were based on the responses to the questions. 
+  The responses are listed below for your reference. 
   
   Question|Answer
   -------|-------

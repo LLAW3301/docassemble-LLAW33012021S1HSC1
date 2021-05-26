@@ -14,7 +14,7 @@ subquestion: |
   
   Do you have consent to make changes?
 yesno: HSCadmineligible
-question back button: False
+back button: False
 terms:
   CSV: You can use the template CSV file named HSC2TEMPLATE.csv to input data and the appropriate information. 
 progress: 25
