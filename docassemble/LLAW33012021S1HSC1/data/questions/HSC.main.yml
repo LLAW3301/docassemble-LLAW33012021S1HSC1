@@ -87,7 +87,7 @@ code: |
 ---
 # Final screen for regular user pathway to display a final message and generate the final results document. Forcibly invokes the desired question blocks in the desired order.
 event: endpoints['final_screen']
-question: Complete!
+question: <b>Complete!</b>
 subquestion: |
   The document is ready. 
   
@@ -121,7 +121,7 @@ attachment:
 ---
 # Final screen for the system admin pathway to confirm that their CSV file has been uploaded into the system.
 event: endpoints['HSCfinal_admin']
-question: Data File Updated
+question: <b>File Updated</b>
 subquestion: |
   The data has been updated with the new CSV file. 
 buttons:
@@ -132,7 +132,7 @@ progress: 100
 ---
 # Final screen for users who do not accept the terms and conditions of the system.
 event: endpoints['TERMineligible']
-question: Disclaimer Not Accepted
+question: <b>Disclaimer Not Accepted</b>
 subquestion: |
   You must agree to the terms to continue. 
   
@@ -149,7 +149,7 @@ progress: 100
 ---
 # Final screen for system admin users who choose not to confirm the upload of a new CSV file.
 event: endpoints['UPLOADineligible']
-question: Upload Not Successful
+question: <b>Upload Not Successful</b>
 subquestion: |
   You must confirm the upload for service information to be updated. 
   
@@ -166,7 +166,7 @@ progress: 100
 ---
 # Final screen for users who select 'Other /I'm not sure' option when selecting a council area
 event: endpoints['PCineligible']
-question: Not Eligible
+question: <b>Not Eligible</b>
 subquestion: |
   You need to select a valid location. 
   
@@ -183,7 +183,7 @@ progress: 100
 ---
 # Final screen for users whose answers correspond to zero relevant services.
 event: endpoints['no_services']
-question: No Services Available
+question: <b>No Services Available</b>
 subquestion: |
   Unfortunately, there are no services that match the answers.
   

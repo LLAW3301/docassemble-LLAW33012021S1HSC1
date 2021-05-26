@@ -18,13 +18,15 @@ code: |
 ---
 # Gets user to login or return to welcome page
 event: login_screen
-question: Please Log In
+question: <b>Log In</b>
 subquestion: |
   If you want to access the administration function please log in. 
   
-  If you do not want to continue, click 'Return' to go back to the main menu. 
+  If you do not want to continue, click 'Exit' to go to the website. 
 buttons:
   - Log In: leave
     url: ${ url_of('login', next=interview_url())}
-  - Return: restart
+  - Exit: exit
+    url: https://www.huttstcentre.org.au
+progress: 1
 ---

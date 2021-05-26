@@ -74,7 +74,7 @@ code: |
   write_HSCdata = True
 ---
 # Question block to allow users to upload a CSV data file
-question: Import CSV File
+question: <b>Import CSV File</b>
 subquestion: |
   Please upload the data you wish to store in the form of a CSV file. Ensure that the file you select conforms to the following criteria:
   

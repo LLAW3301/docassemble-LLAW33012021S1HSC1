@@ -1,6 +1,6 @@
 ---
 # LHS Welcome Screen -- system admin pathway
-question: Edit Service List
+question: <b>Edit Service List</b>
 subquestion: |
   
   To make a change to the services you need to change the master file. 
@@ -14,13 +14,13 @@ subquestion: |
   
   Do you have consent to make changes?
 yesno: HSCadmineligible
-
+question back button: False
 terms:
   CSV: You can use the template CSV file named HSC2TEMPLATE.csv to input data and the appropriate information. 
 progress: 25
 ---
 # Confirmation screen when uploading CSV data to the system
-question: Confirm Upload
+question: <b>Confirm Upload</b>
 subquestion: |
   
   Confirm you would like to upload the new file. 
@@ -33,7 +33,7 @@ yesno: HSCadminupload
 progress: 75
 ---
 # RHS Welcome Screen -- regular user pathway
-question: Community Services Tool
+question: <b>Community Services Tool</b>
 subquestion: |
   
   This tool can help you make a list of relevant community services for a client. It will filter community services based on council area and information about the client.
@@ -47,13 +47,13 @@ yesno: HSCeligible
 progress: 1
 ---
 question: |
-  Location
+  <b>Location</b>
 subquestion: |
   Please enter your client's postcode then **select the appropriate council area from the list**. 
   
   If multiple council areas are displayed, the postcode or suburb is part of more than one council area. Enter your client's address into the  *Find My Council by Location* application below to check your client's council area. 
   
-  If your client's council area is not listed, the area is not currently supported by this application. **Click 'Other'**.
+  If your client's council area is not listed, the area is not currently supported by this application. **Click 'None of the Above'**.
 fields:
   - Postcode: HSCpostcode
     datatype: integer
@@ -74,6 +74,7 @@ under: |
   <iframe src="https://lga-sa.maps.arcgis.com/apps/InformationLookup/index.html?appid=f2d1b2911b414de9be1c9bb13a89db11" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
 progress: 11
 ---
+#sets: councils
 #sets: councils
 event: input_postcode
 code: |
@@ -96,15 +97,14 @@ code: |
 ---
 # Gender question
 question: |
-  Gender
+  <b>Gender</b>
 subquestion: |
-  Which gender below best describes the client?
+  What is your client's gender?
   
-  Choose 'Other' if male or female does not describe them.
+  Choose 'Other or Prefer not to say' if male or female does not describe them or they do not wish to share.
   
-  If the client chooses not to disclose their gender, this may effect the service outcome.
+  If the client chooses not to disclose their gender, this may effect the relevant services displayed.
   
-  If they do not want to share, choose 'Prefer not to say'.
 fields: 
   - no label: HSCgender
     datatype: radio
@@ -118,7 +118,7 @@ progress: 22
 ---
 # Age question
 question: |
-  Age
+  <b>Age</b>
 subquestion: |
   What is the client's age?
 fields:
@@ -135,17 +135,17 @@ progress: 33
 ---
 # Children question
 question: |
-  Children
+  <b>Children</b>
 subquestion: |
   Does the client have any children under 18 years of age in their {care}?
 yesno: HSCchildren
 terms:
-  care: A child or children are in a clients care if they have custody of or live with them
+  care: A child or children are in a clients care if they have custody of or live with them.
 progress: 44
 ---
 # ATSI question
 question: |
-  Aboriginal or Torres Strait Islander
+  <b>Aboriginal or Torres Strait Islander</b>
 subquestion: | 
   Is the client of Aboriginal or Torres Strait Islander descent?
 yesno: HSCatsi
@@ -153,7 +153,7 @@ progress: 55
 ---
 # Concessions question
 question: |
-  Concessions
+  <b>Concessions</b>
 subquestion: |
   Which concessions is the client eligible for?
   
@@ -175,7 +175,7 @@ progress: 66
 ---
 # Other factors question
 question: |
-  Other Factors
+  <b>Other Factors</b>
 subquestion: | 
   Which of the below apply to the client?
   
@@ -195,7 +195,6 @@ fields:
     default: |
       ESL
 progress: 77
----
 ---
 objects:
   - HSCcouncils: DADict

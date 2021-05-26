@@ -8,7 +8,7 @@ objects:
   - qualifying_other: DAList.using(auto_gather=False)
 ---
 # List of eligible services as a series of checkboxes
-question: Edit Relevant Services
+question: <b>Edit Relevant Services</b>
 subquestion: |
   Based on the answers, your client may find the following services helpful.
   
@@ -19,7 +19,7 @@ subquestion: |
 fields:
   - note: |
       % if qualifying_other.there_are_any:
-      ## Relevant Services:
+      ## **Relevant Services:**
       % endif
   - no label: selected_services_other
     datatype: checkboxes
@@ -29,7 +29,7 @@ fields:
     required: False
   - note: |
       % if qualifying_key.there_are_any:
-      ## Key Services:
+      ## **Key Services:**
       % endif
   - no label: selected_services_key
     datatype: checkboxes
@@ -39,7 +39,7 @@ fields:
     required: False
   - note: |
       % if qualifying_health.there_are_any:
-      ## Health and Wellbeing Services:
+      ## **Health and Wellbeing Services:**
       % endif
   - no label: selected_services_health
     datatype: checkboxes
@@ -49,7 +49,7 @@ fields:
     required: False
   - note: |
       % if qualifying_social.there_are_any:
-      ## Social and Community Services:
+      ## **Social and Community Services:**
       % endif
   - no label: selected_services_social
     datatype: checkboxes
@@ -59,7 +59,7 @@ fields:
     required: False
   - note: |
       % if qualifying_advocacy.there_are_any:
-      ## Advocacy Services:
+      ## **Advocacy Services:**
       % endif
   - no label: selected_services_advocacy
     datatype: checkboxes
