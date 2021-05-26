@@ -46,54 +46,34 @@ subquestion: |
 yesno: HSCeligible
 progress: 1
 ---
-question: |
-  <b>Location</b>
+question: <b>Location</b>
 subquestion: |
-  Please enter your client's postcode then **select the appropriate council area from the list**. 
+  Please select the council area that your client lives in.
   
-  If multiple council areas are displayed, the postcode or suburb is part of more than one council area. Enter your client's address into the  *Find My Council by Location* application below to check your client's council area. 
+  If you can not see your client's suburb or council area listed below, the area is not currently supported by this application. Click '**Other/I'm not sure**'.
   
-  If your client's council area is not listed, the area is not currently supported by this application. **Click 'None of the Above'**.
+  **If you are not sure, use the 'Find My Local Council' tool to find out first.** 
+  
 fields:
-  - Postcode: HSCpostcode
-    datatype: integer
-    min: 5000
-    max: 5999
-    validation messages: 
-      max: |
-        Please enter a 4 digit postcode
-    default: 5043
-  - Council: HSCcouncil
+  - no label: HSCcouncil
     datatype: radio
-    code:
-      councils
-      #HSCpostcodes[HSCpostcode]
-    #none of the above: None of the above
-check in: input_postcode
+    choices:
+      - City of Marion: City of Marion
+      - City of Charles Sturt: City of Charles Sturt
+      - City of Onkaparinga: City of Onkaparinga
+      - City of Port Adelaide Enfield: City of Port Adelaide Enfield
+      - City of Tea Tree Gully: City of Tea Tree Gully
+      - Other/I'm not sure: exit
+ 
+    default: |
+      City of Marion
+    
 under: |
-  <iframe src="https://lga-sa.maps.arcgis.com/apps/InformationLookup/index.html?appid=f2d1b2911b414de9be1c9bb13a89db11" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+  ##### **This tool will help you find the relevant council area. Please then select the relevant council area above.**
+  
+   <iframe src="https://lga-sa.maps.arcgis.com/apps/InformationLookup/index.html?appid=f2d1b2911b414de9be1c9bb13a89db11" width="100%" height="450" style="border:0;" allowfullscreen="" loading="eager" ></iframe>
+
 progress: 11
----
-#sets: councils
-#sets: councils
-event: input_postcode
-code: |
-  if action_argument('HSCpostcode') and HSCpostcode != int(action_argument('HSCpostcode')):
-    HSCpostcode = int(action_argument('HSCpostcode'))
-    if HSCpostcode not in HSCcouncils:
-      councils = ['Other']
-    else:
-      # assign a copy of the list, so that when we append 'None of the Above' option, the original list does not change
-      councils = HSCcouncils[HSCpostcode].copy()
-      councils.append('Other')
-    background_response('refresh')
-  background_response()
----
-mandatory: True
-code: |
-  HSCpostcode = 5043
-  councils = HSCcouncils[HSCpostcode].copy()
-  councils.append('None of the Above')
 ---
 # Gender question
 question: |
