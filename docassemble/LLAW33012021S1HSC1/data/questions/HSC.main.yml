@@ -53,7 +53,7 @@ mandatory: True
 code: |
   # The string below creates the HTML and  inserts into it the logo contained in 
   # The file HSClogo using the python format() method 
-  HAAlogostring = '<div class="media"><img src="{}" alt="Hutt Street Centre Logo" class="mr-3" height="0.5"><div class="media-body"></div></div>'.format(HSClogo.url_for())
+  HAAlogostring = '<div class="media"><img src="{}" alt="Hutt Street Centre" class="mr-3" height="0.5"><div class="media-body"></div></div>'.format(HSClogo.url_for())
   # Once we've created the string we use set_parts() to set our new logo metadata
   set_parts(logo=HAAlogostring)
 ---
