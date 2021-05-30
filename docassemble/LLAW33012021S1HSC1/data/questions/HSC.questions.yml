@@ -48,38 +48,9 @@ progress: 1
 ---
 question: <b>Location</b>
 subquestion: |
-  Please select the council area that your client lives in.
-  
-  If you can not see your client's suburb or council area listed below, the area is not currently supported by this application. Click '**Other/I'm not sure**'.
-  
-  **If you are not sure, use the 'Find My Local Council' tool to find out first.** 
-  
-fields:
-  - no label: HSCcouncil
-    datatype: radio
-    choices:
-      - City of Marion: City of Marion
-      - City of Charles Sturt: City of Charles Sturt
-      - City of Onkaparinga: City of Onkaparinga
-      - City of Port Adelaide Enfield: City of Port Adelaide Enfield
-      - City of Tea Tree Gully: City of Tea Tree Gully
-      - Other/I'm not sure: exit
- 
-    default: |
-      City of Marion
-    
-under: |
-  ##### **This tool will help you find the relevant council area. Please then select the relevant council area above.**
-  
-   <iframe src="https://lga-sa.maps.arcgis.com/apps/InformationLookup/index.html?appid=f2d1b2911b414de9be1c9bb13a89db11" width="100%" height="450" style="border:0;" allowfullscreen="" loading="eager" title="Council Map of South Australia"></iframe>
-
-progress: 11
----
-question: <b>Location</b>
-subquestion: |
   Please enter your client's postcode then **select the appropriate council area from the list**. 
   
-  If multiple council areas are displayed, the postcode or suburb is part of more than one council area. Enter your client's address into the  *Find My Council by Location* application below to check your client's council area.
+  A postcode or suburb is part of more than one council area. Enter your client's address into the *Find My Council by Location* tool below to find your client's council area, then select it here.
   
   If your client's council area is not listed, the area is not currently supported by this application. **Click 'None of the Above'**.
 fields:
@@ -99,7 +70,7 @@ fields:
     #none of the above: None of the above
 check in: input_postcode
 under: |
-  ##### **This tool will help you find the relevant council area. Please then select the relevant council area above.**
+  ##### **This tool can help you find the relevant council area. Please then select the relevant council area above.**
   
    <iframe src="https://lga-sa.maps.arcgis.com/apps/InformationLookup/index.html?appid=f2d1b2911b414de9be1c9bb13a89db11" width="100%" height="450" style="border:0;" allowfullscreen="" loading="eager" ></iframe>
 
@@ -132,7 +103,7 @@ subquestion: |
   
   Choose 'Other or Prefer not to say' if male or female does not describe them or they do not wish to share.
   
-  If the client chooses not to disclose their gender, this may effect the relevant services displayed.
+  If the client chooses not to disclose their gender, this may effect the services displayed.
   
 fields: 
   - no label: HSCgender
@@ -186,8 +157,6 @@ question: |
 subquestion: |
   Which concessions is the client eligible for?
   
-  You can choose as many as you need. 
-  
   If you are unsure, please select 'None of the above'.
 fields: 
   - no label: HSCconcession
@@ -207,8 +176,6 @@ question: |
   <b>Other Factors</b>
 subquestion: | 
   Which of the below apply to the client?
-  
-  You can choose as many as you need. 
   
   If you are unsure, please select 'None of the above'.
 fields: 

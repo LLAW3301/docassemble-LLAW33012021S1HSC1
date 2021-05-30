@@ -9,4 +9,4 @@ The application has been designed to assist Hutt Street Centre staff to provide 
 
 ## Authors
 
-Jocelyn Neumueller, Hannah Guest, Laura Spencer and Kaitlyn Laverick
+Jocelyn Neumueller, Hannah Guest and Laura Spencer
