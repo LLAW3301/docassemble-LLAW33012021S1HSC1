@@ -93,7 +93,7 @@ template: service_checkbox
 subject: |
   <span style="font-size:18px;padding-left:1%;">**${ service['Service name'] }**</span>
 content: |
-  <div style="padding-left:8%;padding-top:1%;margin-top:1%;border-top-style:solid;border-width:1px;border-color:rgba(0,50,0,0.4);line-height:18px;font-size:14px;">${ service['Service information'] }</div>
+  <div style="padding-left:8%;padding-top:1%;margin-top:1%;border-top-style:solid;border-width:1px;border-color:rgba(0,50,0,0.4);line-height:18px;font-size:14px;text-align:justify;">${ service['Service information'] }</div>
 ---
 # Returns a list of service names and descriptions for services under the 'Key Service' category
 code: |

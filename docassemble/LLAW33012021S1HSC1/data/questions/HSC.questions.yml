@@ -68,6 +68,8 @@ fields:
     code:
       councils
       #HSCpostcodes[HSCpostcode]
+    default: |
+      ${ councils[0] }
     #none of the above: None of the above
 check in: input_postcode
 under: |  
