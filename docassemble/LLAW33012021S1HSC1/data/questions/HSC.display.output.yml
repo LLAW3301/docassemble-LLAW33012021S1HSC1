@@ -10,11 +10,11 @@ objects:
 # List of eligible services as a series of checkboxes
 question: <b>Edit Relevant Services</b>
 subquestion: |
-  Based on the answers, your client may find the following services helpful.
+  #####Based on the answers, your client may find the following services helpful.
   
   Please remove any services you do not want to add to the document.
   
-  **The services that are selected will be included in the document. All services have been pre-selected.**
+  *The services that are selected will be included in the document. All services have been pre-selected.*
   
 fields:
   - note: |
@@ -115,7 +115,7 @@ code: |
 ---
 # Returns a list of service names and descriptions for services under the 'Advocacy Groups' category
 code: |
-  for service in HSCqualifying_services.get('Advocacy Groups'):
+  for service in HSCqualifying_services.get('Advocacy Services'):
     qualifying_advocacy.append({service.get('Service name'): service_checkbox.subject + "[BR]" + service_checkbox.content, 'default': True})
   qualifying_advocacy.gathered = True
 ---

@@ -23,7 +23,7 @@ progress: 25
 question: <b>Confirm Upload</b>
 subquestion: |
   
-  Confirm you would like to upload the new file. 
+  #####Confirm you would like to upload the new file. 
   
   If you proceed, the current data will be overwritten.
   File being uploaded is **${csv_import[0].filename}**.
@@ -48,11 +48,12 @@ progress: 1
 ---
 question: <b>Location</b>
 subquestion: |
-  Please enter your client's postcode then **select the appropriate council area from the list**. 
+  #####Please enter your client's postcode then select the appropriate council area from the list. 
   
-  A postcode or suburb is part of more than one council area. Enter your client's address into the *Find My Council by Location* tool below to find your client's council area, then select it here.
-  
-  If your client's council area is not listed, the area is not currently supported by this application. **Click 'None of the Above'**.
+  If a suburb is part of more than one council and you are not sure of the client’s council area, use the tool below to find the council area. Remember to select it here after. 
+
+  If your client’s council area is not listed, the location is not currently supported. Click 'None of the Above'.
+
 fields:
   - Postcode: HSCpostcode
     datatype: integer
@@ -69,8 +70,8 @@ fields:
       #HSCpostcodes[HSCpostcode]
     #none of the above: None of the above
 check in: input_postcode
-under: |
-  ##### **This tool can help you find the relevant council area. Please then select the relevant council area above.**
+under: |  
+  ###### This tool can help you find the relevant council area. **Select the relevant council area above**.
   
    <iframe src="https://lga-sa.maps.arcgis.com/apps/InformationLookup/index.html?appid=f2d1b2911b414de9be1c9bb13a89db11" width="100%" height="450" style="border:0;" allowfullscreen="" loading="eager" ></iframe>
 
@@ -99,11 +100,11 @@ code: |
 question: |
   <b>Gender</b>
 subquestion: |
-  What is your client's gender?
+  #####What is your client's gender?
   
-  Choose 'Other or Prefer not to say' if male or female does not describe them or they do not wish to share.
+  Click 'Other or Prefer not to say' if male or female does not describe them or they do not wish to share.
   
-  If the client chooses not to disclose their gender, this may effect the services displayed.
+  
   
 fields: 
   - no label: HSCgender
@@ -115,12 +116,15 @@ fields:
     default: |
       Female
 progress: 22
+
+under: |
+  *If the client chooses not to disclose their gender, this may impact the services displayed.*
 ---
 # Age question
 question: |
   <b>Age</b>
 subquestion: |
-  What is the client's age?
+  #####What is the client's age?
 fields:
   Age: HSCage
   datatype: integer
@@ -137,7 +141,7 @@ progress: 33
 question: |
   <b>Children</b>
 subquestion: |
-  Does the client have any children under 18 years of age in their {care}?
+  #####Does the client have any children under 18 years of age in their {care}?
 yesno: HSCchildren
 terms:
   care: A child or children are in a clients care if they have custody of or live with them.
@@ -147,7 +151,7 @@ progress: 44
 question: |
   <b>Aboriginal or Torres Strait Islander</b>
 subquestion: | 
-  Is the client of Aboriginal or Torres Strait Islander descent?
+  #####Is the client of Aboriginal or Torres Strait Islander descent?
 yesno: HSCatsi
 progress: 55
 ---
@@ -155,9 +159,11 @@ progress: 55
 question: |
   <b>Concessions</b>
 subquestion: |
-  Which concessions is the client eligible for?
+  #####Which concessions is the client eligible for?
   
-  If you are unsure, please select 'None of the above'.
+  If you are unsure, select the ones you can confirm. 
+  
+  If you can not confirm any, select 'None of the above'.
 fields: 
   - no label: HSCconcession
     datatype: checkboxes
@@ -170,14 +176,19 @@ fields:
     default: |
       Health Care Card
 progress: 66
+
+under: |
+  *If the client chooses not to disclose their concessions, this may impact the services displayed.*
 ---
 # Other factors question
 question: |
   <b>Other Factors</b>
 subquestion: | 
-  Which of the below apply to the client?
+  #####Which of the below apply to the client?
   
-  If you are unsure, please select 'None of the above'.
+  If you are unsure, select the ones you can confirm. 
+  
+  If you can not confirm any, select 'None of the above'.
 fields: 
   - no label: HSCfactor
     datatype: checkboxes
@@ -191,6 +202,9 @@ fields:
     default: |
       ESL
 progress: 77
+
+under: |
+  *If the client chooses not to disclose their relevant factors, this may impact the services displayed.*
 ---
 objects:
   - HSCcouncils: DADict

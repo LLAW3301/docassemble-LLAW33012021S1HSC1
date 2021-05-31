@@ -5,6 +5,8 @@ metadata:
     Hutt Street Centre Community Access Tool 
   short title: |
     Community Access Tool 
+  description: |
+    The application creates a print out of relevant community services for a client
   organisation: Flinders University
   authors:
     - name: Jocelyn Neumueller 
@@ -44,7 +46,7 @@ features:
   debug: False
   hide standard menu: True
   progress bar: True
-  navigation back button: False 
+  navigation back button: False
   question back button: True
 ---
 # HTML code to structure HSC logo
@@ -88,7 +90,7 @@ code: |
 event: endpoints['final_screen']
 question: <b>Complete!</b>
 subquestion: |
-  The document is ready. 
+  #####The document is ready. 
   
   There is a link below to download the document listing all of the selected services.
   
@@ -115,14 +117,14 @@ attachment:
     filename: Result Printout
     valid formats:
       - docx
-    docx template file: HSC_print_out.docx
+    docx template file: HSC_print_out_final.docx
     variable name: HSCprintout
 ---
 # Final screen for the system admin pathway to confirm that their CSV file has been uploaded into the system.
 event: endpoints['HSCfinal_admin']
 question: <b>File Updated</b>
 subquestion: |
-  The data has been updated with the new CSV file. 
+  #####The data has been updated with the new CSV file. 
 buttons:
   - Exit: exit
     url: https://www.huttstcentre.org.au/
@@ -133,13 +135,13 @@ progress: 100
 event: endpoints['TERMineligible']
 question: <b>Disclaimer Not Accepted</b>
 subquestion: |
-  You must agree to the terms to continue. 
+  #####You must agree to the terms to continue. 
   
   If you do not agree, you will not be able to use the tool.
   
-  If you do not want to, click 'Exit'. 
+  If you do not want to accept the terms, **click 'Exit'**. 
   
-  If you change your mind, click 'Restart' to try again. 
+  If you want to continue, **click 'Restart' and accept the disclaimer**. 
 buttons:
   - Exit: exit
     url: https://www.huttstcentre.org.au/
@@ -150,7 +152,7 @@ progress: 100
 event: endpoints['UPLOADineligible']
 question: <b>Upload Not Successful</b>
 subquestion: |
-  You must confirm the upload for service information to be updated. 
+  #####You must confirm the upload for service information to be updated. 
   
   You did not. The changes will not be made in the tool.
   
@@ -167,7 +169,7 @@ progress: 100
 event: endpoints['PCineligible']
 question: <b>Not Eligible</b>
 subquestion: |
-  You need to select a valid location. 
+  #####You need to select a valid council area. 
   
   You can not use the tool if you do not know the client's council area. 
   
@@ -184,7 +186,7 @@ progress: 100
 event: endpoints['no_services']
 question: <b>No Services Available</b>
 subquestion: |
-  Unfortunately, there are no services that match the answers.
+  #####Unfortunately, there are no services that match the responses.
   
   If you would like to try again, please click 'Restart'.
   
