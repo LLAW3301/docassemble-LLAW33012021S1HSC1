@@ -13,6 +13,11 @@ metadata:
     - name: Hannah Guest
     - name: Laura Spencer
   show login: True
+  verbose error messages: False
+  error help: |
+    We're sorry, an error has occurred.
+    
+    You may wish to try running the application in a new window. If the error persists, please contact your manager or consult the troubleshooting guide.
 ---
 # HTML code to structure Flinders logo
 default screen parts:

@@ -27,7 +27,7 @@ code: |
     # Go through the returned list and extract all eligible services
     for current_service in council_services:
       # For each service, run the appropriate eligibility tests
-      if (int(current_service['Age_Min']) <= HSCage) and (int(current_service['Age_Max']) >= HSCage) and (current_service[HSCgender] == 'TRUE') and ((HSCchildren and current_service['Children under 18'] == 'TRUE') or ((not HSCchildren) and current_service['No Children'] == 'TRUE')) and (((not HSCatsi) and current_service['ATSI'] == 'FALSE') or (HSCatsi)):
+      if (int(current_service['Age_Min']) <= HSCage) and (int(current_service['Age_Max']) >= HSCage) and (current_service[HSCgender].upper() == 'TRUE') and ((HSCchildren and current_service['Children under 18'].upper() == 'TRUE') or ((not HSCchildren) and current_service['No Children'].upper() == 'TRUE')) and (((not HSCatsi) and current_service['ATSI'].upper() == 'FALSE') or (HSCatsi)):
         # Now, to test the input concessions and other factors:
         # Create temporary list to hold all the selected concessions and other factors
         selected_factors = HSCconcession.true_values()
@@ -39,7 +39,7 @@ code: |
           # Iterate through the selections
           for selection in selected_factors:
             # If at least one of the selections pertains to the current service, then it should pass the test
-            if current_service[selection] == 'TRUE':
+            if current_service[selection].upper() == 'TRUE':
               eligible_selection = True
               break
         # Else, if the user has not selected any concessions or other factors

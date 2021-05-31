@@ -71,7 +71,7 @@ fields:
     default: |
       ${ councils[0] }
     #none of the above: None of the above
-check in: input_postcode
+#check in: input_postcode
 under: |  
   ###### This tool can help you find the relevant council area. **Select the relevant council area above**.
   
@@ -83,12 +83,12 @@ event: input_postcode
 code: |
   if action_argument('HSCpostcode') and HSCpostcode != int(action_argument('HSCpostcode')):
     HSCpostcode = int(action_argument('HSCpostcode'))
-    if HSCpostcode not in HSCcouncils:
-      councils = ['Other']
+    if (HSCpostcode not in HSCcouncils) or (HSCpostcode > 5999 or HSCpostcode < 5000):
+      councils = ['No Councils Available']
     else:
       # assign a copy of the list, so that when we append 'None of the Above' option, the original list does not change
       councils = HSCcouncils[HSCpostcode].copy()
-      councils.append('Other')
+      councils.append('None of the Above')
     background_response('refresh')
   background_response()
 ---
@@ -112,7 +112,7 @@ fields:
   - no label: HSCgender
     datatype: radio
     choices:
-     - "Female": Female
+     - "Female": Femal
      - "Male": Male
      - "Other or Prefer not to say": Other
     default: |

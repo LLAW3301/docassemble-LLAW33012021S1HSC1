@@ -31,7 +31,7 @@ code: |
     # Save the row headers, which are the first row
     if index == 0:
       for an_element in elements:
-        row_headers.append(an_element)
+        row_headers.append(an_element.strip())
       index += 1
       continue
     
@@ -42,17 +42,17 @@ code: |
     j = 0
     for an_element in elements:
       #if j < len(row_headers):
-      a_row[row_headers[j]] = an_element.replace('#', ',')
+      a_row[row_headers[j]] = an_element.strip().replace('#', ',')
       j += 1
-    
+
     # Append the current row to the appropriate list in csv_data and use the council name associated with the current row as the key
     temp_list = csv_data.get(a_row.get('Council'))
     temp_list.append(a_row)
     csv_data[a_row.get('Council')] = temp_list
-    
+
     # Increment the loop index
     index += 1
-    
+  
   # Gather the csv_data object and all it's contents
   csv_data.gathered = True
   for key in csv_data.keys():
@@ -62,15 +62,15 @@ code: |
 
 code: |
   # The key is a council.  The value of the key is a list containing the service information for that council. See the csv_data.gathered code block for more information
-  
+
   # We clear out data in the HSCdata first
   for key in HSCdata.keys():
     HSCdata.delete(key)
-    
+
   # And then write the new data in
   for key in csv_data:
     HSCdata.set(key, csv_data[key])
-    
+
   write_HSCdata = True
 ---
 # Question block to allow users to upload a CSV data file
