@@ -51,9 +51,8 @@ subquestion: |
   #####Please enter your client's postcode then select the appropriate council area from the list. 
   
   If a suburb is part of more than one council and you are not sure of the client’s council area, use the tool below to find the council area. Remember to select it here after. 
-
+  
   If your client’s council area is not listed, the location is not currently supported. Click 'None of the Above'.
-
 fields:
   - Postcode: HSCpostcode
     datatype: integer
@@ -71,24 +70,23 @@ fields:
     default: |
       ${ councils[0] }
     #none of the above: None of the above
-#check in: input_postcode
+check in: input_postcode
 under: |  
   ###### This tool can help you find the relevant council area. **Select the relevant council area above**.
   
    <iframe src="https://lga-sa.maps.arcgis.com/apps/InformationLookup/index.html?appid=f2d1b2911b414de9be1c9bb13a89db11" width="100%" height="450" style="border:0;" allowfullscreen="" loading="eager" ></iframe>
-
 progress: 11
 ---
 event: input_postcode
 code: |
   if action_argument('HSCpostcode') and HSCpostcode != int(action_argument('HSCpostcode')):
     HSCpostcode = int(action_argument('HSCpostcode'))
-    if (HSCpostcode not in HSCcouncils) or (HSCpostcode > 5999 or HSCpostcode < 5000):
-      councils = ['No Councils Available']
+    if HSCpostcode not in HSCcouncils:
+      councils = ['Other']
     else:
       # assign a copy of the list, so that when we append 'None of the Above' option, the original list does not change
       councils = HSCcouncils[HSCpostcode].copy()
-      councils.append('None of the Above')
+      councils.append('Other')
     background_response('refresh')
   background_response()
 ---
@@ -112,7 +110,7 @@ fields:
   - no label: HSCgender
     datatype: radio
     choices:
-     - "Female": Femal
+     - "Female": Female
      - "Male": Male
      - "Other or Prefer not to say": Other
     default: |
