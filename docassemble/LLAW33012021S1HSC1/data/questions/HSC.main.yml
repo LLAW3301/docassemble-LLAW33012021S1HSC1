@@ -84,7 +84,7 @@ code: |
   # else, if the user clicks the 'Tool' option - 
   else: 
     if HSCeligible:                # if the user accepts the terms and conditions
-      if HSCcouncil == 'No Councils Available' or HSCcouncil == 'None of the Above':     # if the user does not select an available council
+      if HSCcouncil == 'Not Listed' or HSCcouncil == 'None of the Above':     # if the user does not select an available council
         endpoints['PCineligible']  # redirect to ineligible council area screen
       else:                        # else, if they select an available council area
         endpoints['final_screen']  # redirect to final screen question flow
