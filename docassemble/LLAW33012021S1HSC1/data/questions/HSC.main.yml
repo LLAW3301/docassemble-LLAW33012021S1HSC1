@@ -85,7 +85,7 @@ code: |
   # else, if the user clicks the 'Tool' option - 
   else: 
     if HSCeligible:                # if the user accepts the terms and conditions
-      if HSCcouncil == 'Not Listed' or HSCcouncil == 'None of the Above':     # if the user does not select an available council
+      if HSCcouncil == 'Not Listed':     # if the user does not select an available council
         endpoints['PCineligible']  # redirect to ineligible council area screen
       else:                        # else, if they select an available council area
         endpoints['final_screen']  # redirect to final screen question flow
@@ -145,9 +145,9 @@ subquestion: |
   
   If you do not agree, you will not be able to use the tool.
   
-  If you do not want to accept the terms, **click 'Exit'**. 
+  If you do not want to accept the terms, click 'Exit'. 
   
-  If you want to continue, **click 'Restart' and accept the disclaimer**. 
+  If you want to continue, click 'Restart' and accept the disclaimer. 
 buttons:
   - Exit: exit
     url: https://www.huttstcentre.org.au/

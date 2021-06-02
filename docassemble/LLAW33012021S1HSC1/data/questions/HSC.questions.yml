@@ -90,7 +90,6 @@ progress: 11
 event: input_postcode
 code: |
   # if the current postcode value is valid
-  #if 
   
   # if the user updates the postcode, update the suburbs and councils
   if action_argument('HSCpostcode') and HSCpostcode != int(action_argument('HSCpostcode')):
@@ -146,7 +145,7 @@ code: |
 ---
 mandatory: True
 code: |
-  HSCpostcode = 5007
+  HSCpostcode = 5047
   temp_dict = HSCcouncils[HSCpostcode].copy()
   #temp_set = frozenset(temp_dict)
   suburbs = list(temp_dict)
@@ -165,8 +164,6 @@ subquestion: |
   #####What is your client's gender?
   
   Click 'Other or Prefer not to say' if male or female does not describe them or they do not wish to share.
-  
-  
   
 fields: 
   - no label: HSCgender
@@ -271,6 +268,7 @@ under: |
 objects:
   - HSCcouncils: DADict
 ---
+# Hard code for postcode and associated suburb and councils
 mandatory: True
 code: |
   HSCcouncils[5007] = {'Bowden':['City of Charles Sturt'], 'Brompton':['City of Charles Sturt'], 'Hindmarsh':['City of Charles Sturt'], 'Welland':['City of Charles Sturt'], 'West Hindmarsh':['City of Charles Sturt']}
