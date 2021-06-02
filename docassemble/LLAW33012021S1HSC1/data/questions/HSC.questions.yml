@@ -48,23 +48,31 @@ progress: 1
 ---
 question: <b>Location</b>
 subquestion: |
-  #####Please enter your client's postcode then select the appropriate council area from the list. 
+  #####Please enter your client's postcode then select the suburb and appropriate council area from the list. 
   
-  If a suburb is part of more than one council and you are not sure of the client’s council area, use the tool below to find the council area. Remember to select it here after. 
-  
-  If your client’s council area is not listed, the location is not currently supported. Click 'None of the Above'.
+  If a suburb is part of more than one council and you are not sure of the client’s council area, use the tool below to find out. Remember to select it here after. 
+
+  If your client’s council area is not listed, the location is not currently supported. Click 'Not Listed'.
+
 fields:
   - Postcode: HSCpostcode
     datatype: integer
-    min: 5000
-    max: 5999
-    validation messages: 
-      max: |
-        Please enter a 4 digit postcode
-    default: 5043
+    #min: 5000
+    #max: 5999
+    #validation messages: 
+    #  max: |
+    #    Please enter a 4 digit postcode
+    #default: 5043
+  - Suburb: HSCsuburb
+    datatype: radio
+    code:
+      suburbs
+    #default: |
+    #  ${ suburbs[0] }
   - Council: HSCcouncil
     datatype: radio
     code:
+      #HSCcouncils[HSCpostcode][HSCsuburb]
       councils
       #HSCpostcodes[HSCpostcode]
     default: |
@@ -72,29 +80,82 @@ fields:
     #none of the above: None of the above
 check in: input_postcode
 under: |  
-  ###### This tool can help you find the relevant council area. **Select the relevant council area above**.
+  ###### This tool can help you find the relevant council area where there are two by entering the client's address. **Select the relevant council area above**.
   
    <iframe src="https://lga-sa.maps.arcgis.com/apps/InformationLookup/index.html?appid=f2d1b2911b414de9be1c9bb13a89db11" width="100%" height="450" style="border:0;" allowfullscreen="" loading="eager" ></iframe>
+
 progress: 11
 ---
 event: input_postcode
 code: |
+  # if the current postcode value is valid
+  #if 
+  
+  # if the user updates the postcode, update the suburbs and councils
   if action_argument('HSCpostcode') and HSCpostcode != int(action_argument('HSCpostcode')):
     HSCpostcode = int(action_argument('HSCpostcode'))
-    if HSCpostcode not in HSCcouncils:
-      councils = ['Other']
+    
+    # if the postcode is valid
+    if (HSCpostcode in HSCcouncils) and (HSCpostcode <= 5999 and HSCpostcode >= 5000):
+      temp_dict = HSCcouncils[HSCpostcode].copy()
+    
+      # update the suburb
+      suburbs = list(temp_dict)
+      suburbs.append('Not Listed')
+    
+      # set a default for the suburb
+      HSCsuburb = suburbs[0]
+    
+      # update the councils based on the default suburb
+      councils = list(temp_dict.get(HSCsuburb))
+      councils.append('Not Listed')
+    # else, if the postcode is not valid
     else:
-      # assign a copy of the list, so that when we append 'None of the Above' option, the original list does not change
-      councils = HSCcouncils[HSCpostcode].copy()
-      councils.append('Other')
+      suburbs = ['Not Listed']
+      HSCsuburb = suburbs[0]
+      councils = ['Not Listed']
+    
+      # set a default for the council
+      #HSCcouncil = councils[0]
+    
+      # refresh the screen so that these changes are reflected
     background_response('refresh')
-  background_response()
+  # else, if the user selects a different suburb, then only the councils should update
+  elif action_argument('HSCsuburb') and HSCsuburb != action_argument('HSCsuburb'):
+    #background_response('Hello, world', 'flash')
+    HSCpostcode = int(action_argument('HSCpostcode'))
+    temp_dict = HSCcouncils[HSCpostcode].copy()
+    HSCsuburb = action_argument('HSCsuburb')
+    # only update the council if the user selects a valid suburb
+    if HSCsuburb != 'Not Listed':
+    
+    # update council
+      councils = list(temp_dict.get(HSCsuburb))
+      councils.append('Not Listed')
+    else:
+      councils = ['Not Listed']
+    
+    # set a default for the council
+    # refresh the screen
+    background_response('refresh')
+  # else, either the user entered an invalid postcode, or selected 'Not Listed' in the suburbs section
+  else:
+    
+    background_response()
 ---
 mandatory: True
 code: |
-  HSCpostcode = 5043
-  councils = HSCcouncils[HSCpostcode].copy()
-  councils.append('None of the Above')
+  HSCpostcode = 5007
+  temp_dict = HSCcouncils[HSCpostcode].copy()
+  #temp_set = frozenset(temp_dict)
+  suburbs = list(temp_dict)
+  suburbs.append('Not Listed')
+  HSCsuburb = suburbs[0]
+  #temp_set = frozenset(temp_dict.values())
+  councils = list(temp_dict.get(HSCsuburb))
+  councils.append('Not Listed')
+  #suburbs.add('None of the Above')
+  #councils = ['None']
 ---
 # Gender question
 question: |
@@ -211,76 +272,76 @@ objects:
 ---
 mandatory: True
 code: |
-  HSCcouncils[5007] = ['City of Charles Sturt']
-  HSCcouncils[5008] = ['City of Charles Sturt', 'City of Port Adelaide Enfield']
-  HSCcouncils[5009] = ['City of Charles Sturt']
-  HSCcouncils[5010] = ['City of Port Adelaide Enfield']
-  HSCcouncils[5011] = ['City of Charles Sturt']
-  HSCcouncils[5012] = ['City of Charles Sturt', 'City of Port Adelaide Enfield']
-  HSCcouncils[5013] = ['City of Charles Sturt', 'City of Port Adelaide Enfield']
-  HSCcouncils[5014] = ['City of Charles Sturt', 'City of Port Adelaide Enfield']
-  HSCcouncils[5015] = ['City of Port Adelaide Enfield']
-  HSCcouncils[5016] = ['City of Port Adelaide Enfield']
-  HSCcouncils[5017] = ['City of Port Adelaide Enfield']
-  HSCcouncils[5018] = ['City of Port Adelaide Enfield']
-  HSCcouncils[5019] = ['City of Charles Sturt', 'City of Port Adelaide Enfield']
-  HSCcouncils[5020] = ['City of Charles Sturt']
-  HSCcouncils[5021] = ['City of Charles Sturt']
-  HSCcouncils[5022] = ['City of Charles Sturt']
-  HSCcouncils[5023] = ['City of Charles Sturt']
-  HSCcouncils[5024] = ['City of Charles Sturt']
-  HSCcouncils[5025] = ['City of Charles Sturt']
-  HSCcouncils[5037] = ['City of Marion']
-  HSCcouncils[5038] = ['City of Marion']
-  HSCcouncils[5039] = ['City of Marion']
-  HSCcouncils[5042] = ['City of Marion']
-  HSCcouncils[5043] = ['City of Marion']
-  HSCcouncils[5044] = ['City of Marion']
-  HSCcouncils[5046] = ['City of Marion']
-  HSCcouncils[5047] = ['City of Marion', 'City of Onkaparinga']
-  HSCcouncils[5048] = ['City of Marion']
-  HSCcouncils[5049] = ['City of Marion']
-  HSCcouncils[5051] = ['City of Onkaparinga']
-  HSCcouncils[5075] = ['City of Port Adelaide Enfield', 'City of Tea Tree Gully']
-  HSCcouncils[5082] = ['City of Charles Sturt']
-  HSCcouncils[5083] = ['City of Port Adelaide Enfield']
-  HSCcouncils[5084] = ['City of Port Adelaide Enfield']
-  HSCcouncils[5085] = ['City of Port Adelaide Enfield']
-  HSCcouncils[5086] = ['City of Port Adelaide Enfield', 'City of Tea Tree Gully']
-  HSCcouncils[5087] = ['City of Port Adelaide Enfield']
-  HSCcouncils[5088] = ['City of Port Adelaide Enfield', 'City of Tea Tree Gully']
-  HSCcouncils[5089] = ['City of Tea Tree Gully']
-  HSCcouncils[5090] = ['City of Tea Tree Gully']
-  HSCcouncils[5091] = ['City of Tea Tree Gully']
-  HSCcouncils[5092] = ['City of Tea Tree Gully']
-  HSCcouncils[5093] = ['City of Port Adelaide Enfield', 'City of Tea Tree Gully']
-  HSCcouncils[5094] = ['City of Port Adelaide Enfield']
-  HSCcouncils[5096] = ['City of Tea Tree Gully']
-  HSCcouncils[5097] = ['City of Tea Tree Gully']
-  HSCcouncils[5098] = ['City of Port Adelaide Enfield']
-  HSCcouncils[5109] = ['City of Tea Tree Gully']
-  HSCcouncils[5125] = ['City of Tea Tree Gully']
-  HSCcouncils[5126] = ['City of Tea Tree Gully']
-  HSCcouncils[5127] = ['City of Tea Tree Gully']
-  HSCcouncils[5131] = ['City of Tea Tree Gully']
-  HSCcouncils[5153] = ['City of Onkaparinga']
-  HSCcouncils[5157] = ['City of Onkaparinga']
-  HSCcouncils[5158] = ['City of Marion', 'City of Onkaparinga']
-  HSCcouncils[5159] = ['City of Onkaparinga']
-  HSCcouncils[5160] = ['City of Onkaparinga']
-  HSCcouncils[5161] = ['City of Onkaparinga']
-  HSCcouncils[5162] = ['City of Onkaparinga']
-  HSCcouncils[5163] = ['City of Onkaparinga']
-  HSCcouncils[5164] = ['City of Onkaparinga']
-  HSCcouncils[5165] = ['City of Onkaparinga']
-  HSCcouncils[5166] = ['City of Onkaparinga']
-  HSCcouncils[5167] = ['City of Onkaparinga']
-  HSCcouncils[5168] = ['City of Onkaparinga']
-  HSCcouncils[5169] = ['City of Onkaparinga']
-  HSCcouncils[5170] = ['City of Onkaparinga']
-  HSCcouncils[5171] = ['City of Onkaparinga']
-  HSCcouncils[5172] = ['City of Onkaparinga']
-  HSCcouncils[5173] = ['City of Onkaparinga']
-  HSCcouncils[5174] = ['City of Onkaparinga']
+  HSCcouncils[5007] = {'Bowden':['City of Charles Sturt'], 'Brompton':['City of Charles Sturt'], 'Hindmarsh':['City of Charles Sturt'], 'Welland':['City of Charles Sturt'], 'West Hindmarsh':['City of Charles Sturt']}
+  HSCcouncils[5008] = {'Croydon Park':['City of Charles Sturt', 'City of Port Adelaide Enfield'], 'Devon Park':['City of Charles Sturt', 'City of Port Adelaide Enfield'], 'Dudley Park':['City of Port Adelaide Enfield'], 'Renown Park':['City of Charles Sturt'], 'Ridleyton': ['City of Charles Sturt'], 'West Croydon':['City of Charles Sturt']}
+  HSCcouncils[5009] = {'Allenby Gardens':['City of Charles Sturt'], 'Beverley':['City of Charles Sturt'], 'Kilkenny':['City of Charles Sturt']}
+  HSCcouncils[5010] = {'Angle Park':['City of Port Adelaide Enfield'], 'Ferryden Park':['City of Port Adelaide Enfield'], 'Regency Park':['City of Port Adelaide Enfield']}
+  HSCcouncils[5011] = {'Woodville':['City of Charles Sturt'], 'Woodville Park':['City of Charles Sturt'], 'Woodville South':['City of Charles Sturt'], 'Woodville West':['City of Charles Sturt']}
+  HSCcouncils[5012] = {'Athol Park':['City of Charles Sturt'], 'Mansfield Park':['City of Port Adelaide Enfield'], 'Woodville Gardens':['City of Port Adelaide Enfield'], 'Woodville North':['City of Charles Sturt']}
+  HSCcouncils[5013] = {'Ottoway':['City of Port Adelaide Enfield'], 'Pennington':['City of Charles Sturt'], 'Rosewater':['City of Port Adelaide Enfield'], 'Wingfield':['City of Port Adelaide Enfield']}
+  HSCcouncils[5014] = {'Alberton':['City of Port Adelaide Enfield'], 'Albert Park':['City of Charles Sturt'], 'Cheltenham':['City of Charles Sturt'], 'Hendon':['City of Charles Sturt'], 'Queenstown':['City of Port Adelaide Enfield'], 'Royal Park':['City of Charles Sturt']}
+  HSCcouncils[5015] = {'Birkenhead':['City of Port Adelaide Enfield'], 'Ethelton':['City of Port Adelaide Enfield'], 'Glanville':['City of Port Adelaide Enfield'], 'New Port':['City of Port Adelaide Enfield'], 'Port Adelaide':['City of Port Adelaide Enfield']}
+  HSCcouncils[5016] = {'Largs Bay':['City of Port Adelaide Enfield'], 'Largs Bay North':['City of Port Adelaide Enfield'], 'Peterhead':['City of Port Adelaide Enfield']}
+  HSCcouncils[5017] = {'Osborne':['City of Port Adelaide Enfield'], 'Taperoo':['City of Port Adelaide Enfield']}
+  HSCcouncils[5018] = {'North Haven':['City of Port Adelaide Enfield'], 'Outer Harbor':['City of Port Adelaide Enfield']}
+  HSCcouncils[5019] = {'Exeter':['City of Port Adelaide Enfield'], 'Semaphore':['City of Port Adelaide Enfield'], 'Semaphore Park':['City of Charles Sturt'], 'Semaphore South':['City of Port Adelaide Enfield']}
+  HSCcouncils[5020] = {'West Lakes Shore':['City of Charles Sturt']}
+  HSCcouncils[5021] = {'West Lakes':['City of Charles Sturt']}
+  HSCcouncils[5022] = {'Grange':['City of Charles Sturt'], 'Henley Beach':['City of Charles Sturt'], 'Henley Beach South':['City of Charles Sturt'], 'Tennyson':['City of Charles Sturt']}
+  HSCcouncils[5023] = {'Findon':['City of Charles Sturt'], 'Grange':['City of Charles Sturt'], 'Seaton':['City of Charles Sturt']}
+  HSCcouncils[5024] = {'Fulham Gardens':['City of Charles Sturt'], 'West Beach':['City of Charles Sturt']}
+  HSCcouncils[5025] = {'Flinders Park':['City of Charles Sturt'], 'Kidman Park':['City of Charles Sturt']}
+  HSCcouncils[5037] = {'Glandore':['City of Marion']}
+  HSCcouncils[5038] = {'Plympton Park':['City of Marion'], 'South Plympton':['City of Marion']}
+  HSCcouncils[5039] = {'Edwardstown':['City of Marion']}
+  HSCcouncils[5042] = {'Bedford Park':['City of Marion'], 'Clovelly Park':['City of Marion']}
+  HSCcouncils[5043] = {'Ascot Park':['City of Marion'], 'Marion':['City of Marion'], 'Mitchell Park':['City of Marion'], 'Morphettville':['City of Marion'], 'Park Holme':['City of Marion']}
+  HSCcouncils[5044] = {'Glengowrie':['City of Marion']}
+  HSCcouncils[5046] = {'Oaklands Park':['City of Marion'], 'Warradale':['City of Marion']}
+  HSCcouncils[5047] = {'Darlington':['City of Marion', 'City of Onkaparinga'], 'Seacombe Gardens':['City of Marion'], 'Seacombe Heights':['City of Marion'], 'Sturt':['City of Marion']}
+  HSCcouncils[5048] = {'Dover Gardens':['City of Marion']}
+  HSCcouncils[5049] = {'Marion':['City of Marion'], 'Seacliff Park':['City of Marion'], 'Seaview Downs':['City of Marion']}
+  HSCcouncils[5051] = {'Coromandel Valley':['City of Onkaparinga']}
+  HSCcouncils[5075] = {'Dernancourt':['City of Port Adelaide Enfield', 'City of Tea Tree Gully']}
+  HSCcouncils[5082] = {'Ovingham':['City of Charles Sturt']}
+  HSCcouncils[5083] = {'Broadview':['City of Port Adelaide Enfield'], 'Sefton Park':['City of Port Adelaide Enfield']}
+  HSCcouncils[5084] = {'Blair Athol':['City of Port Adelaide Enfield'], 'Kilburn':['City of Port Adelaide Enfield']}
+  HSCcouncils[5085] = {'Clearview':['City of Port Adelaide Enfield'], 'Enfield':['City of Port Adelaide Enfield'], 'Northfield':['City of Port Adelaide Enfield'], 'Northgate':['City of Port Adelaide Enfield']}
+  HSCcouncils[5086] = {'Gilles Plains':['City of Port Adelaide Enfield', 'City of Tea Tree Gully'], 'Greenacres':['City of Port Adelaide Enfield'], 'Hampstead Gardens':['City of Port Adelaide Enfield'], 'Hillcrest':['City of Port Adelaide Enfield'], 'Manningham':['City of Port Adelaide Enfield'], 'Oakden':['City of Port Adelaide Enfield']}
+  HSCcouncils[5087] = {'Klemzig':['City of Port Adelaide Enfield'], 'Windsor Gardens':['City of Port Adelaide Enfield']}
+  HSCcouncils[5088] = {'Holden Hill':['City of Port Adelaide Enfield', 'City of Tea Tree Gully']}
+  HSCcouncils[5089] = {'Highbury':['City of Tea Tree Gully']}
+  HSCcouncils[5090] = {'Hope Valley':['City of Tea Tree Gully']}
+  HSCcouncils[5091] = {'Banksia Park':['City of Tea Tree Gully'], 'Tea Tree Gully':['City of Tea Tree Gully'], 'Vista':['City of Tea Tree Gully']}
+  HSCcouncils[5092] = {'Modbury':['City of Tea Tree Gully'], 'Modbury Heights':['City of Tea Tree Gully'], 'Modbury North':['City of Tea Tree Gully']}
+  HSCcouncils[5093] = {'Valley View':['City of Port Adelaide Enfield', 'City of Tea Tree Gully']}
+  HSCcouncils[5094] = {'Dry Creek':['City of Port Adelaide Enfield'], 'Gepps Cross':['City of Port Adelaide Enfield']}
+  HSCcouncils[5096] = {'Gulfview Heights':['City of Tea Tree Gully'], 'Para Hills':['City of Tea Tree Gully']}
+  HSCcouncils[5097] = {'Redwood Park':['City of Tea Tree Gully'], 'Ridgehaven':['City of Tea Tree Gully'], 'St Agnes':['City of Tea Tree Gully']}
+  HSCcouncils[5098] = {'Walkley Heights':['City of Port Adelaide Enfield']}
+  HSCcouncils[5109] = {'Salisbury East':['City of Tea Tree Gully'], 'Salisbury Heights':['City of Tea Tree Gully']}
+  HSCcouncils[5125] = {'Golden Grove':['City of Tea Tree Gully'], 'Greenwith':['City of Tea Tree Gully']}
+  HSCcouncils[5126] = {'Fairview Park':['City of Tea Tree Gully'], 'Surrey Downs':['City of Tea Tree Gully'], 'Yatala Vale':['City of Tea Tree Gully']}
+  HSCcouncils[5127] = {'Wynn Vale':['City of Tea Tree Gully']}
+  HSCcouncils[5131] = {'Houghton':['City of Tea Tree Gully']}
+  HSCcouncils[5153] = {'Ironbank':['City of Onkaparinga']}
+  HSCcouncils[5157] = {'Cherry Gardens':['City of Onkaparinga'], 'Clarendon':['City of Onkaparinga'], 'Coromandel East':['City of Onkaparinga'], 'Kangarilla':['City of Onkaparinga']}
+  HSCcouncils[5158] = {'Hallett Cove':['City of Marion'], 'O\'Halloran Hill':['City of Marion', 'City of Onkaparinga'], 'Sheidow Park':['City of Marion'], 'Trott Park':['City of Marion'], 'Reynella':['City of Marion']}
+  HSCcouncils[5159] = {'Aberfoyle Park':['City of Onkaparinga'], 'Chandlers Hill':['City of Onkaparinga'], 'Flagstaff Hill':['City of Onkaparinga'], 'Happy Valley':['City of Onkaparinga']}
+  HSCcouncils[5160] = {'Lonsdale':['City of Onkaparinga']}
+  HSCcouncils[5161] = {'Old Reynella':['City of Onkaparinga'], 'Reynella':['City of Onkaparinga'], 'Reynella East':['City of Onkaparinga']}
+  HSCcouncils[5162] = {'Morphett Vale':['City of Onkaparinga'], 'Onkaparinga Hills':['City of Onkaparinga'], 'Woodcroft':['City of Onkaparinga']}
+  HSCcouncils[5163] = {'Hackham':['City of Onkaparinga'], 'Hackham West':['City of Onkaparinga'], 'Huntfield Heights':['City of Onkaparinga'], 'Onkaparinga Hills':['City of Onkaparinga']}
+  HSCcouncils[5164] = {'Christie Downs':['City of Onkaparinga']}
+  HSCcouncils[5165] = {'Christies Beach':['City of Onkaparinga']}
+  HSCcouncils[5166] = {'O\'Sullivan Beach':['City of Onkaparinga']}
+  HSCcouncils[5167] = {'Port Noarlunga':['City of Onkaparinga'], 'Port Noarlunga South':['City of Onkaparinga']}
+  HSCcouncils[5168] = {'Noarlunga Centre':['City of Onkaparinga'], 'Noarlunga Downs':['City of Onkaparinga'], 'Old Noarlunga':['City of Onkaparinga']}
+  HSCcouncils[5169] = {'Moana':['City of Onkaparinga'], 'Seaford':['City of Onkaparinga'], 'Seaford Meadows':['City of Onkaparinga'], 'Seaford Rise':['City of Onkaparinga']}
+  HSCcouncils[5170] = {'Maslin Beach':['City of Onkaparinga']}
+  HSCcouncils[5171] = {'Blewitt Springs':['City of Onkaparinga'], 'McLaren Flat':['City of Onkaparinga'], 'McLaren Vale':['City of Onkaparinga'], 'Tatachilla':['City of Onkaparinga']}
+  HSCcouncils[5172] = {'Whites Valley':['City of Onkaparinga'], 'Willunga':['City of Onkaparinga'], 'Willunga South':['City of Onkaparinga']}
+  HSCcouncils[5173] = {'Aldinga':['City of Onkaparinga'], 'Aldinga Beach':['City of Onkaparinga'], 'Port Willunga':['City of Onkaparinga']}
+  HSCcouncils[5174] = {'Sellicks Beach':['City of Onkaparinga'], 'Sellicks Hill':['City of Onkaparinga']}
   HSCcouncils.gathered = True
 ---

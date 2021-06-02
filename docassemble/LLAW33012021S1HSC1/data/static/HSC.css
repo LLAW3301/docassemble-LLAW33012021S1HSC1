@@ -261,3 +261,16 @@ background-color: rgba(241, 93, 36, 0.5);
 border: 1px solid transparent rgba(241, 93, 36, 1);
 border-radius: .25rem;
 }
+
+/* spacing under question to button */
+.form-group {
+margin-bottom: 1.5rem;
+}
+
+.form-group.darequired .da-form-label::after {
+    top: 5px;
+}
+
+.datext-right {
+    text-align: center!important;
+}
