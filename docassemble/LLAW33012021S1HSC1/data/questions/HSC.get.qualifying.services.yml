@@ -13,7 +13,7 @@ objects:
 #    - If the input age falls between it's min and max ages
 #    - If it caters toward the specified gender
 #    - If it caters toward the specified family situation
-#    - If it does not exclusively cater toward atsi and the user does not identify as atsi, or, since no service should exclude atsi, if the user does identify as atsi
+#    - If (1) the user does not identify as atsi and it does not exclusively cater toward atsi, or (2), if the user does identify as atsi
 #    - If it caters toward the at least one of the selected concessions and other factors. If no concessions or other factors are selected, then the as a default it will still be added unless it is specifically categorised as a 'Relevant' service
 code: |
   HSCqualifying_services.clear()

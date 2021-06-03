@@ -19,6 +19,13 @@ metadata:
     
     You may wish to try running the application in a new window. If the error persists, please contact your manager or consult the troubleshooting guide.
 ---
+include:
+  - HSC.display.output.yml
+  - HSC.get.qualifying.services.yml
+  - HSC.login.yml
+  - HSC.questions.yml
+  - HSC.csv.yml
+---
 # HTML code to structure Flinders logo
 default screen parts:
   post: |
@@ -31,13 +38,6 @@ default screen parts:
     </i><small></cite>
     </div>
     </div>
----
-include:
-  - HSC.display.output.yml
-  - HSC.get.qualifying.services.yml
-  - HSC.login.yml
-  - HSC.questions.yml
-  - HSC.csv.yml
 ---
 # Objects for storing HSC logo image and code endpoints and the data store
 objects:
@@ -85,7 +85,7 @@ code: |
   # else, if the user clicks the 'Tool' option - 
   else: 
     if HSCeligible:                # if the user accepts the terms and conditions
-      if HSCcouncil == 'Not Listed':     # if the user does not select an available council
+      if HSCcouncil == 'Not Listed':# if the user does not select an available council
         endpoints['PCineligible']  # redirect to ineligible council area screen
       else:                        # else, if they select an available council area
         endpoints['final_screen']  # redirect to final screen question flow
