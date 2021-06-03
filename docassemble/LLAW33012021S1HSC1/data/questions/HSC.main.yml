@@ -177,7 +177,7 @@ question: <b>Not Eligible</b>
 subquestion: |
   #####You need to select a valid council area. 
   
-  You can not use the tool if you do not know the client's council area. 
+  You can not use the tool if you do not know the client's council area or if the council area is not listed. 
   
   *Please speak to your manager if you think a council area should be added.*
   
