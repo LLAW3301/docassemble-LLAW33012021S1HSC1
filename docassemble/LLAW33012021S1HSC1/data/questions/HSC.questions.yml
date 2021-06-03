@@ -46,6 +46,7 @@ subquestion: |
 yesno: HSCeligible
 progress: 1
 ---
+# Location question
 question: <b>Location</b>
 subquestion: |
   #####Please enter your client's postcode then select the suburb and appropriate council area from the list. 
@@ -57,29 +58,17 @@ subquestion: |
 fields:
   - Postcode: HSCpostcode
     datatype: integer
-    #min: 5000
-    #max: 5999
-    #validation messages: 
-    #  max: |
-    #    Please enter a 4 digit postcode
-    #default: 5043
   - Suburb: HSCsuburb  
     datatype: radio
     code:
       suburbs
-    #default: |
-    #  ${ suburbs[0] }
   - Council: HSCcouncil
     datatype: radio
     code:
-      #HSCcouncils[HSCpostcode][HSCsuburb]
       councils
-      #HSCpostcodes[HSCpostcode]
     default: |
       ${ councils[0] }
-    #none of the above: None of the above
-   
-    
+
 check in: input_postcode
 under: |  
   ###### [Find My Council by Address Link](https://lga-sa.maps.arcgis.com/apps/InformationLookup/index.html?appid=f2d1b2911b414de9be1c9bb13a89db11) 
@@ -87,10 +76,9 @@ under: |
 
 progress: 11
 ---
+# handles the event that fires when the user removes focus from the postcode input field by updating the suburbs and councils list based on the contents of the postcode field
 event: input_postcode
 code: |
-  # if the current postcode value is valid
-  
   # if the user updates the postcode, update the suburbs and councils
   if action_argument('HSCpostcode') and HSCpostcode != int(action_argument('HSCpostcode')):
     HSCpostcode = int(action_argument('HSCpostcode'))
@@ -115,47 +103,39 @@ code: |
       HSCsuburb = suburbs[0]
       councils = ['Not Listed']
     
-      # set a default for the council
-      #HSCcouncil = councils[0]
-    
       # refresh the screen so that these changes are reflected
     background_response('refresh')
   # else, if the user selects a different suburb, then only the councils should update
   elif action_argument('HSCsuburb') and HSCsuburb != action_argument('HSCsuburb'):
-    #background_response('Hello, world', 'flash')
     HSCpostcode = int(action_argument('HSCpostcode'))
     temp_dict = HSCcouncils[HSCpostcode].copy()
     HSCsuburb = action_argument('HSCsuburb')
+    
     # only update the council if the user selects a valid suburb
     if HSCsuburb != 'Not Listed':
     
-    # update council
+      # update council
       councils = list(temp_dict.get(HSCsuburb))
       councils.append('Not Listed')
     else:
       councils = ['Not Listed']
-    
-    # set a default for the council
+
     # refresh the screen
     background_response('refresh')
   # else, either the user entered an invalid postcode, or selected 'Not Listed' in the suburbs section
   else:
-    
     background_response()
 ---
+# handles the event that fires when a suburb is selected from the list by updating the councils listed based on the selected suburb
 mandatory: True
 code: |
   HSCpostcode = 5047
   temp_dict = HSCcouncils[HSCpostcode].copy()
-  #temp_set = frozenset(temp_dict)
   suburbs = list(temp_dict)
   suburbs.append('Not Listed')
   HSCsuburb = suburbs[0]
-  #temp_set = frozenset(temp_dict.values())
   councils = list(temp_dict.get(HSCsuburb))
   councils.append('Not Listed')
-  #suburbs.add('None of the Above')
-  #councils = ['None']
 ---
 # Gender question
 question: |
