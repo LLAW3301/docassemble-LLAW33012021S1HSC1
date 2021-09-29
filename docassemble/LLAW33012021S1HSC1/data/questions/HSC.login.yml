@@ -1,1 +1,32 @@
-
+---
+# Start off by making sure we're logged in pathway only
+mandatory: False
+code: |
+  if not user_logged_in():
+    login_screen
+---
+# Needs to include file for terms used
+include:
+  - HSC.questions.yml
+---
+# Redirect to appropriate pathway
+code: |
+  if user_logged_in():
+    HSCadmineligible
+  else:
+    login_screen
+---
+# Gets user to login or return to welcome page
+event: login_screen
+question: <b>Sign In</b>
+subquestion: |
+  If you want to access the administration function please sign in. 
+  
+  If you do not want to continue, click 'Exit' to go to the website. 
+buttons:
+  - Sign In: leave
+    url: ${ url_of('login', next=interview_url())}
+  - Exit: exit
+    url: https://www.huttstcentre.org.au
+progress: 1
+---

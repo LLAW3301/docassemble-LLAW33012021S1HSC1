@@ -1,1 +1,127 @@
+---
+# The lists used to hold the eligible services for each category of service
+objects:
+  - qualifying_health: DAList.using(auto_gather=False)
+  - qualifying_key: DAList.using(auto_gather=False)
+  - qualifying_social: DAList.using(auto_gather=False)
+  - qualifying_advocacy: DAList.using(auto_gather=False)
+  - qualifying_other: DAList.using(auto_gather=False)
+---
+# List of eligible services as a series of checkboxes
+question: <b>Edit Relevant Services</b>
+subquestion: |
+  #####Based on the answers, your client may find the following services helpful.
+  
+  Please remove any services you do not want to add to the document.
+  
+  *The services that are selected will be included in the document. All services have been pre-selected.*
+  
+fields:
+  - note: |
+      % if qualifying_other.there_are_any:
+      ## **Relevant Services:**
+      % endif
+  - no label: selected_services_other
+    datatype: checkboxes
+    code: |
+      qualifying_other
+    none of the above: False
+    required: False
+  - note: |
+      % if qualifying_key.there_are_any:
+      ## **Key Services:**
+      % endif
+  - no label: selected_services_key
+    datatype: checkboxes
+    code: |
+      qualifying_key
+    none of the above: False
+    required: False
+  - note: |
+      % if qualifying_health.there_are_any:
+      ## **Health and Wellbeing Services:**
+      % endif
+  - no label: selected_services_health
+    datatype: checkboxes
+    code: |
+      qualifying_health
+    none of the above: False
+    required: False
+  - note: |
+      % if qualifying_social.there_are_any:
+      ## **Social and Community Services:**
+      % endif
+  - no label: selected_services_social
+    datatype: checkboxes
+    code: |
+      qualifying_social
+    none of the above: False
+    required: False
+  - note: |
+      % if qualifying_advocacy.there_are_any:
+      ## **Advocacy Services:**
+      % endif
+  - no label: selected_services_advocacy
+    datatype: checkboxes
+    code: |
+      qualifying_advocacy
+    none of the above: False
+    required: False
 
+under: |
+  The listed services were based on the responses to the questions. 
+  The responses are listed below for your reference. 
+  
+  Question|Answer
+  -------|-------
+  Location                   | ${ HSCcouncil }
+  Gender                     | ${ HSCgender }
+  Age                        | ${ HSCage }
+  Children Under 18          | ${ HSCchildren }
+  ATSI                       | ${ HSCatsi }
+  Concessions and Factors    | ${ selected_factors }
+  
+progress: 89
+---
+# Block to catch lists in HSCqualifying_services that do not yet have their there_are_any attribute defined
+generic object: DAList
+code: | 
+  x.there_are_any = False
+---
+# Template to dictate the format of each service checkbox
+template: service_checkbox
+subject: |
+  <span style="font-size:18px;padding-left:1%;">**${ service['Service name'] }**</span>
+content: |
+  <div style="padding-left:8%;padding-top:1%;margin-top:1%;border-top-style:solid;border-width:1px;border-color:rgba(0,50,0,0.4);line-height:18px;font-size:14px;">${ service['Service information'] }</div>
+---
+# Returns a list of service names and descriptions for services under the 'Key Service' category
+code: |
+  for service in HSCqualifying_services.get('Key Services'):
+    qualifying_key.append({service.get('Service name'): service_checkbox.subject + "[BR]" + service_checkbox.content, 'default': True})
+  qualifying_key.gathered = True
+---
+# Returns a list of service names and descriptions for services under the 'Health and Wellbeing' category
+code: |
+  for service in HSCqualifying_services.get('Health and Wellbeing'):
+    qualifying_health.append({service.get('Service name'): service_checkbox.subject + "[BR]" + service_checkbox.content, 'default': True})
+  qualifying_health.gathered = True
+---
+# Returns a list of service names and descriptions for services under the 'Social and Community' category
+code: |
+  for service in HSCqualifying_services.get('Social and Community'):
+    qualifying_social.append({service.get('Service name'): service_checkbox.subject + "[BR]" + service_checkbox.content, 'default': True})
+  qualifying_social.gathered = True
+---
+# Returns a list of service names and descriptions for services under the 'Advocacy Groups' category
+code: |
+  for service in HSCqualifying_services.get('Advocacy Services'):
+    qualifying_advocacy.append({service.get('Service name'): service_checkbox.subject + "[BR]" + service_checkbox.content, 'default': True})
+  qualifying_advocacy.gathered = True
+---
+# Returns a list of service names and descriptions for services under the 'Other Services' category
+code: |
+  for service in HSCqualifying_services.get('Relevant'):
+    qualifying_other.append({service.get('Service name'): service_checkbox.subject + "[BR]" + service_checkbox.content, 'default': True})
+  qualifying_other.gathered = True
+---

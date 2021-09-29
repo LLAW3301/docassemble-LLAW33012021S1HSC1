@@ -1,0 +1,261 @@
+/* Set padding, font*/
+.navbar{
+    font-size: 14px;
+    padding: .0rem .3rem;
+    border-bottom-color: rgba(241,93,36,1);
+    border-bottom-width: 4px;
+    border-bottom-style: solid;
+}
+
+/* Navbar text formatting (eg. login email top right) */
+.navbar .nav-item a {
+color: rgba(209,95,59,1) !important;
+}
+
+/* Back button formatting  */
+.text-muted {
+color: rgba(29,94,62,1)!important;
+}
+
+.navbar form button:hover {
+background-color: rgba(26,25,25,1);
+}
+
+.navbar form button {
+background-color: rgba(26, 25, 25, 1);
+color: rgba(241,93,36,1);
+border: 0;
+}
+
+/* Space formatting */
+.da-pad-for-navbar {
+    padding-top: 60px;
+    padding-bottom: 0px;
+}
+
+/* Button formatting */
+.btn-primary {
+color: #fff;
+background-color: rgba(241,93,36,.9);
+border: 2px solid rgba(241,93,36,1);
+}
+
+.btn-primary:hover {
+color: #fff;
+background-color: rgba(241,93,36,.8);
+border: 2px solid rgba(0,59,0,1);
+}
+
+
+.btn-secondary {
+color: #fff;
+background-color: rgba(39,94,126,.9);
+border: 2px solid rgba(39,94,126,1);
+border-color: rgba(39,94,126,1);
+}
+
+.btn-secondary:hover {
+color: #fff;
+background-color: rgba(39,94,126,.8);
+border: 2px solid rgba(0,59,0,1);
+}
+
+.btn-warning {
+color: rgba(255,255,255,1);
+background-color: rgba(88,193,214,.9);
+border-color: rgba(88,193,214,1);
+}
+
+.btn-warning:hover {
+color: rgba(255,255,255,1);
+background-color: rgba(88,193,214,.8);
+border: 2px solid rgba(0,59,0,1);
+}
+
+/* Text heading formatting */
+h1 {
+  color: rgba(241,93,36,1);
+}
+
+.h2, h2 {
+font-size: 1.4rem;
+color: rgba(39,94,126,1);
+}
+
+/* Progress bar formatting */
+.progress-bar {
+color: #fff;
+background-color: rgba(39,94,126,1);
+}
+
+/* Top margin formatting */
+.mt-2, .my-2 {
+margin-top: 2.5rem!important;
+}
+
+/* Image height formatting */
+img.mr-3 {
+height: 100%;
+width: 200px;
+padding-top: 5px;
+padding-bottom: 5px;
+}
+
+
+/* navbar backgroud  */
+.bg-dark {
+background-color: rgba(255,255,255,1)!important;
+}
+
+.da-page-header {
+padding-bottom: 5px;
+margin: 35px 0 10px;
+border-bottom: 1px solid #eee;
+}
+
+/* navbar button size  */
+.navbar .navbar-brand {
+color: #000;
+font-weight: bolder;
+font-size: 1.4em;
+}
+
+
+body.daadminbody {
+    border: 0px;
+    margin: 0px;
+    padding-bottom: 0px;
+    font-size: 14px;
+}
+
+/* prevent weird resizing on backspace after suburb selection */
+#postcode-input-container, #postcode-input-container .dainput-embedded {
+  max-width: 140px;
+}
+
+/* spinner */
+.fa-spin {
+position: fixed;
+z-index: 999;
+overflow: show;
+margin: auto;
+top: 0;
+left: 0;
+bottom: 0;
+right: 0;
+width: 75px;
+height: 75px;
+}
+
+.fa-3x {
+font-size: 10em;
+}
+
+/* button formatting*/
+.btn-link {
+color: rgba(0,50,0,.75); /* Text color */
+background-color: transparent; /* Remove background color */
+border: 2px solid rgba(0,50,0,.5); /* Border thickness, line style, and color */
+border-radius: 5px; /* Adds curve to border corners */
+}
+
+.btn-link:hover {
+border: 2px solid rgba(0,50,0,1);
+color: rgba(0,50,0,.75);
+}
+
+.btn-danger {
+color: #fff;
+background-color: rgba(240, 48, 54, 1);
+border: 2px solid rgba(240, 48, 54, .9);
+}
+
+.btn-warning {
+color: rgba(255,255,255,1);
+background-color: rgba(88,193,214,1);
+border: 2px solid rgba(88,193,214,.9);
+}
+
+.btn-warning:hover {
+color: rgba(255,255,255,1);
+background-color: rgba(88,193,214,1);
+border: 2px solid rgba(0,50,0,1);
+}
+
+.btn-danger:hover {
+color: rgba(255,255,255,1);
+background-color: rgba(240, 48, 54, 1);
+border: 2px solid rgba(0,50,0,1);
+}
+
+/* results formatting */
+label.btn-primary {
+background-color: rgba(88,193,214,1);
+color: rgba(0,50,0,1);
+border: 4px solid rgba(88,193,214,1);
+}
+
+label.btn-primary:hover {
+background-color: rgba(255,252,213,1);
+color: rgba(0,50,0,1);
+border: 4px solid rgba(88,193,214,1);
+}
+
+label.btn-primary:click {
+background-color: rgba(255,252,213,1);
+color: rgba(0,50,0,1);
+border: 4px solid rgba(88,193,214,1);
+}
+
+
+label.btn-primary:focus {
+background-color: rgba(88,193,214,1);
+color: rgba(0,50,0,1);
+border: 4px solid rgba(88,193,214,1);
+}
+
+.btn-light {
+background-color: rgba(227,230,234,1);
+border: 4px solid rgba(227,230,234,1);
+}
+
+.btn-light:hover {
+background-color: rgba(255,252,213,1);
+color: rgba(0,50,0,1);
+border: 4px solid rgba(227,230,234,1);
+}
+
+
+/* If the screen size is 600px or less, set the font-size of <div> to 30px */
+@media only screen and (max-width: 600px) {
+img.mr-3. {
+display: block;
+margin-left: auto;
+margin-right: auto;
+width: 50%;
+}
+.mt-2, .my-2 {
+margin-top: 1.5rem!important;
+}
+}
+
+/* toggle button */
+.navbar-dark .navbar-toggler {
+color: rgba(241, 93, 36, 1);
+border-color: rgba(241, 93, 36, 1);
+}
+
+.navbar-toggler {
+padding: .25rem .75rem;
+font-size: 0.75rem;
+line-height: 1;
+background-color: rgba(241, 93, 36, 0.5);
+border: 1px solid transparent rgba(241, 93, 36, 1);
+border-radius: .25rem;
+}
+
+/* spacing under question to button */
+.form-group {
+margin-bottom: 1.5rem;
+}
+

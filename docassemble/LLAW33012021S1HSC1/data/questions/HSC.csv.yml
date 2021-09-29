@@ -1,1 +1,90 @@
+# Code to import a CSV into a DADict of DALists mapped to council keys.
+#
+# Assumes the first row of the CSV is the header row.
+# Reads the input file and calls csv to create a list of lists.
+#
+# Invoked by referencing the write_HSCdata variable.
+---
+imports:
+  - re
+---
+objects:
+  - csv_data: DADict.using(auto_gather=False, there_are_any=True)
+---
+code: |
+  csv_data.clear()
+  csv_data.object_type = DAList
+  
+  # Read the data into a CSV object
+  all_the_lines = csv_import.slurp()
+  
+  # Initialise row_headers so DA doesn't trip over a NameError
+  row_headers = []
+  
+  # Outer loop index
+  index = 0
+  for line in all_the_lines.splitlines():
+    elements = line.replace('"', '').split(',')
+    #elements = re.split('[^#],', line)
+    #elements = re.split('(?<!#),', line.replace('"', ''))
+    
+    # Save the row headers, which are the first row
+    if index == 0:
+      for an_element in elements:
+        row_headers.append(an_element.strip())
+      index += 1
+      continue
+    
+    # Initialise temp variable
+    a_row = {}
+    
+    # Iterate through the rest of the elements and populate the CSV record
+    j = 0
+    for an_element in elements:
+      #if j < len(row_headers):
+      a_row[row_headers[j]] = an_element.strip().replace('#', ',')
+      j += 1
 
+    # Append the current row to the appropriate list in csv_data and use the council name associated with the current row as the key
+    temp_list = csv_data.get(a_row.get('Council'))
+    temp_list.append(a_row)
+    csv_data[a_row.get('Council')] = temp_list
+
+    # Increment the loop index
+    index += 1
+  
+  # Gather the csv_data object and all it's contents
+  csv_data.gathered = True
+  for key in csv_data.keys():
+    csv_data[key].gathered = True
+---
+# And I'll create a new code block to set the data in HSCdata
+
+code: |
+  # The key is a council.  The value of the key is a list containing the service information for that council. See the csv_data.gathered code block for more information
+
+  # We clear out data in the HSCdata first
+  for key in HSCdata.keys():
+    HSCdata.delete(key)
+
+  # And then write the new data in
+  for key in csv_data:
+    HSCdata.set(key, csv_data[key])
+
+  write_HSCdata = True
+---
+# Question block to allow users to upload a CSV data file
+question: <b>Import CSV File</b>
+subquestion: |
+  #####Please upload the data you wish to store in the form of a CSV file. Ensure that the file you select conforms to the following criteria:
+  
+  * The first row of the file **must** be the header row.
+  * There must be **no** commas in the data cells. Where you wish to include commas, you should instead use the **'#'** symbol.
+  * The CSV file must be saved as a **CSV UTF-8** file.
+  * Each service name listed in the CSV file must be unique.
+  
+fields:
+  - no label: csv_import
+    datatype: file
+progress: 50
+---

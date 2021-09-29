@@ -1,0 +1,64 @@
+---
+# DADict object to map each category to a list of eligible services pertaining to that category.
+objects:
+  - HSCqualifying_services: DADict.using(auto_gather=False, there_are_any=True, object_type=DAList)
+---
+# Goes through the list that corresponds to the selected council and
+# extracts all the qualifying services. Puts those services in a list
+# that maps to their specific category.
+# These lists are what will be displayed in the display_output file
+#
+# Testing rationale:
+#  A service should be added to the list of qualifying services:
+#    - If the input age falls between it's min and max ages
+#    - If it caters toward the specified gender
+#    - If it caters toward the specified family situation
+#    - If it does not exclusively cater toward atsi and the user does not identify as atsi, or, since no service should exclude atsi, if the user does identify as atsi
+#    - If it caters toward the at least one of the selected concessions and other factors. If no concessions or other factors are selected, then the as a default it will still be added unless it is specifically categorised as a 'Relevant' service
+code: |
+  HSCqualifying_services.clear()
+  
+  # If there are any services for the given council area
+  if HSCdata.defined(HSCcouncil):
+  
+    # Retrieve the list of services at the given council
+    council_services = HSCdata.get(HSCcouncil)
+    
+    # Go through the returned list and extract all eligible services
+    for current_service in council_services:
+      # For each service, run the appropriate eligibility tests
+      if (int(current_service['Age_Min']) <= HSCage) and (int(current_service['Age_Max']) >= HSCage) and (current_service[HSCgender].upper() == 'TRUE') and ((HSCchildren and current_service['Children under 18'].upper() == 'TRUE') or ((not HSCchildren) and current_service['No Children'].upper() == 'TRUE')) and (((not HSCatsi) and current_service['ATSI'].upper() == 'FALSE') or (HSCatsi)):
+        # Now, to test the input concessions and other factors:
+        # Create temporary list to hold all the selected concessions and other factors
+        selected_factors = HSCconcession.true_values()
+        selected_factors.extend(HSCfactor.true_values())
+        eligible_selection = False
+        
+        # If the user has selected any of either concessions or other factors
+        if selected_factors.number() != 0:
+          # Iterate through the selections
+          for selection in selected_factors:
+            # If at least one of the selections pertains to the current service, then it should pass the test
+            if current_service[selection].upper() == 'TRUE':
+              eligible_selection = True
+              break
+        # Else, if the user has not selected any concessions or other factors
+        else:
+          # Default to include ALL services other than those that are 'Relevant' (aka those that are specific to particular concessions or other factors)
+          if current_service.get('Category') != 'Relevant':
+            eligible_selection = True
+            
+        # If, after all the tests, the current service is not eligible, then proceed to the next one without adding it to the final list.
+        if not eligible_selection:
+          continue
+          
+        # If the service passes all the above tests, then add it to it's corresponding category list
+        temp_list = HSCqualifying_services.get(current_service.get('Category'))
+        temp_list.append(current_service)
+        HSCqualifying_services[current_service.get('Category')] = temp_list
+        
+  # Finalise the categorised lists
+  HSCqualifying_services.gathered = True
+  for category in HSCqualifying_services:        
+    HSCqualifying_services[category].there_is_another = False
+---
