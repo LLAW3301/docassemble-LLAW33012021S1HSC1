@@ -152,8 +152,6 @@ fields:
      - "Female": Female
      - "Male": Male
      - "Other or Prefer not to say": Other
-    default: |
-      Female
 progress: 22
 
 under: |
@@ -172,8 +170,6 @@ fields:
   validation messages: 
     max: |
       Please enter an age between 0 and 100
-  default: |
-    36
 progress: 33
 ---
 # Children question
